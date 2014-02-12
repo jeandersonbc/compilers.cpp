@@ -22,7 +22,7 @@ Authors:
   </target>
 
   <target name="init" depends="clean">
-    <mkdir dir="${src}"/>
+    <mkdir dir="${src.gen}" />
     <mkdir dir="${bin}"/>
   </target>
 
