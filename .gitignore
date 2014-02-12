@@ -1,5 +1,8 @@
 *.class
 
+# CUP + JFlex files
+src/compiler/generated/
+
 # Package Files #
 *.war
 *.ear
