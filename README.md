@@ -14,6 +14,4 @@ CUP is a LALR (lookahead-LR method) parser generator. CUP reads a syntacitc spec
 ## Building the Project ##
 
 * First, make sure you have [Ant](http://ant.apache.org/) installed in your computer.
-* In order to make Ant understand JFlex and Cup tasks, **make sure** to add JFlex and Cup (under ```libs``` folder) to ```ANT_HOME/lib/``` and the build script will work properly.
-
-By this moment, you just need to run ```ant``` on the project's root directory.
+* By this moment, you just need to run ```ant``` on the project's root directory.
