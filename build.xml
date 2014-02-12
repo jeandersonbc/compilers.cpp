@@ -1,0 +1,55 @@
+<!--
+C++ Compiler Project
+
+STATUS: Currently generating only Lexical analysis sources
+Date:
+    2014-FEB-12
+Authors:
+    Jeanderson Candido - http://jeandersonbc.github.io
+    Thiago Ferreira
+-->
+<project name="CompilerProject" basedir="." default="jflex">
+
+  <!-- REMEMBER TO ADD ./libs/*.jar file to ANT_HOME/lib -->
+  <taskdef classname="java_cup.anttask.CUPTask" name="cup" />
+  <taskdef classname="jflex.anttask.JFlexTask" name="jflex" />
+
+  <!-- DIRECTORIES -->
+  <property name="src" location="./src"/>
+  <property name="src.gen" location="${src}/compiler/generated"/>
+  <property name="bin" location="./bin"/>
+  <property name="specs" location="./specs"/>
+
+  <!-- FILES -->
+  <property name="scanner" location="${specs}/lexical.flex"/>
+  <property name="parser" location="${specs}/parser.cup"/>
+
+  <!-- TASKs -->
+  <target name="clean">
+    <delete dir="${src.gen}"/>
+    <delete dir="${bin}"/>
+  </target>
+
+  <target name="init" depends="clean">
+    <mkdir dir="${src}"/>
+    <mkdir dir="${bin}"/>
+  </target>
+
+  <target name="jflex" depends="init">
+    <jflex file="${scanner}"
+           destdir="${src.gen}"
+           inputstreamctor="false"
+    />
+  </target>
+
+  <!-- TODO -->
+
+  <target name="cup">
+    <cup srcfile="${parser}" interface="yes" destdir="${src.gen}"/>
+  </target>
+
+  <target name="compile" depends="jflex">
+    <javac srcdir="${src}" destdir="${bin}"/>
+  </target>
+
+</project>
