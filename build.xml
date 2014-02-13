@@ -28,8 +28,8 @@ Authors:
   </target>
 
   <target name="jflex" depends="init">
-    <java jar="libs/jflex-1.5.0.jar" fork="true">
-      <arg line="${flex.args}"/>
+    <java jar="${jflex.jar}" fork="true">
+      <arg line="${jflex.args}"/>
     </java>
   </target>
 
@@ -39,7 +39,11 @@ Authors:
 	</java>
   </target>
 
-  <target name="compile" depends="jflex, cup">
+  <target name="generate" depends="jflex, cup">
+    <echo message="Executed JFlex and CUP tasks"/>
+  </target>
+
+  <target name="compile" depends="generate">
     <javac srcdir="${src}" destdir="${bin}" includeantruntime="false">
 	  <classpath>
 	    <fileset dir="${libs}">
