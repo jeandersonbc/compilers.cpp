@@ -1,7 +1,11 @@
-*.class
+bin/
 
 # CUP + JFlex files
 src/compiler/generated/
+
+# Eclipse files
+.classpath
+.project
 
 # Package Files #
 *.war
