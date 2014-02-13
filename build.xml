@@ -17,12 +17,13 @@ Authors:
   <!-- TASKs -->
 
   <target name="clean">
-    <delete dir="${src.gen}"/>
+    <delete file="${scanner.java}"/>
+    <delete file="${parser.java}"/>
+    <delete file="${sym.java}"/>
     <delete dir="${bin}"/>
   </target>
 
   <target name="init" depends="clean">
-    <mkdir dir="${src.gen}" />
     <mkdir dir="${bin}"/>
   </target>
 
