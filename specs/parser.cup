@@ -1,7 +1,5 @@
 package compiler.generated;
 
-import java_cup.runtime.*;
-
 terminal		TRUE, FALSE;
 
 non terminal	boolean_literal;
