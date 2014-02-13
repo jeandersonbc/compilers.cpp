@@ -9,7 +9,7 @@ Authors:
     Thiago Ferreira
 
 -->
-<project name="CompilerProject" basedir="." default="jflex">
+<project name="CompilerProject" basedir="." default="compile">
 
   <!-- PROPERTIES -->
   <property file="build.properties"/>
@@ -28,20 +28,24 @@ Authors:
 
   <target name="jflex" depends="init">
     <java jar="libs/jflex-1.5.0.jar" fork="true">
-      <arg line="--noinputstreamctor -d ${src.gen} ${scanner.spec}"/>
+      <arg line="${flex.args}"/>
     </java>
   </target>
 
   <target name="cup">
-	<java jar="libs/java-cup-11a.jar" fork="true">
-	  <arg line="-package compiler.generated -destdir ${src.gen} -parser Parser ${parser.spec}"/>
+	<java jar="${cup.jar}" fork="true">
+	  <arg line="${cup.args}"/>
 	</java>
   </target>
 
-
-  <!-- TODO -->
   <target name="compile" depends="jflex, cup">
-    <javac srcdir="${src}" destdir="${bin}"/>
+    <javac srcdir="${src}" destdir="${bin}" includeantruntime="false">
+	  <classpath>
+	    <fileset dir="${libs}">
+		  <include name="**/*.jar"/>
+		</fileset>
+	  </classpath>
+	</javac>
   </target>
 
 </project>
