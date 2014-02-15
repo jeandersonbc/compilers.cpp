@@ -23,8 +23,7 @@ public class Main {
 			parser.parse();
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 	}
