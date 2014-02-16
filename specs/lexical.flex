@@ -76,6 +76,8 @@ Identifier = [:jletter:][:jletterdigit:]*
 
     /* separators */
     ";"                     { return symbol(SEMICOLON); }
+    "}"                     { return symbol(RBRK); }
+    "{"                     { return symbol(LBRK); }
 
     {Identifier}            { return symbol(IDENTIFIER); }
 
