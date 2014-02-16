@@ -7,6 +7,38 @@
  */
 package compiler.generated;
 
-non terminal goal;
+terminal SEMICOLON, DEFAULT, ASSIGNMENT, DELETE, DOT, LPAR, RPAR, ARROW, COLON;
+terminal NAMESPACE, INLINE, LBRK, RBRK;
 
-goal ::= ;
+terminal java.lang.String IDENTIFIER;
+
+non terminal translationUnit;
+non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration;
+non terminal namespaceDefinition, unnamedNamespaceDef, inlineOpt;
+non terminal originalNamespaceDef;
+
+/* Grammar */
+start with translationUnit;
+
+translationUnit ::= declarationSeqOpt;
+
+declarationSeqOpt ::= declarationSeq | ;
+declarationSeq ::= declaration
+	|	declarationSeq declaration
+	;
+
+declaration ::= emptyDeclaration
+	|	namespaceDefinition
+	;
+
+emptyDeclaration ::= SEMICOLON;
+
+namespaceDefinition ::= unnamedNamespaceDef
+	|	originalNamespaceDef
+	;
+
+unnamedNamespaceDef ::= inlineOpt NAMESPACE LBRK declarationSeqOpt RBRK;
+originalNamespaceDef ::= inlineOpt NAMESPACE IDENTIFIER LBRK declarationSeqOpt RBRK;
+
+inlineOpt ::= INLINE | ;
+
