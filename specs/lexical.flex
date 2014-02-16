@@ -72,21 +72,10 @@ Identifier = [:jletter:][:jletterdigit:]*
 
     /* keywords */
     "namespace"             { return symbol(NAMESPACE); }
-    "default"               { return symbol(DEFAULT); }
     "inline"                { return symbol(INLINE); }
-    "delete"                { return symbol(DELETE); }
-
-    /* assignment */
-    "="                     { return symbol(ASSIGNMENT); }
 
     /* separators */
-    "->"                    { return symbol(ARROW); }
     ";"                     { return symbol(SEMICOLON); }
-    ":"                     { return symbol(COLON); }
-    "("                     { return symbol(LPAR); }
-    ")"                     { return symbol(RPAR); }
-    "{"                     { return symbol(LBRK); }
-    "}"                     { return symbol(RBRK); }
 
     {Identifier}            { return symbol(IDENTIFIER); }
 

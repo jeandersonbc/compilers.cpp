@@ -7,8 +7,7 @@
  */
 package compiler.generated;
 
-terminal SEMICOLON, DEFAULT, ASSIGNMENT, DELETE, DOT, LPAR, RPAR, ARROW, COLON;
-terminal NAMESPACE, INLINE, LBRK, RBRK;
+terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK;
 
 terminal java.lang.String IDENTIFIER;
 
