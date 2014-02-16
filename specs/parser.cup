@@ -1,10 +1,12 @@
+/**
+ * Syntax Specification
+ *
+ * Contributors:
+ *      Jeanderson Barros Canido - http://jeandersonbc.github.io
+ *      Thiago Ferreira
+ */
 package compiler.generated;
 
-terminal		TRUE, FALSE;
+non terminal goal;
 
-non terminal	boolean_literal;
-
-boolean_literal ::=
-	TRUE
-	| FALSE
-	;
+goal ::= ;
