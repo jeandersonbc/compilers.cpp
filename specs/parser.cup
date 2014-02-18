@@ -29,7 +29,7 @@ non terminal attributeSpecifier, attributeList, alignmentSpecifier, dotsOpt, cla
 non terminal typeSpecifierSeq2, attributeSpecifierSeqOpt, attributeSpecifierSeq;
 non terminal trailingTypeSpecifier, classSpecifier, enumSpecifier, memberSpecificationOpt;
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt;
-non terminal classVirtSpecifierSeqOpt, classVirtSpecifierSeq, baseClause,
+non terminal classVirtSpecifierSeqOpt, classVirtSpecifierSeq, baseClause;
 non terminal classVirtSpecifier;
 
 /**
