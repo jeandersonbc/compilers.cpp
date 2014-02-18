@@ -92,6 +92,8 @@ Identifier = [:jletter:][:jletterdigit:]*
     ";"                     { return symbol(SEMICOLON); }
     "["                     { return symbol(LSQRBRK); }
     "]"                     { return symbol(RSQRBRK); }
+    ","                     { return symbol(COMMA); }
+    ":"                     { return symbol(COLON); }
     "}"                     { return symbol(RBRK); }
     "{"                     { return symbol(LBRK); }
     "("                     { return symbol(LPAR); }

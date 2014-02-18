@@ -11,7 +11,7 @@ package compiler.generated;
  * Terminals without associated type
  */
 terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK;
-terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT;
+terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON;
 
 /**
  * Terminals with types associated
@@ -30,7 +30,7 @@ non terminal typeSpecifierSeq2, attributeSpecifierSeqOpt, attributeSpecifierSeq;
 non terminal trailingTypeSpecifier, classSpecifier, enumSpecifier, memberSpecificationOpt;
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt;
 non terminal classVirtSpecifierSeqOpt, classVirtSpecifierSeq, baseClause;
-non terminal classVirtSpecifier;
+non terminal classVirtSpecifier, baseSpecifierList, baseSpecifier;
 
 /**
  * The Grammar Specification
@@ -105,8 +105,14 @@ classVirtSpecifierSeq ::= classVirtSpecifier
 
 classVirtSpecifier ::= FINAL | EXPLICIT;
 
-/* baseClause NOT IMPLEMENTED */
 baseClauseOpt ::= baseClause | ;
+
+baseClause ::= COLON baseSpecifierList;
+
+/* baseSpecifier NOT IMPLEMENTED */
+baseSpecifierList ::= baseSpecifier dotsOpt
+    |   baseSpecifierList COMMA baseSpecifier dotsOpt
+    ;
 
 attributeSpecifierSeqOpt ::= attributeSpecifierSeq | ;
 
