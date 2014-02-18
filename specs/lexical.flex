@@ -72,17 +72,21 @@ Identifier = [:jletter:][:jletterdigit:]*
 
     /* keywords */
     "namespace"             { return symbol(NAMESPACE); }
-	"alignas"				{ return symbol(ALIGNAS); }
+    "alignas"               { return symbol(ALIGNAS); }
     "inline"                { return symbol(INLINE); }
-	"using"					{ return symbol(USING); }
+    "using"                 { return symbol(USING); }
 
-	/* class definition */
-	"struct"				{ return symbol(STRUCT); }
-	"class"					{ return symbol(CLASS); }
-	"union"					{ return symbol(UNION); }
+    /* class definition */
+    "struct"                { return symbol(STRUCT); }
+    "class"                 { return symbol(CLASS); }
+    "union"                 { return symbol(UNION); }
 
-	/* assignment */
-	"="						{ return symbol(ASSIGNMENT); }
+    /* virt specifiers */
+    "explicit"              { return symbol(EXPLICIT); }
+    "final"                 { return symbol(FINAL); }
+
+    /* assignment */
+    "="                     { return symbol(ASSIGNMENT); }
 
     /* separators */
     ";"                     { return symbol(SEMICOLON); }
@@ -93,8 +97,8 @@ Identifier = [:jletter:][:jletterdigit:]*
     "("                     { return symbol(LPAR); }
     ")"                     { return symbol(RPAR); }
 
-	/* others */
-	"..."					{ return symbol(DOTS); }
+    /* others */
+    "..."                   { return symbol(DOTS); }
 
     {Identifier}            { return symbol(IDENTIFIER); }
 
