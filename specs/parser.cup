@@ -11,7 +11,7 @@ package compiler.generated;
  * Terminals without associated type
  */
 terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK;
-terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION;
+terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT;
 
 /**
  * Terminals with types associated
@@ -29,7 +29,8 @@ non terminal attributeSpecifier, attributeList, alignmentSpecifier, dotsOpt, cla
 non terminal typeSpecifierSeq2, attributeSpecifierSeqOpt, attributeSpecifierSeq;
 non terminal trailingTypeSpecifier, classSpecifier, enumSpecifier, memberSpecificationOpt;
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt;
-non terminal classVirtSpecifierSeqOpt, classVirtSpecifierSeq, baseClause;
+non terminal classVirtSpecifierSeqOpt, classVirtSpecifierSeq, baseClause,
+non terminal classVirtSpecifier;
 
 /**
  * The Grammar Specification
@@ -88,6 +89,7 @@ classSpecifier ::= classHead LBRK memberSpecificationOpt RBRK;
 /* memberSpecification NOT IMPLEMENTED */
 memberSpecificationOpt ::= memberSpecification | ;
 
+/* classHeadName NOT IMPLEMENTED */
 classHead ::= classKey attributeSpecifierSeqOpt classHead2;
 classHead2 ::= classHeadName classVirtSpecifierSeqOpt baseClauseOpt
     |   baseClauseOpt
@@ -95,8 +97,13 @@ classHead2 ::= classHeadName classVirtSpecifierSeqOpt baseClauseOpt
 
 classKey ::= CLASS | STRUCT | UNION;
 
-/* classVirtSpecifierSeq NOT IMPLEMENTED */
 classVirtSpecifierSeqOpt ::= classVirtSpecifierSeq | ;
+
+classVirtSpecifierSeq ::= classVirtSpecifier
+    |   classVirtSpecifierSeq classVirtSpecifier
+    ;
+
+classVirtSpecifier ::= FINAL | EXPLICIT;
 
 /* baseClause NOT IMPLEMENTED */
 baseClauseOpt ::= baseClause | ;
