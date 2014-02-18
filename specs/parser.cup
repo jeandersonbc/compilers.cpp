@@ -8,6 +8,7 @@
 package compiler.generated;
 
 terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK;
+terminal LPAR, RPAR, ALIGNAS, DOTS;
 
 terminal java.lang.String IDENTIFIER;
 
@@ -15,8 +16,8 @@ non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDecla
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId;
 non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt;
 non terminal typeSpecifierSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpecifier;
+non terminal attributeSpecifier, attributeList, alignmentSpecifier, dotsOpt;
 non terminal typeSpecifierSeq2, attributeSpecifierSeqOpt, attributeSpecifierSeq;
-non terminal attributeSpecifier, attributeList, alignmentSpecifier;
 
 /* Grammar */
 start with translationUnit;
@@ -34,8 +35,14 @@ declaration ::= emptyDeclaration
 	|	namespaceDefinition
 	;
 
+/**
+ * Block Declaration
+ */
 blockDeclaration ::= aliasDeclaration;
 
+/**
+ * Alias Declaration
+ */
 aliasDeclaration ::= USING IDENTIFIER ASSIGNMENT typeId SEMICOLON;
 
 typeId ::= typeSpecifierSeq abstractDeclaratorOpt;
@@ -57,8 +64,16 @@ attributeSpecifier ::= LSQRBRK LSQRBRK attributeList RSQRBRK RSQRBRK
     |   alignmentSpecifier
     ;
 
+alignmentSpecifier ::= ALIGNAS LPAR typeId dotsOpt RPAR;
+
+/**
+ * Empty Declaration
+ */
 emptyDeclaration ::= SEMICOLON;
 
+/**
+ * Namespace Definition
+ */
 namespaceDefinition ::= inlineOpt NAMESPACE namespaceDefinition2;
 namespaceDefinition2 ::= unnamedNamespaceDef
     |   originalNamespaceDef
@@ -68,4 +83,4 @@ unnamedNamespaceDef ::= LBRK declarationSeqOpt RBRK;
 originalNamespaceDef ::= IDENTIFIER LBRK declarationSeqOpt RBRK;
 
 inlineOpt ::= INLINE | ;
-
+dotsOpt ::= DOTS | ;
