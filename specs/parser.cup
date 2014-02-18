@@ -41,16 +41,16 @@ translationUnit ::= declarationSeqOpt;
 declarationSeqOpt ::= declarationSeq | ;
 
 declarationSeq ::= declaration
-	|	declarationSeq declaration
-	;
+    |   declarationSeq declaration
+    ;
 
 /**
  * Declaration Types
  */
 declaration ::= emptyDeclaration
     |   blockDeclaration
-	|	namespaceDefinition
-	;
+    |   namespaceDefinition
+    ;
 
 /**
  * Block Declaration
