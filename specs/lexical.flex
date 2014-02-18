@@ -76,6 +76,11 @@ Identifier = [:jletter:][:jletterdigit:]*
     "inline"                { return symbol(INLINE); }
 	"using"					{ return symbol(USING); }
 
+	/* class definition */
+	"struct"				{ return symbol(STRUCT); }
+	"class"					{ return symbol(CLASS); }
+	"union"					{ return symbol(UNION); }
+
 	/* assignment */
 	"="						{ return symbol(ASSIGNMENT); }
 

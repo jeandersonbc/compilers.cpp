@@ -11,7 +11,7 @@ package compiler.generated;
  * Terminals without associated type
  */
 terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK;
-terminal LPAR, RPAR, ALIGNAS, DOTS;
+terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION;
 
 /**
  * Terminals with types associated
@@ -25,8 +25,11 @@ non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDecla
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId;
 non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt;
 non terminal typeSpecifierSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpecifier;
-non terminal attributeSpecifier, attributeList, alignmentSpecifier, dotsOpt;
+non terminal attributeSpecifier, attributeList, alignmentSpecifier, dotsOpt, classHead;
 non terminal typeSpecifierSeq2, attributeSpecifierSeqOpt, attributeSpecifierSeq;
+non terminal trailingTypeSpecifier, classSpecifier, enumSpecifier, memberSpecificationOpt;
+non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt;
+non terminal classVirtSpecifierSeqOpt, classVirtSpecifierSeq, baseClause;
 
 /**
  * The Grammar Specification
@@ -67,11 +70,36 @@ typeId ::= typeSpecifierSeq abstractDeclaratorOpt;
 /* abstractDeclarator NOT IMPLEMENTED */
 abstractDeclaratorOpt ::= abstractDeclarator | ;
 
-/* typeSpecifier NOT IMPLEMENTED */
 typeSpecifierSeq ::= typeSpecifier typeSpecifierSeq2;
 typeSpecifierSeq2 ::= attributeSpecifierSeqOpt
     |   typeSpecifierSeq
     ;
+
+/* trailingTypeSpecifier NOT IMPLEMENTED
+ * enumSpecifier NOT IMPLEMENTED
+ */
+typeSpecifier ::= trailingTypeSpecifier
+    |   classSpecifier
+    |   enumSpecifier
+    ;
+
+classSpecifier ::= classHead LBRK memberSpecificationOpt RBRK;
+
+/* memberSpecification NOT IMPLEMENTED */
+memberSpecificationOpt ::= memberSpecification | ;
+
+classHead ::= classKey attributeSpecifierSeqOpt classHead2;
+classHead2 ::= classHeadName classVirtSpecifierSeqOpt baseClauseOpt
+    |   baseClauseOpt
+    ;
+
+classKey ::= CLASS | STRUCT | UNION;
+
+/* classVirtSpecifierSeq NOT IMPLEMENTED */
+classVirtSpecifierSeqOpt ::= classVirtSpecifierSeq | ;
+
+/* baseClause NOT IMPLEMENTED */
+baseClauseOpt ::= baseClause | ;
 
 attributeSpecifierSeqOpt ::= attributeSpecifierSeq | ;
 
