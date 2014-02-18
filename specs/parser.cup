@@ -7,11 +7,20 @@
  */
 package compiler.generated;
 
+/**
+ * Terminals without associated type
+ */
 terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK;
 terminal LPAR, RPAR, ALIGNAS, DOTS;
 
+/**
+ * Terminals with types associated
+ */
 terminal java.lang.String IDENTIFIER;
 
+/**
+ * Non terminal symbols
+ */
 non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration;
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId;
 non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt;
@@ -19,7 +28,12 @@ non terminal typeSpecifierSeq, abstractDeclaratorOpt, abstractDeclarator, typeSp
 non terminal attributeSpecifier, attributeList, alignmentSpecifier, dotsOpt;
 non terminal typeSpecifierSeq2, attributeSpecifierSeqOpt, attributeSpecifierSeq;
 
-/* Grammar */
+/**
+ * The Grammar Specification
+ *
+ * See "README.md" on "http://github.com/jeandersonbc/compilers.cpp"
+ * for further information.
+ */
 start with translationUnit;
 
 translationUnit ::= declarationSeqOpt;
@@ -30,6 +44,9 @@ declarationSeq ::= declaration
 	|	declarationSeq declaration
 	;
 
+/**
+ * Declaration Types
+ */
 declaration ::= emptyDeclaration
     |   blockDeclaration
 	|	namespaceDefinition
@@ -47,8 +64,10 @@ aliasDeclaration ::= USING IDENTIFIER ASSIGNMENT typeId SEMICOLON;
 
 typeId ::= typeSpecifierSeq abstractDeclaratorOpt;
 
+/* abstractDeclarator NOT IMPLEMENTED */
 abstractDeclaratorOpt ::= abstractDeclarator | ;
 
+/* typeSpecifier NOT IMPLEMENTED */
 typeSpecifierSeq ::= typeSpecifier typeSpecifierSeq2;
 typeSpecifierSeq2 ::= attributeSpecifierSeqOpt
     |   typeSpecifierSeq
@@ -60,10 +79,12 @@ attributeSpecifierSeq ::= attributeSpecifier
     |   attributeSpecifierSeq attributeSpecifier
     ;
 
+/* attributeList NOT IMPLEMENTED */
 attributeSpecifier ::= LSQRBRK LSQRBRK attributeList RSQRBRK RSQRBRK
     |   alignmentSpecifier
     ;
 
+/* ISSUE #2 - rule "alignment-expression" not defined in the grammar ref */
 alignmentSpecifier ::= ALIGNAS LPAR typeId dotsOpt RPAR;
 
 /**
