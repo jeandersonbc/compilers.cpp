@@ -9,7 +9,7 @@ Authors:
     Thiago Ferreira
 
 -->
-<project name="CompilerProject" basedir="." default="compile">
+<project name="CompilerProject" basedir="." default="jar">
 
   <!-- PROPERTIES -->
   <property file="build.properties"/>
@@ -21,10 +21,12 @@ Authors:
     <delete file="${parser.java}"/>
     <delete file="${sym.java}"/>
     <delete dir="${bin}"/>
+    <delete dir="${dist}"/>
   </target>
 
   <target name="init" depends="clean">
     <mkdir dir="${bin}"/>
+    <mkdir dir="${dist}"/>
   </target>
 
   <target name="jflex" depends="init">
@@ -51,6 +53,14 @@ Authors:
 		</fileset>
 	  </classpath>
 	</javac>
+  </target>
+
+  <target name="jar" depends="compile">
+    <jar destfile="${jar.dist}" basedir="${bin}">
+      <manifest>
+        <attribute name="Main-Class" value="${main.class}"/>
+      </manifest>
+    </jar>
   </target>
 
 </project>
