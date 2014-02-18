@@ -1,4 +1,5 @@
 bin/
+dist/
 
 # CUP + JFlex files
 src/compiler/generated/
