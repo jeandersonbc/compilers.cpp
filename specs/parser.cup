@@ -7,14 +7,16 @@
  */
 package compiler.generated;
 
-terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK;
+terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK;
 
 terminal java.lang.String IDENTIFIER;
 
-non terminal translationUnit;
-non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration;
-non terminal namespaceDefinition, unnamedNamespaceDef, inlineOpt;
-non terminal originalNamespaceDef;
+non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration;
+non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId;
+non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt;
+non terminal typeSpecifierSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpecifier;
+non terminal typeSpecifierSeq2, attributeSpecifierSeqOpt, attributeSpecifierSeq;
+non terminal attributeSpecifier, attributeList, alignmentSpecifier;
 
 /* Grammar */
 start with translationUnit;
@@ -22,22 +24,48 @@ start with translationUnit;
 translationUnit ::= declarationSeqOpt;
 
 declarationSeqOpt ::= declarationSeq | ;
+
 declarationSeq ::= declaration
 	|	declarationSeq declaration
 	;
 
 declaration ::= emptyDeclaration
+    |   blockDeclaration
 	|	namespaceDefinition
 	;
 
+blockDeclaration ::= aliasDeclaration;
+
+aliasDeclaration ::= USING IDENTIFIER ASSIGNMENT typeId SEMICOLON;
+
+typeId ::= typeSpecifierSeq abstractDeclaratorOpt;
+
+abstractDeclaratorOpt ::= abstractDeclarator | ;
+
+typeSpecifierSeq ::= typeSpecifier typeSpecifierSeq2;
+typeSpecifierSeq2 ::= attributeSpecifierSeqOpt
+    |   typeSpecifierSeq
+    ;
+
+attributeSpecifierSeqOpt ::= attributeSpecifierSeq | ;
+
+attributeSpecifierSeq ::= attributeSpecifier
+    |   attributeSpecifierSeq attributeSpecifier
+    ;
+
+attributeSpecifier ::= LSQRBRK LSQRBRK attributeList RSQRBRK RSQRBRK
+    |   alignmentSpecifier
+    ;
+
 emptyDeclaration ::= SEMICOLON;
 
-namespaceDefinition ::= unnamedNamespaceDef
-	|	originalNamespaceDef
-	;
+namespaceDefinition ::= inlineOpt NAMESPACE namespaceDefinition2;
+namespaceDefinition2 ::= unnamedNamespaceDef
+    |   originalNamespaceDef
+    ;
 
-unnamedNamespaceDef ::= inlineOpt NAMESPACE LBRK declarationSeqOpt RBRK;
-originalNamespaceDef ::= inlineOpt NAMESPACE IDENTIFIER LBRK declarationSeqOpt RBRK;
+unnamedNamespaceDef ::= LBRK declarationSeqOpt RBRK;
+originalNamespaceDef ::= IDENTIFIER LBRK declarationSeqOpt RBRK;
 
 inlineOpt ::= INLINE | ;
 
