@@ -29,6 +29,7 @@ non terminal trailingTypeSpec, classSpec, enumSpec, memberSpecificationOpt, exce
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr;
 non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec;
+non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec, ptrAbstractDeclaratorOpt;
 non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr;
 non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier;
 non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration;
@@ -37,7 +38,6 @@ non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, t
 non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls;
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt;
 non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQualifier;
-non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec;
 
 /**
  * Precedences
@@ -157,9 +157,12 @@ trailingTypeSpecSeq ::= trailingTypeSpec attributeSpecSeqOpt
     |   trailingTypeSpec trailingTypeSpecSeq
     ;
 
+/* noPtrAbstractDeclarator NOT IMPLEMENTED */
 ptrAbstractDeclarator ::= noPtrAbstractDeclarator
-    |   ptrOperator ptrAbstractDeclarator
+    |   ptrOperator ptrAbstractDeclaratorOpt
     ;
+
+ptrAbstractDeclaratorOpt ::= ptrAbstractDeclarator | ;
 
 /** ptrOperator NOT IMPLEMENTED */
 
