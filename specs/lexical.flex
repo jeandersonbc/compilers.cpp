@@ -94,41 +94,6 @@ Identifier = [:jletter:][:jletterdigit:]*
     "volatile"              { return symbol(VOLATILE); }
     "const"                 { return symbol(CONST); }
 
-    /* PM Operators */
-
-    "->*"                   { return symbol(ARROWSTAR); }
-    ".*"                    { return symbol(DOTSTAR); }
-
-    /* Relational and Logical Operators */
-
-    "|"                     { return symbol(SOROP); }
-    "^"                     { return symbol(XOROP); }
-    "||"                    { return symbol(OROP); }
-    "!="                    { return symbol(NEQOP); }
-    "=="                    { return symbol(EQOP); }
-    "<"                     { return symbol(LT); }
-    ">"                     { return symbol(GT); }
-    "<="                    { return symbol(LTE); }
-    ">="                    { return symbol(GTE); }
-
-    /* Shift Operators */
-
-    "<<"                    { return symbol(LSHIFT); }
-    ">>"                    { return symbol(RSHIFT); }
-
-    /* Arithmetic Operators */
-
-    "-"                     { return symbol(MINUSOP); }
-    "+"                     { return symbol(PLUSOP); }
-    "/"                     { return symbol(DIVOP); }
-    "%"                     { return symbol(MODOP); }
-
-    /* Overloaded Lexemes */
-
-    "&"                     { return symbol(SINGLEAND); }
-    "&&"                    { return symbol(DOUBLEAND); }
-    "*"                     { return symbol(STAR); }
-
     /* Assignment */
 
     ">>="                   { return symbol(RSHIFTASSIGN); }
@@ -142,6 +107,41 @@ Identifier = [:jletter:][:jletterdigit:]*
     "&="                    { return symbol(ANDASSIGN); }
     "^="                    { return symbol(XORASSIGN); }
     "|="                    { return symbol(ORASSIGN); }
+
+    /* PM Operators */
+
+    "->*"                   { return symbol(ARROWSTAR); }
+    ".*"                    { return symbol(DOTSTAR); }
+
+    /* Shift Operators */
+
+    "<<"                    { return symbol(LSHIFT); }
+    ">>"                    { return symbol(RSHIFT); }
+
+    /* Relational and Logical Operators */
+
+    "^"                     { return symbol(XOROP); }
+    "||"                    { return symbol(OROP); }
+    "|"                     { return symbol(SOROP); }
+    "!="                    { return symbol(NEQOP); }
+    "=="                    { return symbol(EQOP); }
+    "<="                    { return symbol(LTE); }
+    ">="                    { return symbol(GTE); }
+    "<"                     { return symbol(LT); }
+    ">"                     { return symbol(GT); }
+
+    /* Arithmetic Operators */
+
+    "-"                     { return symbol(MINUSOP); }
+    "+"                     { return symbol(PLUSOP); }
+    "/"                     { return symbol(DIVOP); }
+    "%"                     { return symbol(MODOP); }
+
+    /* Overloaded Lexemes */
+
+    "&&"                    { return symbol(DOUBLEAND); }
+    "&"                     { return symbol(SINGLEAND); }
+    "*"                     { return symbol(STAR); }
 
     /* Separators */
 
@@ -161,11 +161,9 @@ Identifier = [:jletter:][:jletterdigit:]*
     /* Others */
 
     "..."                   { return symbol(DOTS); }
-
     {Identifier}            { return symbol(IDENTIFIER); }
-
-    {BlankSpace}            {/* skip it */ }
-    {Comments}              {/* skip it */ }
+    {BlankSpace}            { /* skip it */ }
+    {Comments}              { /* skip it */ }
 
 }
 
