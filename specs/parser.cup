@@ -12,8 +12,9 @@ package compiler.generated;
 terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK, ORASSIGN, GTE;
 terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN, LSHIFTASSIGN, LTE;
 terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN, LT, GT;
-terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP;
-terminal XORASSIGN, STARPTR, DANDPTR, SANDPTR, SEPPTR, OROP, ANDOP, SOROP, XOROP, SANDOP, EQOP;
+terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
+terminal XORASSIGN, STARPTR, DANDPTR, SANDPTR, SEPPTR, OROP, ANDOP, SOROP, XOROP, SANDOP, EQOP, RSHIFT;
+terminal MINUSOP, PLUSOP;
     
 /**
  * Terminals with types associated
@@ -23,22 +24,22 @@ terminal java.lang.String IDENTIFIER;
 /**
  * Non terminal symbols
  */
+non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt, additiveExpr;
 non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQualifier, nestedNameSpec;
 non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls, enumListOpt;
+non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration, multExpr;
+non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr;
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId, enumList;
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead;
 non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq;
 non terminal trailingTypeSpec, classSpec, enumSpec, memberSpecificationOpt, exceptionSpecOpt;
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr;
 non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt;
+non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec;
 non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec, ptrAbstractDeclaratorOpt;
 non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr;
 non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier;
-non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration;
-non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt;
-non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr;
-non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr;
 
 /**
  * Precedences
@@ -160,6 +161,17 @@ relationalExpr ::= shiftExpr
     |   relationalExpr GT shiftExpr
     |   relationalExpr LTE shiftExpr
     |   relationalExpr GTE shiftExpr
+    ;
+
+shiftExpr ::= additiveExpr
+    |   shiftExpr LSHIFT additiveExpr
+    |   shiftExpr RSHIFT additiveExpr
+    ;
+
+/** multExpr NOT IMPLEMENTED */
+additiveExpr ::= multExpr
+    |   additiveExpr PLUSOP multExpr
+    |   additiveExpr MINUSOP multExpr
     ;
 
 dynamicExceptionSpec ::= THROW LPAR typeIdListOpt RPAR;

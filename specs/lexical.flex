@@ -112,6 +112,17 @@ Identifier = [:jletter:][:jletterdigit:]*
     "<="                    { return symbol(LTE); }
     ">="                    { return symbol(GTE); }
 
+    /* shift operators */
+
+    "<<"                    { return symbol(LSHIFT); }
+    ">>"                    { return symbol(RSHIFT); }
+
+    /* arithmetic operators */
+
+    "-"                     { return symbol(MINUSOP); }
+    "+"                     { return symbol(PLUSOP); }
+
+
     /* assignment */
     ">>="                   { return symbol(RSHIFTASSIGN); }
     "<<="                   { return symbol(LSHIFTASSIGN); }
