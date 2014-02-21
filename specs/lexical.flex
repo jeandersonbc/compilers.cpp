@@ -87,10 +87,8 @@ Identifier = [:jletter:][:jletterdigit:]*
     "final"                 { return symbol(FINAL); }
 
     /* qualifiers */
-    "&&"                    { return symbol(DOUBLEAND); }
     "&"                     { return symbol(SINGLEAND); }
     "&&"                    { return symbol(DOUBLEAND); }
-    "&"                     { return symbol(SINGLEAND); }
     "volatile"              { return symbol(VOLATILE); }
     "const"                 { return symbol(CONST); }
 
