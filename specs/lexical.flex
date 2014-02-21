@@ -3,7 +3,6 @@
  *
  * Contributors:
  *      Jeanderson Barros Canido - http://jeandersonbc.github.io
- *      Thiago Ferreira
  */
 package compiler.generated;
 
@@ -72,9 +71,11 @@ Identifier = [:jletter:][:jletterdigit:]*
 
     /* keywords */
     "namespace"             { return symbol(NAMESPACE); }
+    "noexcept"              { return symbol(NOEXCEPT); }
     "alignas"               { return symbol(ALIGNAS); }
     "inline"                { return symbol(INLINE); }
     "using"                 { return symbol(USING); }
+    "throw"                 { return symbol(THROW); }
 
     /* class definition */
     "struct"                { return symbol(STRUCT); }
@@ -85,14 +86,24 @@ Identifier = [:jletter:][:jletterdigit:]*
     "explicit"              { return symbol(EXPLICIT); }
     "final"                 { return symbol(FINAL); }
 
+    /* qualifiers */
+    "&&"                    { return symbol(DOUBLEAND); }
+    "&"                     { return symbol(SINGLEAND); }
+    "&&"                    { return symbol(DOUBLEAND); }
+    "&"                     { return symbol(SINGLEAND); }
+    "volatile"              { return symbol(VOLATILE); }
+    "const"                 { return symbol(CONST); }
+
     /* assignment */
     "="                     { return symbol(ASSIGNMENT); }
 
     /* separators */
     ";"                     { return symbol(SEMICOLON); }
+    "?"                     { return symbol(QUESTION); }
     "["                     { return symbol(LSQRBRK); }
     "]"                     { return symbol(RSQRBRK); }
     ","                     { return symbol(COMMA); }
+    "->"                    { return symbol(ARROW); }
     ":"                     { return symbol(COLON); }
     "}"                     { return symbol(RBRK); }
     "{"                     { return symbol(LBRK); }

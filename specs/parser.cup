@@ -3,7 +3,6 @@
  *
  * Contributors:
  *      Jeanderson Barros Canido - http://jeandersonbc.github.io
- *      Thiago Ferreira
  */
 package compiler.generated;
 
@@ -12,6 +11,7 @@ package compiler.generated;
  */
 terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK;
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON;
+terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION;
 
 /**
  * Terminals with types associated
@@ -21,16 +21,25 @@ terminal java.lang.String IDENTIFIER;
 /**
  * Non terminal symbols
  */
+non terminal logicalOrExpr, expr, assignmentExpr, assignmentOperator, initializeCls, throwExpr;
+non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq;
+non terminal trailingTypeSpec, classSpec, enumSpec, memberSpecificationOpt, exceptionSpecOpt;
+non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr;
+non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt;
+non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec;
+non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr;
+non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier;
 non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration;
-non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId;
 non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt;
-non terminal typeSpecifierSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpecifier;
-non terminal attributeSpecifier, attributeList, alignmentSpecifier, dotsOpt, classHead;
-non terminal typeSpecifierSeq2, attributeSpecifierSeqOpt, attributeSpecifierSeq;
-non terminal trailingTypeSpecifier, classSpecifier, enumSpecifier, memberSpecificationOpt;
+non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId;
+non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls;
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt;
-non terminal classVirtSpecifierSeqOpt, classVirtSpecifierSeq, baseClause, baseSpecifier2;
-non terminal classVirtSpecifier, baseSpecifierList, baseSpecifier;
+non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQualifier;
+
+/**
+ * Precedences
+ */
+precedence nonassoc DOTS;
 
 /**
  * The Grammar Specification
@@ -66,69 +75,130 @@ blockDeclaration ::= aliasDeclaration;
  */
 aliasDeclaration ::= USING IDENTIFIER ASSIGNMENT typeId SEMICOLON;
 
-typeId ::= typeSpecifierSeq abstractDeclaratorOpt;
+typeId ::= typeSpecSeq abstractDeclaratorOpt;
 
-/* abstractDeclarator NOT IMPLEMENTED */
 abstractDeclaratorOpt ::= abstractDeclarator | ;
 
-typeSpecifierSeq ::= typeSpecifier typeSpecifierSeq2;
-typeSpecifierSeq2 ::= attributeSpecifierSeqOpt
-    |   typeSpecifierSeq
+abstractDeclarator ::= ptrAbstractDeclarator
+    |   noPtrAbstractDeclarator parametersAndQualifiers trailingReturnType
+    |   parametersAndQualifiers trailingReturnType
+    |   DOTS
     ;
 
-/* trailingTypeSpecifier NOT IMPLEMENTED
- * enumSpecifier NOT IMPLEMENTED
+parametersAndQualifiers ::=
+    LPAR paramDeclarationCls RPAR attributeSpecSeqOpt cvQualifierSeqOpt refQualifierOpt exceptionSpecOpt
+    ;
+
+cvQualifierSeqOpt ::= cvQualifierSeq | ;
+
+exceptionSpecOpt ::= exceptionSpec | ;
+
+exceptionSpec ::= dynamicExceptionSpec | noExceptSpec ;
+
+noExceptSpec ::= NOEXCEPT LPAR constExpr RPAR
+    |   NOEXCEPT
+    ;
+
+constExpr ::= conditionalExpr;
+
+conditionalExpr ::= logicalOrExpr
+    |   logicalOrExpr QUESTION expr COLON assignmentExpr
+    ;
+
+/** NOT IMPLEMENTED */
+assignmentExpr ::= conditionalExpr
+    | logicalOrExpr assignmentOperator initializeCls
+    | throwExpr
+    ;
+
+dynamicExceptionSpec ::= THROW LPAR typeIdListOpt RPAR;
+
+typeIdListOpt ::= typeIdList | ;
+
+typeIdList ::= typeId dotsOpt
+    |   typeIdList COMMA typeId dotsOpt
+    ;
+
+refQualifierOpt ::= refQualifier | ;
+
+refQualifier ::= SINGLEAND | DOUBLEAND;
+
+cvQualifierSeq ::=  cvQualifier
+    |   cvQualifier cvQualifierSeq
+    ;
+
+cvQualifier ::= CONST | VOLATILE;
+
+trailingReturnType ::= ARROW trailingTypeSpecSeq abstractDeclaratorOpt;
+
+trailingTypeSpecSeq ::= trailingTypeSpec attributeSpecSeqOpt
+    |   trailingTypeSpec trailingTypeSpecSeq
+    ;
+
+ptrAbstractDeclarator ::= noPtrAbstractDeclarator
+    |   ptrOperator ptrAbstractDeclarator
+    ;
+
+/** ptrOperator NOT IMPLEMENTED */
+
+typeSpecSeq ::= typeSpec typeSpecSeq2;
+typeSpecSeq2 ::= attributeSpecSeqOpt
+    |   typeSpecSeq
+    ;
+
+/* trailingTypeSpec NOT IMPLEMENTED
+ * enumSpec NOT IMPLEMENTED
  */
-typeSpecifier ::= trailingTypeSpecifier
-    |   classSpecifier
-    |   enumSpecifier
+typeSpec ::= trailingTypeSpec
+    |   classSpec
+    |   enumSpec
     ;
 
-classSpecifier ::= classHead LBRK memberSpecificationOpt RBRK;
+classSpec ::= classHead LBRK memberSpecificationOpt RBRK;
 
 /* memberSpecification NOT IMPLEMENTED */
 memberSpecificationOpt ::= memberSpecification | ;
 
 /* classHeadName NOT IMPLEMENTED */
-classHead ::= classKey attributeSpecifierSeqOpt classHead2;
-classHead2 ::= classHeadName classVirtSpecifierSeqOpt baseClauseOpt
+classHead ::= classKey attributeSpecSeqOpt classHead2;
+classHead2 ::= classHeadName classVirtSpecSeqOpt baseClauseOpt
     |   baseClauseOpt
     ;
 
 classKey ::= CLASS | STRUCT | UNION;
 
-classVirtSpecifierSeqOpt ::= classVirtSpecifierSeq | ;
+classVirtSpecSeqOpt ::= classVirtSpecSeq | ;
 
-classVirtSpecifierSeq ::= classVirtSpecifier
-    |   classVirtSpecifierSeq classVirtSpecifier
+classVirtSpecSeq ::= classVirtSpec
+    |   classVirtSpecSeq classVirtSpec
     ;
 
-classVirtSpecifier ::= FINAL | EXPLICIT;
+classVirtSpec ::= FINAL | EXPLICIT;
 
 baseClauseOpt ::= baseClause | ;
 
-baseClause ::= COLON baseSpecifierList;
+baseClause ::= COLON baseSpecList;
 
-baseSpecifierList ::= baseSpecifier dotsOpt
-    |   baseSpecifierList COMMA baseSpecifier dotsOpt
+baseSpecList ::= baseSpec dotsOpt
+    |   baseSpecList COMMA baseSpec dotsOpt
     ;
 
-/* baseSpecifier NOT IMPLEMENTED */
-baseSpecifier ::= attributeSpecifierSeqOpt baseSpecifier2;
+/* baseSpec NOT IMPLEMENTED */
+baseSpec ::= attributeSpecSeqOpt baseSpec2;
 
-attributeSpecifierSeqOpt ::= attributeSpecifierSeq | ;
+attributeSpecSeqOpt ::= attributeSpecSeq | ;
 
-attributeSpecifierSeq ::= attributeSpecifier
-    |   attributeSpecifierSeq attributeSpecifier
+attributeSpecSeq ::= attributeSpec
+    |   attributeSpecSeq attributeSpec
     ;
 
 /* attributeList NOT IMPLEMENTED */
-attributeSpecifier ::= LSQRBRK LSQRBRK attributeList RSQRBRK RSQRBRK
-    |   alignmentSpecifier
+attributeSpec ::= LSQRBRK LSQRBRK attributeList RSQRBRK RSQRBRK
+    |   alignmentSpec
     ;
 
 /* ISSUE #2 - rule "alignment-expression" not defined in the grammar ref */
-alignmentSpecifier ::= ALIGNAS LPAR typeId dotsOpt RPAR;
+alignmentSpec ::= ALIGNAS LPAR typeId dotsOpt RPAR;
 
 /**
  * Empty Declaration
