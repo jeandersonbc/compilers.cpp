@@ -37,6 +37,7 @@ non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, t
 non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls;
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt;
 non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQualifier;
+non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec;
 
 /**
  * Precedences
@@ -167,12 +168,21 @@ typeSpecSeq2 ::= attributeSpecSeqOpt
     |   typeSpecSeq
     ;
 
-/* trailingTypeSpec NOT IMPLEMENTED
- * enumSpec NOT IMPLEMENTED
+/* enumSpec NOT IMPLEMENTED
  */
 typeSpec ::= trailingTypeSpec
     |   classSpec
     |   enumSpec
+    ;
+
+/* simpleTypeSpec NOT IMPLEMENTED
+ * elaboratedTypeSpec NOT IMPLEMENTED
+ * typenameSpec NOT IMPLEMENTED
+ */
+trailingTypeSpec ::= simpleTypeSpec
+    |   elaboratedTypeSpec
+    |   typenameSpec
+    |   cvQualifier
     ;
 
 classSpec ::= classHead LBRK memberSpecificationOpt RBRK;
