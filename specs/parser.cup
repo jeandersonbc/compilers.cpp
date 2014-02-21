@@ -107,9 +107,12 @@ noExceptSpec ::= NOEXCEPT LPAR constExpr RPAR
 /**
  * Expressions
  */
+expr ::= assignmentExpr
+    |   expr COMMA assignmentExpr
+    ;
+
 constExpr ::= conditionalExpr;
 
-/** expr NOT IMPLEMENTED */
 conditionalExpr ::= logicalOrExpr
     |   logicalOrExpr QUESTION expr COLON assignmentExpr
     ;
