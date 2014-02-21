@@ -94,10 +94,6 @@ Identifier = [:jletter:][:jletterdigit:]*
     "volatile"              { return symbol(VOLATILE); }
     "const"                 { return symbol(CONST); }
 
-    /* Pointer Operators */
-
-    "::"                    { return symbol(SEPPTR); }
-
     /* Relational and Logical Operators */
 
     "|"                     { return symbol(SOROP); }
@@ -126,7 +122,7 @@ Identifier = [:jletter:][:jletterdigit:]*
 
     "&"                     { return symbol(SINGLEAND); }
     "&&"                    { return symbol(DOUBLEAND); }
-    "*"                     { return symbol(STARPTR); }
+    "*"                     { return symbol(STAR); }
 
     /* Assignment */
 
@@ -148,6 +144,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     "?"                     { return symbol(QUESTION); }
     "["                     { return symbol(LSQRBRK); }
     "]"                     { return symbol(RSQRBRK); }
+    "::"                    { return symbol(SEPPTR); }
     ","                     { return symbol(COMMA); }
     "->"                    { return symbol(ARROW); }
     ":"                     { return symbol(COLON); }

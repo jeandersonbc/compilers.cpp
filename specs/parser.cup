@@ -13,7 +13,7 @@ terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, R
 terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN, LSHIFTASSIGN, LTE;
 terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN, LT, GT;
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
-terminal XORASSIGN, STARPTR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP;
+terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP;
 terminal MINUSOP, PLUSOP;
     
 /**
@@ -178,7 +178,7 @@ additiveExpr ::= multExpr
     ;
 
 multExpr ::= pmExpr
-    |   multExpr STARPTR pmExpr
+    |   multExpr STAR pmExpr
     |   multExpr DIVOP pmExpr
     |   multExpr MODOP pmExpr
     ;
@@ -215,7 +215,7 @@ ptrAbstractDeclarator ::= noPtrAbstractDeclarator
 ptrAbstractDeclaratorOpt ::= ptrAbstractDeclarator | ;
 
 /** nestedNameSpec NOT IMPLEMENTED */
-ptrOperator ::= STARPTR attributeSpecSeqOpt cvQualifierSeqOpt
+ptrOperator ::= STAR attributeSpecSeqOpt cvQualifierSeqOpt
     |   SINGLEAND attributeSpecSeqOpt
     |   DOUBLEAND attributeSpecSeqOpt
     |   SEPPTR nestedNameSpec SINGLEAND attributeSpecSeqOpt cvQualifierSeqOpt
