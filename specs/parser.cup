@@ -12,8 +12,8 @@ package compiler.generated;
 terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK, ORASSIGN;
 terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN, LSHIFTASSIGN;
 terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN;
-terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON;
-terminal XORASSIGN, STARPTR, DANDPTR, SANDPTR, SEPPTR, OROP, ANDOP, SOROP, XOROP;
+terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP;
+terminal XORASSIGN, STARPTR, DANDPTR, SANDPTR, SEPPTR, OROP, ANDOP, SOROP, XOROP, SANDOP, EQOP;
     
 /**
  * Terminals with types associated
@@ -38,7 +38,7 @@ non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQu
 non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration;
 non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt;
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr;
-non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr;
+non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr;
 
 /**
  * Precedences
@@ -142,9 +142,18 @@ inclusiveOrExpr ::= exclusiveOrExpr
     |   inclusiveOrExpr SOROP exclusiveOrExpr
     ;
 
-/** andExpr NOT IMPLEMENTED **/
 exclusiveOrExpr ::= andExpr
     | exclusiveOrExpr XOROP andExpr
+    ;
+
+andExpr ::= equalityExpr
+    | andExpr SANDOP equalityExpr
+    ;
+
+/** relationalExpr NOT IMPLEMENTED **/
+equalityExpr ::= relationalExpr
+    |   equalityExpr EQOP relationalExpr
+    |   equalityExpr NEQOP relationalExpr
     ;
 
 dynamicExceptionSpec ::= THROW LPAR typeIdListOpt RPAR;

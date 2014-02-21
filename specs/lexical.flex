@@ -99,10 +99,13 @@ Identifier = [:jletter:][:jletterdigit:]*
     "::"                    { return symbol(SEPPTR); }
 
     /* logical operators */
+    "&"                     { return symbol(SANDOP); }
     "&&"                    { return symbol(ANDOP); }
-    "||"                    { return symbol(OROP); }
     "|"                     { return symbol(SOROP); }
     "^"                     { return symbol(XOROP); }
+    "||"                    { return symbol(OROP); }
+    "!="                    { return symbol(NEQOP); }
+    "=="                    { return symbol(EQOP); }
 
     /* assignment */
     ">>="                   { return symbol(RSHIFTASSIGN); }
