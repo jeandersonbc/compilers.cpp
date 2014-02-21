@@ -94,6 +94,11 @@ Identifier = [:jletter:][:jletterdigit:]*
     "volatile"              { return symbol(VOLATILE); }
     "const"                 { return symbol(CONST); }
 
+    /* PM Operators */
+
+    "->*"                   { return symbol(ARROWSTAR); }
+    ".*"                    { return symbol(DOTSTAR); }
+
     /* Relational and Logical Operators */
 
     "|"                     { return symbol(SOROP); }

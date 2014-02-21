@@ -13,7 +13,7 @@ terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, R
 terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN, LSHIFTASSIGN, LTE;
 terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN, LT, GT;
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
-terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP;
+terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP, DOTSTAR, ARROWSTAR;
 terminal MINUSOP, PLUSOP;
     
 /**
@@ -37,7 +37,7 @@ non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, cond
 non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt;
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec;
-non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec, ptrAbstractDeclaratorOpt;
+non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec, ptrAbstractDeclaratorOpt, castExpr;
 non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr;
 non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier, pmExpr;
 
@@ -171,7 +171,6 @@ shiftExpr ::= additiveExpr
     |   shiftExpr RSHIFT additiveExpr
     ;
 
-/** multExpr NOT IMPLEMENTED */
 additiveExpr ::= multExpr
     |   additiveExpr PLUSOP multExpr
     |   additiveExpr MINUSOP multExpr
@@ -181,6 +180,12 @@ multExpr ::= pmExpr
     |   multExpr STAR pmExpr
     |   multExpr DIVOP pmExpr
     |   multExpr MODOP pmExpr
+    ;
+
+/** castExpr NOT IMPLEMENTED */
+pmExpr ::= castExpr
+    |   pmExpr DOTSTAR castExpr
+    |   pmExpr ARROWSTAR castExpr
     ;
 
 dynamicExceptionSpec ::= THROW LPAR typeIdListOpt RPAR;
