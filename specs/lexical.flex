@@ -69,7 +69,8 @@ Identifier = [:jletter:][:jletterdigit:]*
 
 <YYINITIAL> {
 
-    /* keywords */
+    /* Keywords */
+
     "namespace"             { return symbol(NAMESPACE); }
     "noexcept"              { return symbol(NOEXCEPT); }
     "alignas"               { return symbol(ALIGNAS); }
@@ -77,26 +78,28 @@ Identifier = [:jletter:][:jletterdigit:]*
     "using"                 { return symbol(USING); }
     "throw"                 { return symbol(THROW); }
 
-    /* class definition */
+    /* Class Definition */
+
     "struct"                { return symbol(STRUCT); }
     "class"                 { return symbol(CLASS); }
     "union"                 { return symbol(UNION); }
 
-    /* virt specifiers */
+    /* Virt Specifiers */
+
     "explicit"              { return symbol(EXPLICIT); }
     "final"                 { return symbol(FINAL); }
 
-    /* qualifiers */
-    "&"                     { return symbol(SINGLEAND); }
-    "&&"                    { return symbol(DOUBLEAND); }
+    /* Qualifiers */
+
     "volatile"              { return symbol(VOLATILE); }
     "const"                 { return symbol(CONST); }
 
-    /* pointer operators */
+    /* Pointer Operators */
+
     "*"                     { return symbol(STARPTR); }
     "::"                    { return symbol(SEPPTR); }
 
-    /* relational and logical operators */
+    /* Relational and Logical Operators */
 
     "|"                     { return symbol(SOROP); }
     "^"                     { return symbol(XOROP); }
@@ -108,18 +111,23 @@ Identifier = [:jletter:][:jletterdigit:]*
     "<="                    { return symbol(LTE); }
     ">="                    { return symbol(GTE); }
 
-    /* shift operators */
+    /* Shift Operators */
 
     "<<"                    { return symbol(LSHIFT); }
     ">>"                    { return symbol(RSHIFT); }
 
-    /* arithmetic operators */
+    /* Arithmetic Operators */
 
     "-"                     { return symbol(MINUSOP); }
     "+"                     { return symbol(PLUSOP); }
 
+    /* Overloaded Lexemes */
 
-    /* assignment */
+    "&"                     { return symbol(SINGLEAND); }
+    "&&"                    { return symbol(DOUBLEAND); }
+
+    /* Assignment */
+
     ">>="                   { return symbol(RSHIFTASSIGN); }
     "<<="                   { return symbol(LSHIFTASSIGN); }
     "-="                    { return symbol(MINUSASSIGN); }
@@ -132,7 +140,8 @@ Identifier = [:jletter:][:jletterdigit:]*
     "^="                    { return symbol(XORASSIGN); }
     "|="                    { return symbol(ORASSIGN); }
 
-    /* separators */
+    /* Separators */
+
     ";"                     { return symbol(SEMICOLON); }
     "?"                     { return symbol(QUESTION); }
     "["                     { return symbol(LSQRBRK); }
@@ -145,7 +154,8 @@ Identifier = [:jletter:][:jletterdigit:]*
     "("                     { return symbol(LPAR); }
     ")"                     { return symbol(RPAR); }
 
-    /* others */
+    /* Others */
+
     "..."                   { return symbol(DOTS); }
 
     {Identifier}            { return symbol(IDENTIFIER); }
