@@ -96,7 +96,6 @@ Identifier = [:jletter:][:jletterdigit:]*
 
     /* Pointer Operators */
 
-    "*"                     { return symbol(STARPTR); }
     "::"                    { return symbol(SEPPTR); }
 
     /* Relational and Logical Operators */
@@ -120,11 +119,14 @@ Identifier = [:jletter:][:jletterdigit:]*
 
     "-"                     { return symbol(MINUSOP); }
     "+"                     { return symbol(PLUSOP); }
+    "/"                     { return symbol(DIVOP); }
+    "%"                     { return symbol(MODOP); }
 
     /* Overloaded Lexemes */
 
     "&"                     { return symbol(SINGLEAND); }
     "&&"                    { return symbol(DOUBLEAND); }
+    "*"                     { return symbol(STARPTR); }
 
     /* Assignment */
 
