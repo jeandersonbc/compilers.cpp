@@ -98,7 +98,8 @@ Identifier = [:jletter:][:jletterdigit:]*
     "&&"                    { return symbol(DANDPTR); }
     "::"                    { return symbol(SEPPTR); }
 
-    /* logical operators */
+    /* relational and logical operators */
+
     "&"                     { return symbol(SANDOP); }
     "&&"                    { return symbol(ANDOP); }
     "|"                     { return symbol(SOROP); }
@@ -106,6 +107,10 @@ Identifier = [:jletter:][:jletterdigit:]*
     "||"                    { return symbol(OROP); }
     "!="                    { return symbol(NEQOP); }
     "=="                    { return symbol(EQOP); }
+    "<"                     { return symbol(LT); }
+    ">"                     { return symbol(GT); }
+    "<="                    { return symbol(LTE); }
+    ">="                    { return symbol(GTE); }
 
     /* assignment */
     ">>="                   { return symbol(RSHIFTASSIGN); }
