@@ -98,6 +98,9 @@ Identifier = [:jletter:][:jletterdigit:]*
     "&&"                    { return symbol(DANDPTR); }
     "::"                    { return symbol(SEPPTR); }
 
+    /* logical operators */
+    "||"                    { return symbol(OROP); }
+
     /* assignment */
     ">>="                   { return symbol(RSHIFTASSIGN); }
     "<<="                   { return symbol(LSHIFTASSIGN); }
