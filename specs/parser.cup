@@ -9,10 +9,12 @@ package compiler.generated;
 /**
  * Terminals without associated type
  */
-terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK;
+terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK, ORASSIGN;
+terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN, LSHIFTASSIGN;
+terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN;
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON;
-terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION;
-
+terminal XORASSIGN;
+    
 /**
  * Terminals with types associated
  */
@@ -105,10 +107,25 @@ conditionalExpr ::= logicalOrExpr
     |   logicalOrExpr QUESTION expr COLON assignmentExpr
     ;
 
-/** NOT IMPLEMENTED */
+/** logicalOrExpr NOT IMPLEMENTED */
+/** initializeCls NOT IMPLEMENTED */
+/** throwExpr NOT IMPLEMENTED */
 assignmentExpr ::= conditionalExpr
-    | logicalOrExpr assignmentOperator initializeCls
-    | throwExpr
+    |   logicalOrExpr assignmentOperator initializeCls
+    |   throwExpr
+    ;
+
+assignmentOperator ::= ASSIGNMENT
+    |   MULTASSIGN
+    |   DIVASSIGN
+    |   MODASSIGN
+    |   PLUSASSIGN
+    |   MINUSASSIGN
+    |   RSHIFTASSIGN
+    |   LSHIFTASSIGN
+    |   ANDASSIGN
+    |   XORASSIGN
+    |   ORASSIGN
     ;
 
 dynamicExceptionSpec ::= THROW LPAR typeIdListOpt RPAR;

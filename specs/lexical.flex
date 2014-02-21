@@ -95,7 +95,17 @@ Identifier = [:jletter:][:jletterdigit:]*
     "const"                 { return symbol(CONST); }
 
     /* assignment */
+    ">>="                   { return symbol(RSHIFTASSIGN); }
+    "<<="                   { return symbol(LSHIFTASSIGN); }
+    "-="                    { return symbol(MINUSASSIGN); }
     "="                     { return symbol(ASSIGNMENT); }
+    "+="                    { return symbol(PLUSASSIGN); }
+    "*="                    { return symbol(MULTASSIGN); }
+    "/="                    { return symbol(DIVASSIGN); }
+    "%="                    { return symbol(MODASSIGN); }
+    "&="                    { return symbol(ANDASSIGN); }
+    "^="                    { return symbol(XORASSIGN); }
+    "|="                    { return symbol(ORASSIGN); }
 
     /* separators */
     ";"                     { return symbol(SEMICOLON); }
