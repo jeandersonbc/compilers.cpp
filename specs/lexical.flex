@@ -94,14 +94,10 @@ Identifier = [:jletter:][:jletterdigit:]*
 
     /* pointer operators */
     "*"                     { return symbol(STARPTR); }
-    "&"                     { return symbol(SANDPTR); }
-    "&&"                    { return symbol(DANDPTR); }
     "::"                    { return symbol(SEPPTR); }
 
     /* relational and logical operators */
 
-    "&"                     { return symbol(SANDOP); }
-    "&&"                    { return symbol(ANDOP); }
     "|"                     { return symbol(SOROP); }
     "^"                     { return symbol(XOROP); }
     "||"                    { return symbol(OROP); }

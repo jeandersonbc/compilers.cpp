@@ -13,7 +13,7 @@ terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, R
 terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN, LSHIFTASSIGN, LTE;
 terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN, LT, GT;
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
-terminal XORASSIGN, STARPTR, DANDPTR, SANDPTR, SEPPTR, OROP, ANDOP, SOROP, XOROP, SANDOP, EQOP, RSHIFT;
+terminal XORASSIGN, STARPTR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT;
 terminal MINUSOP, PLUSOP;
     
 /**
@@ -139,7 +139,7 @@ logicalOrExpr ::= logicalAndExpr
     ;
 
 logicalAndExpr ::= inclusiveOrExpr 
-    |   logicalAndExpr ANDOP inclusiveOrExpr
+    |   logicalAndExpr DOUBLEAND inclusiveOrExpr
     ;
 
 inclusiveOrExpr ::= exclusiveOrExpr
@@ -151,7 +151,7 @@ exclusiveOrExpr ::= andExpr
     ;
 
 andExpr ::= equalityExpr
-    | andExpr SANDOP equalityExpr
+    | andExpr SINGLEAND equalityExpr
     ;
 
 equalityExpr ::= relationalExpr
@@ -210,10 +210,10 @@ ptrAbstractDeclaratorOpt ::= ptrAbstractDeclarator | ;
 
 /** nestedNameSpec NOT IMPLEMENTED */
 ptrOperator ::= STARPTR attributeSpecSeqOpt cvQualifierSeqOpt
-    |   SANDPTR attributeSpecSeqOpt
-    |   DANDPTR attributeSpecSeqOpt
-    |   SEPPTR nestedNameSpec SANDPTR attributeSpecSeqOpt cvQualifierSeqOpt
-    |   nestedNameSpec SANDPTR attributeSpecSeqOpt cvQualifierSeqOpt
+    |   SINGLEAND attributeSpecSeqOpt
+    |   DOUBLEAND attributeSpecSeqOpt
+    |   SEPPTR nestedNameSpec SINGLEAND attributeSpecSeqOpt cvQualifierSeqOpt
+    |   nestedNameSpec SINGLEAND attributeSpecSeqOpt cvQualifierSeqOpt
     ;
 
 typeSpecSeq ::= typeSpec typeSpecSeq2;
