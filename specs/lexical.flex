@@ -92,6 +92,12 @@ Identifier = [:jletter:][:jletterdigit:]*
     "volatile"              { return symbol(VOLATILE); }
     "const"                 { return symbol(CONST); }
 
+    /* pointer operators */
+    "*"                     { return symbol(STARPTR); }
+    "&"                     { return symbol(SANDPTR); }
+    "&&"                    { return symbol(DANDPTR); }
+    "::"                    { return symbol(SEPPTR); }
+
     /* assignment */
     ">>="                   { return symbol(RSHIFTASSIGN); }
     "<<="                   { return symbol(LSHIFTASSIGN); }
