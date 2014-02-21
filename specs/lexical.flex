@@ -101,6 +101,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     /* logical operators */
     "&&"                    { return symbol(ANDOP); }
     "||"                    { return symbol(OROP); }
+    "|"                     { return symbol(SOROP); }
 
     /* assignment */
     ">>="                   { return symbol(RSHIFTASSIGN); }
