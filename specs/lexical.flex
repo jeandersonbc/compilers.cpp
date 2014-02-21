@@ -99,6 +99,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     "::"                    { return symbol(SEPPTR); }
 
     /* logical operators */
+    "&&"                    { return symbol(ANDOP); }
     "||"                    { return symbol(OROP); }
 
     /* assignment */

@@ -13,7 +13,7 @@ terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, R
 terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN, LSHIFTASSIGN;
 terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN;
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON;
-terminal XORASSIGN, STARPTR, DANDPTR, SANDPTR, SEPPTR, OROP;
+terminal XORASSIGN, STARPTR, DANDPTR, SANDPTR, SEPPTR, OROP, ANDOP;
     
 /**
  * Terminals with types associated
@@ -38,6 +38,7 @@ non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQu
 non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration;
 non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt;
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr;
+non terminal inclusiveOrExpr;
 
 /**
  * Precedences
@@ -129,9 +130,13 @@ assignmentExpr ::= conditionalExpr
     |   throwExpr
     ;
 
-/** logicalAndExpr NOT IMPLEMENTED **/
 logicalOrExpr ::= logicalAndExpr
     |   logicalOrExpr OROP logicalAndExpr
+    ;
+
+/** inclusiveOrExpr NOT IMPLEMENTED **/
+logicalAndExpr ::= inclusiveOrExpr 
+    |   logicalAndExpr ANDOP inclusiveOrExpr
     ;
 
 dynamicExceptionSpec ::= THROW LPAR typeIdListOpt RPAR;
