@@ -26,8 +26,11 @@ terminal java.lang.String IDENTIFIER;
  */
 non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt, additiveExpr;
 non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQualifier, nestedNameSpec;
+non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr, unaryExpr;
 non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls, enumListOpt;
+non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec, ptrAbstractDeclaratorOpt, castExpr;
 non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration, multExpr;
+non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier, pmExpr;
 non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr;
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId, enumList;
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead;
@@ -37,9 +40,6 @@ non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, cond
 non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt;
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec;
-non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec, ptrAbstractDeclaratorOpt, castExpr;
-non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr;
-non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier, pmExpr;
 
 /**
  * Precedences
@@ -182,10 +182,14 @@ multExpr ::= pmExpr
     |   multExpr MODOP pmExpr
     ;
 
-/** castExpr NOT IMPLEMENTED */
 pmExpr ::= castExpr
     |   pmExpr DOTSTAR castExpr
     |   pmExpr ARROWSTAR castExpr
+    ;
+
+/* unaryExpr NOT IMPLEMENTED */
+castExpr ::= unaryExpr
+    | LPAR typeId RPAR castExpr
     ;
 
 dynamicExceptionSpec ::= THROW LPAR typeIdListOpt RPAR;
