@@ -17,3 +17,14 @@ CUP is a LALR (lookahead-LR method) parser generator. CUP reads a syntacitc spec
 
 * First, make sure you have [Ant](http://ant.apache.org/) installed in your computer.
 * By this moment, you just need to run ```ant``` on the project's root directory.
+
+## Extending the Grammar ##
+
+The Lexical and Syntax Analyzers **must** be extended together.
+It is **extremely** important to follow these guidelines:
+
+* After modifying ```lexical.flex``` and/or ```parser.cup```, run ```ant compile```.
+* Resolve Warnings before pushing (or create a remote branch for fixing and open an issue in the repository).
+* Implement grammar rules one by one.
+* Add ```NOT IMPLEMENTED``` on rules not implemented.
+
