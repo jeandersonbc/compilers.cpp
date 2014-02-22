@@ -40,6 +40,7 @@ non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, cond
 non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt;
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec;
+non terminal bracedInitList, commaOpt, initializeList;
 
 /**
  * Precedences
@@ -117,7 +118,6 @@ conditionalExpr ::= logicalOrExpr
     |   logicalOrExpr QUESTION expr COLON assignmentExpr
     ;
 
-/** initializeCls NOT IMPLEMENTED */
 /** throwExpr NOT IMPLEMENTED */
 assignmentExpr ::= conditionalExpr
     |   logicalOrExpr ASSIGNMENT initializeCls
@@ -133,6 +133,20 @@ assignmentExpr ::= conditionalExpr
     |   logicalOrExpr ORASSIGN initializeCls
     |   throwExpr
     ;
+
+initializeCls ::= assignmentExpr
+    |   bracedInitList
+    ;
+
+bracedInitList ::= LBRK initializeList commaOpt RBRK
+    |   LBRK RBRK
+    ;
+
+initializeList ::= initializeCls dotsOpt
+    | initializeList COMMA initializeCls dotsOpt
+    ;
+
+commaOpt ::= COMMA | ;
 
 logicalOrExpr ::= logicalAndExpr
     |   logicalOrExpr OROP logicalAndExpr
