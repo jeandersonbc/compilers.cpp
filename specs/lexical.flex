@@ -75,6 +75,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     "noexcept"              { return symbol(NOEXCEPT); }
     "alignas"               { return symbol(ALIGNAS); }
     "inline"                { return symbol(INLINE); }
+    "sizeof"                { return symbol(SIZEOF); }
     "using"                 { return symbol(USING); }
     "throw"                 { return symbol(THROW); }
 
@@ -93,6 +94,11 @@ Identifier = [:jletter:][:jletterdigit:]*
 
     "volatile"              { return symbol(VOLATILE); }
     "const"                 { return symbol(CONST); }
+
+    /* Unary Operators */
+
+    "++"                    { return symbol(AUTOINCRM); }
+    "--"                    { return symbol(AUTODECRM); }
 
     /* Assignment */
 

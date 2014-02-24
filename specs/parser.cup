@@ -14,7 +14,7 @@ terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN
 terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN, LT, GT;
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
 terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP, DOTSTAR, ARROWSTAR;
-terminal MINUSOP, PLUSOP;
+terminal MINUSOP, PLUSOP, ALIGNOF, AUTOINCRM, AUTODECRM, SIZEOF;
     
 /**
  * Terminals with types associated
@@ -37,10 +37,10 @@ non terminal memberSpecification, classKey, classHead2, classHeadName, baseClaus
 non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq;
 non terminal trailingTypeSpec, classSpec, enumSpec, memberSpecificationOpt, exceptionSpecOpt;
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr;
-non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt;
-non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr;
-non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec;
-non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt;
+non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt, deleteExpr;
+non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr;
+non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr;
+non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp;
 
 /**
  * Precedences
@@ -204,9 +204,26 @@ pmExpr ::= castExpr
     |   pmExpr ARROWSTAR castExpr
     ;
 
-/* unaryExpr NOT IMPLEMENTED */
 castExpr ::= unaryExpr
-    | LPAR typeId RPAR castExpr
+    |   LPAR typeId RPAR castExpr
+    ;
+
+/* postfixExpr NOT IMPLEMENTED */
+/* unaryOp NOT IMPLEMENTED */
+/* noexceptExpr NOT IMPLEMENTED */
+/* newExpr NOT IMPLEMENTED */
+/* deleteExpr NOT IMPLEMENTED */
+unaryExpr ::= postfixExpr
+    |   AUTOINCRM castExpr
+    |   AUTODECRM castExpr
+    |   unaryOp castExpr
+    |   SIZEOF unaryExpr
+    |   SIZEOF LPAR typeId RPAR
+    |   SIZEOF DOTS LPAR IDENTIFIER RPAR
+    |   ALIGNOF LPAR typeId RPAR
+    |   noexceptExpr
+    |   newExpr
+    |   deleteExpr
     ;
 
 dynamicExceptionSpec ::= THROW LPAR typeIdListOpt RPAR;
