@@ -14,7 +14,7 @@ terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN
 terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN, LT, GT;
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
 terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP, DOTSTAR, ARROWSTAR;
-terminal MINUSOP, PLUSOP, ALIGNOF, AUTOINCRM, AUTODECRM, SIZEOF;
+terminal MINUSOP, PLUSOP, ALIGNOF, AUTOINCRM, AUTODECRM, SIZEOF, LOGNEGATION,  BINNEG;
     
 /**
  * Terminals with types associated
@@ -209,7 +209,6 @@ castExpr ::= unaryExpr
     ;
 
 /* postfixExpr NOT IMPLEMENTED */
-/* unaryOp NOT IMPLEMENTED */
 /* noexceptExpr NOT IMPLEMENTED */
 /* newExpr NOT IMPLEMENTED */
 /* deleteExpr NOT IMPLEMENTED */
@@ -224,6 +223,14 @@ unaryExpr ::= postfixExpr
     |   noexceptExpr
     |   newExpr
     |   deleteExpr
+    ;
+
+unaryOp ::= STAR
+    |   SINGLEAND
+    |   PLUSOP
+    |   MINUSOP
+    |   LOGNEGATION
+    |   BINNEG
     ;
 
 dynamicExceptionSpec ::= THROW LPAR typeIdListOpt RPAR;

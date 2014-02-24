@@ -97,8 +97,10 @@ Identifier = [:jletter:][:jletterdigit:]*
 
     /* Unary Operators */
 
+    "!"                     { return symbol(LOGNEGATION); }
     "++"                    { return symbol(AUTOINCRM); }
     "--"                    { return symbol(AUTODECRM); }
+    "~"                     { return symbol(BINNEG); }
 
     /* Assignment */
 
