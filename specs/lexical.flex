@@ -71,10 +71,16 @@ Identifier = [:jletter:][:jletterdigit:]*
 
     /* Keywords */
 
+    "reinterpret_cast"      { return symbol(REINTERPRETCAST); }
+    "dynamic_cast"          { return symbol(DYNAMICCAST); }
+    "static_cast"           { return symbol(STATICCAST); }
+    "const_cast"            { return symbol(CONSTCAST); }
     "namespace"             { return symbol(NAMESPACE); }
+    "template"              { return symbol(TEMPLATE); }
     "noexcept"              { return symbol(NOEXCEPT); }
     "alignas"               { return symbol(ALIGNAS); }
     "inline"                { return symbol(INLINE); }
+    "typeid"                { return symbol(TYPEID); }
     "sizeof"                { return symbol(SIZEOF); }
     "using"                 { return symbol(USING); }
     "throw"                 { return symbol(THROW); }
@@ -165,6 +171,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     "{"                     { return symbol(LBRK); }
     "("                     { return symbol(LPAR); }
     ")"                     { return symbol(RPAR); }
+    "."                     { return symbol(DOT); }
 
     /* Others */
 
