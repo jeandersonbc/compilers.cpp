@@ -26,7 +26,7 @@ terminal java.lang.Boolean TRUE, FALSE;
 /**
  * Non terminal symbols
  */
-non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt, additiveExpr;
+non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt, additiveExpr, unqualifiedId;
 non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQualifier, nestedNameSpec, pointerLiteral;
 non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr, unaryExpr, booleanLiteral;
 non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls, enumListOpt, stringLiteral;
@@ -41,7 +41,7 @@ non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cv
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr;
 non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt, deleteExpr;
-non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr;
+non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr, qualifiedId;
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
 
@@ -235,7 +235,6 @@ unaryOp ::= STAR
     |   BINNEG
     ;
 
-/* idExpr NOT IMPLEMENTED */
 /* pseudoDestructorName NOT IMPLEMENTED */
 postfixExpr ::= primaryExpr
     |   postfixExpr LSQRBRK expr RSQRBRK
@@ -259,6 +258,12 @@ postfixExpr ::= primaryExpr
     |   CONSTCAST LT typeId GT LPAR expr RPAR
     |   TYPEID LPAR expr RPAR
     |   TYPEID LPAR typeId RPAR
+    ;
+
+/* unqualifiedId NOT IMPLEMENTED */
+/* qualifiedId NOT IMPLEMENTED */
+idExpr ::= unqualifiedId
+    |   qualifiedId
     ;
 
 primaryExpr ::= literal
