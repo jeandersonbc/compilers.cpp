@@ -86,6 +86,11 @@ Identifier = [:jletter:][:jletterdigit:]*
     "throw"                 { return symbol(THROW); }
     "this"                  { return symbol(THIS); }
 
+    /* Literals */
+
+    "false"                 { return symbol(FALSE); }
+    "true"                  { return symbol(TRUE); }
+
     /* Class Definition */
 
     "struct"                { return symbol(STRUCT); }

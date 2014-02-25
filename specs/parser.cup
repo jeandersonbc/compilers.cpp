@@ -21,6 +21,7 @@ terminal DYNAMICCAST, STATICCAST, CONSTCAST, REINTERPRETCAST, THIS;
  * Terminals with types associated
  */
 terminal java.lang.String IDENTIFIER;
+terminal java.lang.Boolean TRUE, FALSE;
 
 /**
  * Non terminal symbols
@@ -268,11 +269,13 @@ primaryExpr ::= literal
     |   lambdaExpr
     ;
 
+/**
+ * Literals
+ */
 /* integerLiteral NOT IMPLEMENTED */
 /* characterLiteral NOT IMPLEMENTED */
 /* floatingLiteral NOT IMPLEMENTED */
 /* stringLiteral NOT IMPLEMENTED */
-/* booleanLiteral NOT IMPLEMENTED */
 /* pointerLiteral NOT IMPLEMENTED */
 /* userDefinedLiteral NOT IMPLEMENTED */
 literal ::= integerLiteral
@@ -283,6 +286,8 @@ literal ::= integerLiteral
     |   pointerLiteral
     |   userDefinedLiteral
     ;
+
+booleanLiteral ::= TRUE | FALSE;
 
 bracedInitListOpt ::= bracedInitList | ;
 
