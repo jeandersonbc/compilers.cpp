@@ -26,11 +26,11 @@ terminal java.lang.String IDENTIFIER;
  * Non terminal symbols
  */
 non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt, additiveExpr;
-non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQualifier, nestedNameSpec;
-non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr, unaryExpr;
-non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls, enumListOpt;
-non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec, ptrAbstractDeclaratorOpt, castExpr;
-non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration, multExpr;
+non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQualifier, nestedNameSpec, pointerLiteral;
+non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr, unaryExpr, booleanLiteral;
+non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls, enumListOpt, stringLiteral;
+non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec, ptrAbstractDeclaratorOpt, castExpr, characterLiteral;
+non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration, multExpr, integerLiteral;
 non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier, pmExpr, lambdaExpr;
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId, pseudoDestructorName;
 non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList;
@@ -42,6 +42,7 @@ non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exce
 non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt, deleteExpr;
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr;
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr;
+non terminal userDefinedLiteral, floatingLiteral;
 
 /**
  * Precedences
@@ -260,12 +261,27 @@ postfixExpr ::= primaryExpr
     ;
 
 /* lambdaExpr NOT IMPLEMENTED */
-/* literal NOT IMPLEMENTED */
 primaryExpr ::= literal
     |   THIS
     |   LPAR expr RPAR
     |   idExpr
     |   lambdaExpr
+    ;
+
+/* integerLiteral NOT IMPLEMENTED */
+/* characterLiteral NOT IMPLEMENTED */
+/* floatingLiteral NOT IMPLEMENTED */
+/* stringLiteral NOT IMPLEMENTED */
+/* booleanLiteral NOT IMPLEMENTED */
+/* pointerLiteral NOT IMPLEMENTED */
+/* userDefinedLiteral NOT IMPLEMENTED */
+literal ::= integerLiteral
+    |   characterLiteral
+    |   floatingLiteral
+    |   stringLiteral
+    |   booleanLiteral
+    |   pointerLiteral
+    |   userDefinedLiteral
     ;
 
 bracedInitListOpt ::= bracedInitList | ;
