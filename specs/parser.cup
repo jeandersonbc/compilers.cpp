@@ -43,7 +43,7 @@ non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exce
 non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt, deleteExpr;
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr;
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr;
-non terminal userDefinedLiteral, floatingLiteral;
+non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
 
 /**
  * Precedences
@@ -261,13 +261,17 @@ postfixExpr ::= primaryExpr
     |   TYPEID LPAR typeId RPAR
     ;
 
-/* lambdaExpr NOT IMPLEMENTED */
 primaryExpr ::= literal
     |   THIS
     |   LPAR expr RPAR
     |   idExpr
     |   lambdaExpr
     ;
+
+/* lambdaIntroducer NOT IMPLEMENTED */
+/* lambdaDeclaratorOpt NOT IMPLEMENTED */
+/* compoundStatement NOT IMPLEMENTED */
+lambdaExpr ::= lambdaIntroducer lambdaDeclaratorOpt compoundStatement;
 
 /**
  * Literals
