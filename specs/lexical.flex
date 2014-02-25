@@ -84,6 +84,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     "sizeof"                { return symbol(SIZEOF); }
     "using"                 { return symbol(USING); }
     "throw"                 { return symbol(THROW); }
+    "this"                  { return symbol(THIS); }
 
     /* Class Definition */
 

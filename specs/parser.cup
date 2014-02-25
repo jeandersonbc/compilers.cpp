@@ -15,7 +15,7 @@ terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
 terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP, DOTSTAR, ARROWSTAR;
 terminal MINUSOP, PLUSOP, ALIGNOF, AUTOINCRM, AUTODECRM, SIZEOF, LOGNEGATION, BINNEG, TYPEID, TEMPLATE;
-terminal DYNAMICCAST, STATICCAST, CONSTCAST, REINTERPRETCAST;
+terminal DYNAMICCAST, STATICCAST, CONSTCAST, REINTERPRETCAST, THIS;
     
 /**
  * Terminals with types associated
@@ -31,11 +31,11 @@ non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, c
 non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls, enumListOpt;
 non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec, ptrAbstractDeclaratorOpt, castExpr;
 non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration, multExpr;
-non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier, pmExpr;
+non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier, pmExpr, lambdaExpr;
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId, pseudoDestructorName;
 non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList;
 non terminal trailingTypeSpec, classSpec, enumSpec, memberSpecificationOpt, exceptionSpecOpt, bracedInitListOpt;
-non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead;
+non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead, literal;
 non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq, exprListOpt;
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr;
@@ -233,7 +233,6 @@ unaryOp ::= STAR
     |   BINNEG
     ;
 
-/* primaryExpr NOT IMPLEMENTED */
 /* idExpr NOT IMPLEMENTED */
 /* pseudoDestructorName NOT IMPLEMENTED */
 postfixExpr ::= primaryExpr
@@ -258,6 +257,15 @@ postfixExpr ::= primaryExpr
     |   CONSTCAST LT typeId GT LPAR expr RPAR
     |   TYPEID LPAR expr RPAR
     |   TYPEID LPAR typeId RPAR
+    ;
+
+/* lambdaExpr NOT IMPLEMENTED */
+/* literal NOT IMPLEMENTED */
+primaryExpr ::= literal
+    |   THIS
+    |   LPAR expr RPAR
+    |   idExpr
+    |   lambdaExpr
     ;
 
 bracedInitListOpt ::= bracedInitList | ;
