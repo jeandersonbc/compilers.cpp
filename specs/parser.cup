@@ -15,7 +15,7 @@ terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
 terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP, DOTSTAR, ARROWSTAR;
 terminal MINUSOP, PLUSOP, ALIGNOF, AUTOINCRM, AUTODECRM, SIZEOF, LOGNEGATION, BINNEG, TYPEID, TEMPLATE;
-terminal DYNAMICCAST, STATICCAST, CONSTCAST, REINTERPRETCAST, THIS;
+terminal DYNAMICCAST, STATICCAST, CONSTCAST, REINTERPRETCAST, THIS, NULLPTR;
     
 /**
  * Terminals with types associated
@@ -276,7 +276,6 @@ primaryExpr ::= literal
 /* characterLiteral NOT IMPLEMENTED */
 /* floatingLiteral NOT IMPLEMENTED */
 /* stringLiteral NOT IMPLEMENTED */
-/* pointerLiteral NOT IMPLEMENTED */
 /* userDefinedLiteral NOT IMPLEMENTED */
 literal ::= integerLiteral
     |   characterLiteral
@@ -288,6 +287,8 @@ literal ::= integerLiteral
     ;
 
 booleanLiteral ::= TRUE | FALSE;
+
+pointerLiteral ::= NULLPTR;
 
 bracedInitListOpt ::= bracedInitList | ;
 

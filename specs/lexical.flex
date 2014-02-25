@@ -90,6 +90,7 @@ Identifier = [:jletter:][:jletterdigit:]*
 
     "false"                 { return symbol(FALSE); }
     "true"                  { return symbol(TRUE); }
+    "null"                  { return symbol(NULLPTR); }
 
     /* Class Definition */
 
