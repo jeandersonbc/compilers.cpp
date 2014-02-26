@@ -79,8 +79,10 @@ Identifier = [:jletter:][:jletterdigit:]*
     "template"              { return symbol(TEMPLATE); }
     "decltype"              { return symbol(DECLTYPE); }
     "noexcept"              { return symbol(NOEXCEPT); }
+    "default"               { return symbol(DEFAULT); }
     "virtual"               { return symbol(VIRTUAL); }
     "alignas"               { return symbol(ALIGNAS); }
+    "delete"                { return symbol(DELETE); }
     "inline"                { return symbol(INLINE); }
     "typeid"                { return symbol(TYPEID); }
     "sizeof"                { return symbol(SIZEOF); }

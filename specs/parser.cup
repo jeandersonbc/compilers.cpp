@@ -16,7 +16,7 @@ terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA
 terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP, DOTSTAR, ARROWSTAR;
 terminal MINUSOP, PLUSOP, ALIGNOF, AUTOINCRM, AUTODECRM, SIZEOF, LOGNEGATION, BINNEG, TYPEID, TEMPLATE;
 terminal DYNAMICCAST, STATICCAST, CONSTCAST, REINTERPRETCAST, THIS, NULLPTR, VIRTUAL, PRIVATE, PUBLIC;
-terminal PROTECTED, DECLTYPE;
+terminal PROTECTED, DECLTYPE, DEFAULT, DELETE;
     
 /**
  * Terminals with types associated
@@ -46,7 +46,7 @@ non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logi
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr, virtualOpt;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
 non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec, simpleTemplateId, accessSpec, accessSpecOpt;
-non terminal assignmentOperator, templateArgList;
+non terminal assignmentOperator, templateArgList, functionDef, functionBody, declSpecSeqOpt, declarator;
 
 /**
  * Precedences
@@ -72,7 +72,6 @@ declarationSeq ::= declaration
 /**
  * Declaration Types
  */
-/* functionDef NOT IMPLEMENTED */ 
 /* templateDef NOT IMPLEMENTED */ 
 /* explicitInst NOT IMPLEMENTED */ 
 /* explicitSpecialization NOT IMPLEMENTED */ 
@@ -80,7 +79,19 @@ declarationSeq ::= declaration
 /* attributeDecl NOT IMPLEMENTED */ 
 declaration ::= emptyDeclaration
     |   blockDeclaration
+    |   functionDef
     |   namespaceDefinition
+    ;
+
+/**
+ * Function Definition
+ */
+/* functionBody NOT IMPLEMENTED */
+/* declSpecSeqOpt NOT IMPLEMENTED */
+/* declarator NOT IMPLEMENTED */
+functionDef ::= attributeSpecSeqOpt declSpecSeqOpt declarator functionBody
+    |   attributeSpecSeqOpt declSpecSeqOpt declarator ASSIGNMENT DEFAULT SEMICOLON
+    |   attributeSpecSeqOpt declSpecSeqOpt declarator ASSIGNMENT DELETE SEMICOLON
     ;
 
 /**
