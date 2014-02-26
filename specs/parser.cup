@@ -44,10 +44,10 @@ non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclar
 non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList;
 non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq, exprListOpt;
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr;
+non terminal noPtrDeclarator, ctorInitializerOpt, functionTryBlock, ctorInitializer, handlerSeq, handler;
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead, literal;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr;
 non terminal assignmentOperator, templateArgList, functionDef, functionBody, declSpecSeqOpt, declarator;
-non terminal noPtrDeclarator, ctorInitializerOpt, functionTryBlock, ctorInitializer, handlerSeq;
 
 /**
  * Precedences
@@ -99,6 +99,10 @@ functionBody ::= ctorInitializerOpt compoundStatement
     ;
 
 functionTryBlock ::= TRY ctorInitializerOpt compoundStatement handlerSeq;
+
+handlerSeq ::= handler
+    |   handler handlerSeq
+    ;
 
 /* ctorInitializer NOT IMPLEMENTED */
 ctorInitializerOpt ::= ctorInitializer | ;
