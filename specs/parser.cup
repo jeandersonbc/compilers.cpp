@@ -437,7 +437,6 @@ simpleTemplateId ::= IDENTIFIER LT templateArgList GT
     |   IDENTIFIER LT GT
     ;
 
-
 declTypeSpec ::= DECLTYPE LPAR expr RPAR;
 
 attributeSpecSeqOpt ::= attributeSpecSeq | ;
