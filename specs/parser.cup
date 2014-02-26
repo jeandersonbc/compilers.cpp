@@ -46,7 +46,7 @@ non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logi
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr, virtualOpt;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
 non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec, simpleTemplateId, accessSpec, accessSpecOpt;
-non terminal assignmentOperator;
+non terminal assignmentOperator, templateArgList;
 
 /**
  * Precedences
@@ -428,10 +428,15 @@ classOrDeclType ::= COLON COLON nestedNameSpec className
     |   declTypeSpec
     ;
 
-/* simpleTemplateId NOT IMPLEMENTED */
 className ::= IDENTIFIER
     |   simpleTemplateId
     ;
+
+/* templateArgList NOT IMPLEMENTED */
+simpleTemplateId ::= IDENTIFIER LT templateArgList GT
+    |   IDENTIFIER LT GT
+    ;
+
 
 declTypeSpec ::= DECLTYPE LPAR expr RPAR;
 
