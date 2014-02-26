@@ -47,7 +47,7 @@ non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, cond
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead, literal;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr;
 non terminal assignmentOperator, templateArgList, functionDef, functionBody, declSpecSeqOpt, declarator;
-non terminal noPtrDeclarator;
+non terminal noPtrDeclarator, ctorInitializerOpt, functionTryBlock, ctorInitializer;
 
 /**
  * Precedences
@@ -87,12 +87,20 @@ declaration ::= emptyDeclaration
 /**
  * Function Definition
  */
-/* functionBody NOT IMPLEMENTED */
 /* declSpecSeqOpt NOT IMPLEMENTED */
 functionDef ::= attributeSpecSeqOpt declSpecSeqOpt declarator functionBody
     |   attributeSpecSeqOpt declSpecSeqOpt declarator ASSIGNMENT DEFAULT SEMICOLON
     |   attributeSpecSeqOpt declSpecSeqOpt declarator ASSIGNMENT DELETE SEMICOLON
     ;
+
+
+/* functionTryBlock NOT IMPLEMENTED */
+functionBody ::= ctorInitializerOpt compoundStatement
+    |   functionTryBlock
+    ;
+
+/* ctorInitializer NOT IMPLEMENTED */
+ctorInitializerOpt ::= ctorInitializer | ;
 
 /* noPtrDeclarator NOT IMPLEMENTED */
 declarator ::= ptrDeclarator
