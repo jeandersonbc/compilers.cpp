@@ -43,9 +43,9 @@ non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, cond
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr;
 non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt, deleteExpr;
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr, qualifiedId;
-non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr;
+non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr, virtualOpt;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
-non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec, simpleTemplateId;
+non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec, simpleTemplateId, accessSpec, accessSpecOpt;
 
 /**
  * Precedences
@@ -401,19 +401,19 @@ baseSpecList ::= baseSpec dotsOpt
     |   baseSpecList COMMA baseSpec dotsOpt
     ;
 
-/* Original rule yelds "Never Reduced" Warnings */
 baseSpec ::= attributeSpecSeqOpt baseSpec2;
 baseSpec2 ::= baseTypeSpec
-    |   VIRTUAL PROTECTED baseTypeSpec
-    |   VIRTUAL PUBLIC baseTypeSpec
-    |   VIRTUAL PRIVATE baseTypeSpec
-    |   VIRTUAL baseTypeSpec
-    |   PROTECTED VIRTUAL baseTypeSpec
-    |   PUBLIC VIRTUAL baseTypeSpec
-    |   PRIVATE VIRTUAL baseTypeSpec
-    |   PROTECTED baseTypeSpec
-    |   PUBLIC baseTypeSpec
-    |   PRIVATE baseTypeSpec
+    |   VIRTUAL accessSpecOpt baseTypeSpec
+    |   accessSpec virtualOpt baseTypeSpec
+    ;
+
+virtualOpt ::= VIRTUAL | ;
+
+accessSpecOpt ::= accessSpec | ;
+
+accessSpec ::= PUBLIC
+    |   PROTECTED
+    |   PRIVATE
     ;
 
 baseTypeSpec ::= classOrDeclType;
