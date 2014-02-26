@@ -45,7 +45,7 @@ non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQu
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr, qualifiedId;
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
-non terminal accessSpecOpt, accessSpec;
+non terminal baseTypeSpec;
 
 /**
  * Precedences
@@ -402,12 +402,11 @@ baseSpecList ::= baseSpec dotsOpt
 
 /* baseSpec NOT IMPLEMENTED */
 baseSpec ::= attributeSpecSeqOpt baseSpec2;
-baseSpec2 ::= VIRTUAL accessSpecOpt;
-
-accessSpecOpt ::= accessSpec | ;
-accessSpec ::= PRIVATE
-    |   PROTECTED
-    |   PUBLIC
+baseSpec2 ::= baseTypeSpec
+    |   VIRTUAL PROTECTED baseTypeSpec
+    |   VIRTUAL PUBLIC baseTypeSpec
+    |   VIRTUAL PRIVATE baseTypeSpec
+    |   VIRTUAL baseTypeSpec
     ;
 
 attributeSpecSeqOpt ::= attributeSpecSeq | ;
