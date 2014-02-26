@@ -45,7 +45,7 @@ non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQu
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr, qualifiedId;
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
-non terminal baseTypeSpec;
+non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec;
 
 /**
  * Precedences
@@ -401,7 +401,6 @@ baseSpecList ::= baseSpec dotsOpt
     |   baseSpecList COMMA baseSpec dotsOpt
     ;
 
-/* baseTypeSpec NOT IMPLEMENTED */
 /* Original rule yelds "Never Reduced" Warnings */
 baseSpec ::= attributeSpecSeqOpt baseSpec2;
 baseSpec2 ::= baseTypeSpec
@@ -417,6 +416,17 @@ baseSpec2 ::= baseTypeSpec
     |   PRIVATE baseTypeSpec
     ;
 
+baseTypeSpec ::= classOrDeclType;
+
+/* className NOT IMPLEMENTED */
+/* declTypeSpec NOT IMPLEMENTED */
+classOrDeclType ::= COLON COLON nestedNameSpec className
+    |   nestedNameSpec className
+    |   COLON COLON className
+    |   className
+    |   declTypeSpec
+    ;
+ 
 attributeSpecSeqOpt ::= attributeSpecSeq | ;
 
 attributeSpecSeq ::= attributeSpec
