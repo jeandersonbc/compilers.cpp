@@ -95,6 +95,7 @@ functionDef ::= attributeSpecSeqOpt declSpecSeqOpt declarator functionBody
 
 
 /* Original rule causing "Never reduced" Warning */
+/* ctorInitializer NOT IMPLEMENTED */
 functionBody ::= ctorInitializer compoundStatement
     |   compoundStatement
     |   functionTryBlock
