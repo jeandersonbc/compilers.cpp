@@ -15,7 +15,8 @@ terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
 terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP, DOTSTAR, ARROWSTAR;
 terminal MINUSOP, PLUSOP, ALIGNOF, AUTOINCRM, AUTODECRM, SIZEOF, LOGNEGATION, BINNEG, TYPEID, TEMPLATE;
-terminal DYNAMICCAST, STATICCAST, CONSTCAST, REINTERPRETCAST, THIS, NULLPTR;
+terminal DYNAMICCAST, STATICCAST, CONSTCAST, REINTERPRETCAST, THIS, NULLPTR, VIRTUAL, PRIVATE, PUBLIC;
+terminal PROTECTED;
     
 /**
  * Terminals with types associated
@@ -44,6 +45,7 @@ non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQu
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr, qualifiedId;
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
+non terminal accessSpecOpt, accessSpec;
 
 /**
  * Precedences
@@ -400,6 +402,13 @@ baseSpecList ::= baseSpec dotsOpt
 
 /* baseSpec NOT IMPLEMENTED */
 baseSpec ::= attributeSpecSeqOpt baseSpec2;
+baseSpec2 ::= VIRTUAL accessSpecOpt;
+
+accessSpecOpt ::= accessSpec | ;
+accessSpec ::= PRIVATE
+    |   PROTECTED
+    |   PUBLIC
+    ;
 
 attributeSpecSeqOpt ::= attributeSpecSeq | ;
 

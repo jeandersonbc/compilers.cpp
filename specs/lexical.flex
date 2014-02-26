@@ -78,6 +78,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     "namespace"             { return symbol(NAMESPACE); }
     "template"              { return symbol(TEMPLATE); }
     "noexcept"              { return symbol(NOEXCEPT); }
+    "virtual"               { return symbol(VIRTUAL); }
     "alignas"               { return symbol(ALIGNAS); }
     "inline"                { return symbol(INLINE); }
     "typeid"                { return symbol(TYPEID); }
@@ -85,6 +86,12 @@ Identifier = [:jletter:][:jletterdigit:]*
     "using"                 { return symbol(USING); }
     "throw"                 { return symbol(THROW); }
     "this"                  { return symbol(THIS); }
+
+    /* Access modifiers */
+    
+    "protected"             { return symbol(PROTECTED); }
+    "virtual"               { return symbol(VIRTUAL); }
+    "public"                { return symbol(PUBLIC); }
 
     /* Literals */
 
