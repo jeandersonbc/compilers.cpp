@@ -27,25 +27,25 @@ terminal java.lang.Boolean TRUE, FALSE;
 /**
  * Non terminal symbols
  */
-non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt, additiveExpr, unqualifiedId;
+non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt, deleteExpr, ptrDeclarator;
 non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQualifier, nestedNameSpec, pointerLiteral;
+non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt, additiveExpr, unqualifiedId;
 non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr, unaryExpr, booleanLiteral;
-non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls, enumListOpt, stringLiteral;
 non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec, ptrAbstractDeclaratorOpt, castExpr, characterLiteral;
+non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr, virtualOpt;
+non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls, enumListOpt, stringLiteral;
 non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration, multExpr, integerLiteral;
+non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr, qualifiedId;
+non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec, simpleTemplateId, accessSpec, accessSpecOpt;
+non terminal trailingTypeSpec, classSpec, enumSpec, memberSpecificationOpt, exceptionSpecOpt, bracedInitListOpt;
 non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier, pmExpr, lambdaExpr;
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId, pseudoDestructorName;
+non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
 non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList;
-non terminal trailingTypeSpec, classSpec, enumSpec, memberSpecificationOpt, exceptionSpecOpt, bracedInitListOpt;
-non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead, literal;
 non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq, exprListOpt;
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr;
+non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead, literal;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr;
-non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt, deleteExpr, ptrDeclarator;
-non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr, qualifiedId;
-non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr, virtualOpt;
-non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
-non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec, simpleTemplateId, accessSpec, accessSpecOpt;
 non terminal assignmentOperator, templateArgList, functionDef, functionBody, declSpecSeqOpt, declarator;
 non terminal noPtrDeclarator;
 
