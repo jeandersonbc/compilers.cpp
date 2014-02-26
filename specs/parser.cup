@@ -41,12 +41,13 @@ non terminal memberSpecification, classKey, classHead2, classHeadName, baseClaus
 non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq, exprListOpt;
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr;
-non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt, deleteExpr;
+non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt, deleteExpr, ptrDeclarator;
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr, qualifiedId;
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr, virtualOpt;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
 non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec, simpleTemplateId, accessSpec, accessSpecOpt;
 non terminal assignmentOperator, templateArgList, functionDef, functionBody, declSpecSeqOpt, declarator;
+non terminal noPtrDeclarator;
 
 /**
  * Precedences
@@ -88,10 +89,15 @@ declaration ::= emptyDeclaration
  */
 /* functionBody NOT IMPLEMENTED */
 /* declSpecSeqOpt NOT IMPLEMENTED */
-/* declarator NOT IMPLEMENTED */
 functionDef ::= attributeSpecSeqOpt declSpecSeqOpt declarator functionBody
     |   attributeSpecSeqOpt declSpecSeqOpt declarator ASSIGNMENT DEFAULT SEMICOLON
     |   attributeSpecSeqOpt declSpecSeqOpt declarator ASSIGNMENT DELETE SEMICOLON
+    ;
+
+/* ptrDeclarator NOT IMPLEMENTED */
+/* noPtrDeclarator NOT IMPLEMENTED */
+declarator ::= ptrDeclarator
+    |   noPtrDeclarator parametersAndQualifiers trailingReturnType
     ;
 
 /**
