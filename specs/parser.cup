@@ -46,6 +46,7 @@ non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logi
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr, virtualOpt;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
 non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec, simpleTemplateId, accessSpec, accessSpecOpt;
+non terminal assignmentOperator;
 
 /**
  * Precedences
@@ -125,20 +126,22 @@ conditionalExpr ::= logicalOrExpr
 
 assignmentExprOpt ::= assignmentExpr | ;
 
-/* Original rule yelds "Never Reduced" Warnings */
 assignmentExpr ::= conditionalExpr
-    |   logicalOrExpr ASSIGNMENT initializeCls
-    |   logicalOrExpr MULTASSIGN initializeCls
-    |   logicalOrExpr DIVASSIGN initializeCls
-    |   logicalOrExpr MODASSIGN initializeCls
-    |   logicalOrExpr PLUSASSIGN initializeCls
-    |   logicalOrExpr MINUSASSIGN initializeCls
-    |   logicalOrExpr RSHIFTASSIGN initializeCls
-    |   logicalOrExpr LSHIFTASSIGN initializeCls
-    |   logicalOrExpr ANDASSIGN initializeCls
-    |   logicalOrExpr XORASSIGN initializeCls
-    |   logicalOrExpr ORASSIGN initializeCls
+    |   logicalOrExpr assignmentOperator initializeCls
     |   throwExpr
+    ;
+
+assignmentOperator ::= ASSIGNMENT
+    |   MULTASSIGN 
+    |   DIVASSIGN 
+    |   MODASSIGN 
+    |   PLUSASSIGN 
+    |   MINUSASSIGN 
+    |   RSHIFTASSIGN 
+    |   LSHIFTASSIGN 
+    |   ANDASSIGN 
+    |   XORASSIGN 
+    |   ORASSIGN 
     ;
 
 throwExpr ::= THROW assignmentExprOpt;
