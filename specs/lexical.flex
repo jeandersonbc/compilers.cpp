@@ -2,7 +2,7 @@
  * Lexical Specification
  *
  * Contributors:
- *      Jeanderson Barros Canido - http://jeandersonbc.github.io
+ *      Jeanderson Barros Candido - http://jeandersonbc.github.io
  */
 package compiler.generated;
 
