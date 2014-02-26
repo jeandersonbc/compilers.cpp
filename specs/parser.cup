@@ -45,7 +45,7 @@ non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclar
 non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList;
 non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq, exprListOpt;
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr;
-non terminal noPtrDeclarator, ctorInitializerOpt, functionTryBlock, ctorInitializer, handlerSeq, handler;
+non terminal noPtrDeclarator, functionTryBlock, ctorInitializer, handlerSeq, handler;
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead, literal;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr;
 
@@ -95,13 +95,14 @@ functionDef ::= attributeSpecSeqOpt declSpecSeqOpt declarator functionBody
 
 
 /* Original rule causing "Never reduced" Warning */
-/* ctorInitializer NOT IMPLEMENTED */
 functionBody ::= ctorInitializer compoundStatement
     |   compoundStatement
     |   functionTryBlock
     ;
 
-functionTryBlock ::= TRY ctorInitializerOpt compoundStatement handlerSeq;
+functionTryBlock ::= TRY ctorInitializer compoundStatement handlerSeq
+    |   TRY compoundStatement handlerSeq
+    ;
 
 handlerSeq ::= handler
     |   handler handlerSeq
