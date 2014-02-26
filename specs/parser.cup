@@ -94,10 +94,13 @@ functionDef ::= attributeSpecSeqOpt declSpecSeqOpt declarator functionBody
     |   attributeSpecSeqOpt declSpecSeqOpt declarator ASSIGNMENT DELETE SEMICOLON
     ;
 
-/* ptrDeclarator NOT IMPLEMENTED */
 /* noPtrDeclarator NOT IMPLEMENTED */
 declarator ::= ptrDeclarator
     |   noPtrDeclarator parametersAndQualifiers trailingReturnType
+    ;
+
+ptrDeclarator ::= noPtrDeclarator
+    |   ptrOperator ptrDeclarator
     ;
 
 /**
