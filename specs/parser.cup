@@ -72,6 +72,12 @@ declarationSeq ::= declaration
 /**
  * Declaration Types
  */
+/* functionDef NOT IMPLEMENTED */ 
+/* templateDef NOT IMPLEMENTED */ 
+/* explicitInst NOT IMPLEMENTED */ 
+/* explicitSpecialization NOT IMPLEMENTED */ 
+/* linkageSpec NOT IMPLEMENTED */ 
+/* attributeDecl NOT IMPLEMENTED */ 
 declaration ::= emptyDeclaration
     |   blockDeclaration
     |   namespaceDefinition
@@ -80,6 +86,13 @@ declaration ::= emptyDeclaration
 /**
  * Block Declaration
  */
+/* simpleDecl NOT IMPLEMENTED */
+/* asmDef NOT IMPLEMENTED */
+/* namespaceAliasDef NOT IMPLEMENTED */
+/* usingDecl NOT IMPLEMENTED */
+/* usingDirective NOT IMPLEMENTED */
+/* staticAssertDecl NOT IMPLEMENTED */
+/* opaqueEnumDecl NOT IMPLEMENTED */
 blockDeclaration ::= aliasDeclaration;
 
 /**
