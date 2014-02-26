@@ -94,7 +94,10 @@ functionDef ::= attributeSpecSeqOpt declSpecSeqOpt declarator functionBody
     ;
 
 
-functionBody ::= ctorInitializerOpt compoundStatement
+/* Original rule causing "Never reduced" Warning */
+/* ctorInitializer NOT IMPLEMENTED */
+functionBody ::= ctorInitializer compoundStatement
+    |   compoundStatement
     |   functionTryBlock
     ;
 
@@ -109,9 +112,6 @@ handler ::= CATCH LPAR exceptionDecl RPAR compoundStatement;
 exceptionDecl ::= attributeSpecSeqOpt typeSpecSeq declarator
     |   attributeSpecSeqOpt typeSpecSeq abstractDeclaratorOpt
     ;
-
-/* ctorInitializer NOT IMPLEMENTED */
-ctorInitializerOpt ::= ctorInitializer | ;
 
 /* noPtrDeclarator NOT IMPLEMENTED */
 declarator ::= ptrDeclarator
