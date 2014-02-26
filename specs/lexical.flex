@@ -89,6 +89,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     "using"                 { return symbol(USING); }
     "throw"                 { return symbol(THROW); }
     "this"                  { return symbol(THIS); }
+    "try"                   { return symbol(TRY); }
 
     /* Access modifiers */
     

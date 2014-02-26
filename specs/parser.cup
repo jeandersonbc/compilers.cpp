@@ -16,7 +16,7 @@ terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA
 terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP, DOTSTAR, ARROWSTAR;
 terminal MINUSOP, PLUSOP, ALIGNOF, AUTOINCRM, AUTODECRM, SIZEOF, LOGNEGATION, BINNEG, TYPEID, TEMPLATE;
 terminal DYNAMICCAST, STATICCAST, CONSTCAST, REINTERPRETCAST, THIS, NULLPTR, VIRTUAL, PRIVATE, PUBLIC;
-terminal PROTECTED, DECLTYPE, DEFAULT, DELETE;
+terminal PROTECTED, DECLTYPE, DEFAULT, DELETE, TRY;
     
 /**
  * Terminals with types associated
@@ -47,7 +47,7 @@ non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, cond
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead, literal;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr;
 non terminal assignmentOperator, templateArgList, functionDef, functionBody, declSpecSeqOpt, declarator;
-non terminal noPtrDeclarator, ctorInitializerOpt, functionTryBlock, ctorInitializer;
+non terminal noPtrDeclarator, ctorInitializerOpt, functionTryBlock, ctorInitializer, handlerSeq;
 
 /**
  * Precedences
@@ -94,10 +94,11 @@ functionDef ::= attributeSpecSeqOpt declSpecSeqOpt declarator functionBody
     ;
 
 
-/* functionTryBlock NOT IMPLEMENTED */
 functionBody ::= ctorInitializerOpt compoundStatement
     |   functionTryBlock
     ;
+
+functionTryBlock ::= TRY ctorInitializerOpt compoundStatement handlerSeq;
 
 /* ctorInitializer NOT IMPLEMENTED */
 ctorInitializerOpt ::= ctorInitializer | ;
