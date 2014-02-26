@@ -45,7 +45,7 @@ non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQu
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr, qualifiedId;
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
-non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec;
+non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec, simpleTemplateId;
 
 /**
  * Precedences
@@ -418,12 +418,16 @@ baseSpec2 ::= baseTypeSpec
 
 baseTypeSpec ::= classOrDeclType;
 
-/* className NOT IMPLEMENTED */
 classOrDeclType ::= COLON COLON nestedNameSpec className
     |   nestedNameSpec className
     |   COLON COLON className
     |   className
     |   declTypeSpec
+    ;
+
+/* simpleTemplateId NOT IMPLEMENTED */
+className ::= IDENTIFIER
+    |   simpleTemplateId
     ;
 
 declTypeSpec ::= DECLTYPE LPAR expr RPAR;
