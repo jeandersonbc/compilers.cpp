@@ -125,6 +125,7 @@ conditionalExpr ::= logicalOrExpr
 
 assignmentExprOpt ::= assignmentExpr | ;
 
+/* Original rule yelds "Never Reduced" Warnings */
 assignmentExpr ::= conditionalExpr
     |   logicalOrExpr ASSIGNMENT initializeCls
     |   logicalOrExpr MULTASSIGN initializeCls
@@ -400,13 +401,20 @@ baseSpecList ::= baseSpec dotsOpt
     |   baseSpecList COMMA baseSpec dotsOpt
     ;
 
-/* baseSpec NOT IMPLEMENTED */
+/* baseTypeSpec NOT IMPLEMENTED */
+/* Original rule yelds "Never Reduced" Warnings */
 baseSpec ::= attributeSpecSeqOpt baseSpec2;
 baseSpec2 ::= baseTypeSpec
     |   VIRTUAL PROTECTED baseTypeSpec
     |   VIRTUAL PUBLIC baseTypeSpec
     |   VIRTUAL PRIVATE baseTypeSpec
     |   VIRTUAL baseTypeSpec
+    |   PROTECTED VIRTUAL baseTypeSpec
+    |   PUBLIC VIRTUAL baseTypeSpec
+    |   PRIVATE VIRTUAL baseTypeSpec
+    |   PROTECTED baseTypeSpec
+    |   PUBLIC baseTypeSpec
+    |   PRIVATE baseTypeSpec
     ;
 
 attributeSpecSeqOpt ::= attributeSpecSeq | ;
