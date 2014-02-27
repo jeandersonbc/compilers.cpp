@@ -74,8 +74,6 @@ declarationSeq ::= declaration
 /**
  * Declaration Types
  */
-/* explicitInst NOT IMPLEMENTED */ 
-/* explicitSpecialization NOT IMPLEMENTED */ 
 /* linkageSpec NOT IMPLEMENTED */ 
 /* attributeDecl NOT IMPLEMENTED */ 
 declaration ::= emptyDeclaration
@@ -87,6 +85,13 @@ declaration ::= emptyDeclaration
     |   linkageSpec
     |   namespaceDefinition
     |   attributeDecl
+    ;
+
+/**
+ * Linkage Specification
+ */
+linkageSpec ::= EXTERN stringLiteral LBRK declSpecSeqOpt RBRK
+    |   EXTERN stringLiteral declaration
     ;
 
 /**
