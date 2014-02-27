@@ -72,6 +72,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     /* Keywords */
 
     "reinterpret_cast"      { return symbol(REINTERPRETCAST); }
+    "static_assert"         { return symbol(STATIC_ASSERT); }
     "dynamic_cast"          { return symbol(DYNAMICCAST); }
     "static_cast"           { return symbol(STATICCAST); }
     "const_cast"            { return symbol(CONSTCAST); }
