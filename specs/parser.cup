@@ -30,6 +30,7 @@ terminal java.lang.Boolean TRUE, FALSE;
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr, attributeOpt;
 non terminal namespaceAliasDef, usingDirective, staticAssertDecl, opaqueEnumDecl, initDeclaratorListOpt, balancedToken;
 non terminal assignmentOperator, templateArgList, functionDef, functionBody, declSpecSeqOpt, declarator, exceptionDecl;
+non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList, templateArg;
 non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt, deleteExpr, ptrDeclarator;
 non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQualifier, nestedNameSpec, pointerLiteral;
 non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt, additiveExpr, unqualifiedId;
@@ -50,7 +51,6 @@ non terminal explicitInst, explicitSpecialization, attributeDecl, templateParamL
 non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier, pmExpr, lambdaExpr;
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId, pseudoDestructorName;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
-non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList;
 
 /**
  * Precedences
@@ -532,9 +532,22 @@ className ::= IDENTIFIER
     |   simpleTemplateId
     ;
 
-/* templateArgList NOT IMPLEMENTED */
 simpleTemplateId ::= IDENTIFIER LT templateArgList GT
     |   IDENTIFIER LT GT
+    ;
+
+templateArgList ::= templateArg DOTS
+    |   templateArg
+    |   templateArgList COMMA templateArg DOTS
+    |   templateArgList COMMA templateArg
+    ;
+
+/*
+   templateArg NOT IMPLEMENTED completely
+   due to Shift/Reduce conflict
+*/
+templateArg ::= typeId
+    | idExpr
     ;
 
 declTypeSpec ::= DECLTYPE LPAR expr RPAR;
