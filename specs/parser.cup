@@ -11,7 +11,7 @@ package compiler.generated;
  */
 terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK, ORASSIGN, GTE, EXTERN, ASM;
 terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN, LT, GT, STATIC_ASSERT;
-terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN, LSHIFTASSIGN, LTE, DOT;
+terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN, LSHIFTASSIGN, LTE, DOT, TYPENAME;
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
 terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP, DOTSTAR, ARROWSTAR;
 terminal MINUSOP, PLUSOP, ALIGNOF, AUTOINCRM, AUTODECRM, SIZEOF, LOGNEGATION, BINNEG, TYPEID, TEMPLATE;
@@ -51,6 +51,7 @@ non terminal explicitInst, explicitSpecialization, attributeDecl, templateParamL
 non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier, pmExpr, lambdaExpr;
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId, pseudoDestructorName;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
+non terminal identifierOpt;
 
 /**
  * Precedences
@@ -116,10 +117,22 @@ explicitSpecialization ::= TEMPLATE LT GT declaration;
  */
 templateDecl ::= TEMPLATE LT templateParamList GT declaration;
 
-/* templateParam NOT IMPLEMENTED */ 
 templateParamList ::= templateParam
     |   templateParamList COMMA templateParam
     ;
+
+templateParam ::= CLASS DOTS identifierOpt
+    |   CLASS identifierOpt
+    |   CLASS identifierOpt ASSIGNMENT typeId
+    |   TYPENAME DOTS identifierOpt
+    |   TYPENAME identifierOpt
+    |   TYPENAME identifierOpt ASSIGNMENT typeId
+    |   TEMPLATE LT templateParamList GT CLASS DOTS identifierOpt
+    |   TEMPLATE LT templateParamList GT CLASS identifierOpt
+    |   TEMPLATE LT templateParamList GT CLASS identifierOpt ASSIGNMENT idExpr
+    ;
+
+identifierOpt ::= IDENTIFIER | ;
 
 /**
  * Function Definition

@@ -77,6 +77,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     "static_cast"           { return symbol(STATICCAST); }
     "const_cast"            { return symbol(CONSTCAST); }
     "namespace"             { return symbol(NAMESPACE); }
+    "typename"              { return symbol(TYPENAME); }
     "template"              { return symbol(TEMPLATE); }
     "decltype"              { return symbol(DECLTYPE); }
     "noexcept"              { return symbol(NOEXCEPT); }
