@@ -74,8 +74,6 @@ declarationSeq ::= declaration
 /**
  * Declaration Types
  */
-/* linkageSpec NOT IMPLEMENTED */ 
-/* attributeDecl NOT IMPLEMENTED */ 
 declaration ::= emptyDeclaration
     |   blockDeclaration
     |   functionDef
@@ -86,6 +84,11 @@ declaration ::= emptyDeclaration
     |   namespaceDefinition
     |   attributeDecl
     ;
+
+/**
+ * Attribute Declaration
+ */
+attributeDecl ::= attributeSpecSeq SEMICOLON;
 
 /**
  * Linkage Specification
