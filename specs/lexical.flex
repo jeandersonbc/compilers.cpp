@@ -92,6 +92,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     "catch"                 { return symbol(CATCH); }
     "this"                  { return symbol(THIS); }
     "try"                   { return symbol(TRY); }
+    "asm"                   { return symbol(ASM); }
 
     /* Access modifiers */
     

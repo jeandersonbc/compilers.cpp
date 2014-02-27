@@ -9,7 +9,7 @@ package compiler.generated;
 /**
  * Terminals without associated type
  */
-terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK, ORASSIGN, GTE, EXTERN;
+terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK, ORASSIGN, GTE, EXTERN, ASM;
 terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN, LSHIFTASSIGN, LTE, DOT;
 terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN, LT, GT;
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
@@ -49,7 +49,7 @@ non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclar
 non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList;
 non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq, exprListOpt;
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr;
-non terminal namespaceAliasDef, usingDirective, staticAssertDecl, opaqueEnumDecl;
+non terminal namespaceAliasDef, usingDirective, staticAssertDecl, opaqueEnumDecl, initDeclaratorListOpt;
 
 /**
  * Precedences
@@ -163,8 +163,6 @@ ptrDeclarator ::= noPtrDeclarator
 /**
  * Block Declaration
  */
-/* simpleDecl NOT IMPLEMENTED */
-/* asmDef NOT IMPLEMENTED */
 /* namespaceAliasDef NOT IMPLEMENTED */
 /* usingDecl NOT IMPLEMENTED */
 /* usingDirective NOT IMPLEMENTED */
@@ -180,9 +178,11 @@ blockDeclaration ::= simpleDecl
     |   opaqueEnumDecl
     ;
 
-/**
- * Alias Declaration
- */
+asmDef ::= ASM LPAR stringLiteral RPAR SEMICOLON;
+
+/** initDeclaratorListOpt NOT IMPLEMENTED */
+simpleDecl ::= attributeSpecSeqOpt declSpecSeqOpt initDeclaratorListOpt SEMICOLON;
+
 aliasDeclaration ::= USING IDENTIFIER ASSIGNMENT typeId SEMICOLON;
 
 typeId ::= typeSpecSeq abstractDeclaratorOpt;
