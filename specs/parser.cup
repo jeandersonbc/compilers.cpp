@@ -33,22 +33,23 @@ non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQuali
 non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt, additiveExpr, unqualifiedId;
 non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr, unaryExpr, booleanLiteral;
 non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec, ptrAbstractDeclaratorOpt, castExpr, characterLiteral;
+non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead, literal, usingDecl;
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr, virtualOpt;
 non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls, enumListOpt, stringLiteral;
 non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration, multExpr, integerLiteral;
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr, qualifiedId;
 non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec, simpleTemplateId, accessSpec, accessSpecOpt;
 non terminal trailingTypeSpec, classSpec, enumSpec, memberSpecificationOpt, exceptionSpecOpt, bracedInitListOpt;
+non terminal noPtrDeclarator, functionTryBlock, ctorInitializer, handlerSeq, handler, templateDecl, linkageSpec;
+non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr, asmDef;
+non terminal explicitInst, explicitSpecialization, attributeDecl, templateParamList, templateParam, simpleDecl;
 non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier, pmExpr, lambdaExpr;
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId, pseudoDestructorName;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
 non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList;
 non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq, exprListOpt;
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr;
-non terminal noPtrDeclarator, functionTryBlock, ctorInitializer, handlerSeq, handler, templateDecl, linkageSpec;
-non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead, literal;
-non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr;
-non terminal explicitInst, explicitSpecialization, attributeDecl, templateParamList, templateParam;
+non terminal namespaceAliasDef, usingDirective, staticAssertDecl, opaqueEnumDecl;
 
 /**
  * Precedences
@@ -169,7 +170,15 @@ ptrDeclarator ::= noPtrDeclarator
 /* usingDirective NOT IMPLEMENTED */
 /* staticAssertDecl NOT IMPLEMENTED */
 /* opaqueEnumDecl NOT IMPLEMENTED */
-blockDeclaration ::= aliasDeclaration;
+blockDeclaration ::= simpleDecl
+    |   asmDef
+    |   namespaceAliasDef
+    |   usingDecl
+    |   usingDirective
+    |   staticAssertDecl
+    |   aliasDeclaration
+    |   opaqueEnumDecl
+    ;
 
 /**
  * Alias Declaration
