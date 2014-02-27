@@ -45,9 +45,10 @@ non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclar
 non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList;
 non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq, exprListOpt;
 non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr;
-non terminal noPtrDeclarator, functionTryBlock, ctorInitializer, handlerSeq, handler;
+non terminal noPtrDeclarator, functionTryBlock, ctorInitializer, handlerSeq, handler, templateDecl, linkageSpec;
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead, literal;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr;
+non terminal explicitInst, explicitSpecialization, attributeDecl, templateParamList, templateParam;
 
 /**
  * Precedences
@@ -73,7 +74,6 @@ declarationSeq ::= declaration
 /**
  * Declaration Types
  */
-/* templateDef NOT IMPLEMENTED */ 
 /* explicitInst NOT IMPLEMENTED */ 
 /* explicitSpecialization NOT IMPLEMENTED */ 
 /* linkageSpec NOT IMPLEMENTED */ 
@@ -81,7 +81,22 @@ declarationSeq ::= declaration
 declaration ::= emptyDeclaration
     |   blockDeclaration
     |   functionDef
+    |   templateDecl 
+    |   explicitInst
+    |   explicitSpecialization
+    |   linkageSpec
     |   namespaceDefinition
+    |   attributeDecl
+    ;
+
+/**
+ * Template declaration
+ */
+templateDecl ::= TEMPLATE LT templateParamList GT declaration;
+
+/* templateParam NOT IMPLEMENTED */ 
+templateParamList ::= templateParam
+    |   templateParamList COMMA templateParam
     ;
 
 /**
