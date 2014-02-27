@@ -27,18 +27,22 @@ terminal java.lang.Boolean TRUE, FALSE;
 /**
  * Non terminal symbols
  */
+non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr, attributeOpt;
+non terminal namespaceAliasDef, usingDirective, staticAssertDecl, opaqueEnumDecl, initDeclaratorListOpt, balancedToken;
 non terminal assignmentOperator, templateArgList, functionDef, functionBody, declSpecSeqOpt, declarator, exceptionDecl;
 non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt, deleteExpr, ptrDeclarator;
 non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQualifier, nestedNameSpec, pointerLiteral;
 non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt, additiveExpr, unqualifiedId;
 non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr, unaryExpr, booleanLiteral;
 non terminal simpleTypeSpec, elaboratedTypeSpec, typenameSpec, ptrAbstractDeclaratorOpt, castExpr, characterLiteral;
+non terminal attributeToken, attributeArgClsOpt, attributeArgCls, attributeScopedToken, balancedTokenSeq, attribute;
 non terminal memberSpecification, classKey, classHead2, classHeadName, baseClauseOpt, enumHead, literal, usingDecl;
 non terminal bracedInitList, commaOpt, initializeList, assignmentExprOpt, postfixExpr, unaryOp, idExpr, virtualOpt;
 non terminal typeSpecSeq2, attributeSpecSeqOpt, attributeSpecSeq, paramDeclarationCls, enumListOpt, stringLiteral;
 non terminal translationUnit, blockDeclaration, originalNamespaceDef, aliasDeclaration, multExpr, integerLiteral;
 non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logicalAndExpr, newExpr, qualifiedId;
 non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec, simpleTemplateId, accessSpec, accessSpecOpt;
+non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq, exprListOpt, token;
 non terminal trailingTypeSpec, classSpec, enumSpec, memberSpecificationOpt, exceptionSpecOpt, bracedInitListOpt;
 non terminal noPtrDeclarator, functionTryBlock, ctorInitializer, handlerSeq, handler, templateDecl, linkageSpec;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr, asmDef;
@@ -47,10 +51,6 @@ non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQu
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId, pseudoDestructorName;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
 non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList;
-non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq, exprListOpt;
-non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr, attributeOpt;
-non terminal namespaceAliasDef, usingDirective, staticAssertDecl, opaqueEnumDecl, initDeclaratorListOpt, balancedToken;
-non terminal attributeToken, attributeArgClsOpt, attributeArgCls, attributeScopedToken, balancedTokenSeq, attribute;
 
 /**
  * Precedences
@@ -569,11 +569,16 @@ attributeScopedToken ::= IDENTIFIER COLON COLON IDENTIFIER;
 
 attributeArgCls ::= LPAR balancedTokenSeq RPAR;
 
-/* balancedToken NOT IMPLEMENTED */
 balancedTokenSeq ::= balancedToken
     |   balancedTokenSeq balancedToken
     ;
 
+/* token NOT IMPLEMENTED */
+balancedToken ::= LPAR balancedTokenSeq RPAR
+    |   LSQRBRK balancedTokenSeq RSQRBRK
+    |   LBRK balancedTokenSeq RBRK
+    |   token
+    ;
 
 /* ISSUE #2 - rule "alignment-expression" not defined in the grammar ref */
 alignmentSpec ::= ALIGNAS LPAR typeId dotsOpt RPAR;
