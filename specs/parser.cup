@@ -48,8 +48,9 @@ non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, t
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
 non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList;
 non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq, exprListOpt;
-non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr;
-non terminal namespaceAliasDef, usingDirective, staticAssertDecl, opaqueEnumDecl, initDeclaratorListOpt;
+non terminal dynamicExceptionSpec, noExceptSpec, typeIdListOpt, typeIdList, conditionalExpr, primaryExpr, attributeOpt;
+non terminal namespaceAliasDef, usingDirective, staticAssertDecl, opaqueEnumDecl, initDeclaratorListOpt, balancedToken;
+non terminal attributeToken, attributeArgClsOpt, attributeArgCls, attributeScopedToken, balancedTokenSeq, attribute;
 
 /**
  * Precedences
@@ -544,10 +545,35 @@ attributeSpecSeq ::= attributeSpec
     |   attributeSpecSeq attributeSpec
     ;
 
-/* attributeList NOT IMPLEMENTED */
 attributeSpec ::= LSQRBRK LSQRBRK attributeList RSQRBRK RSQRBRK
     |   alignmentSpec
     ;
+
+attributeList ::= attribute DOTS
+    |   attributeList COMMA attribute DOTS
+    |   attributeOpt
+    |   attributeList COMMA attributeOpt
+    ;
+
+attributeOpt ::= attribute | ;
+
+attribute ::= attributeToken attributeArgClsOpt;
+
+attributeArgClsOpt ::= attributeArgCls | ;
+
+attributeToken ::= IDENTIFIER
+    |   attributeScopedToken
+    ;
+
+attributeScopedToken ::= IDENTIFIER COLON COLON IDENTIFIER;
+
+attributeArgCls ::= LPAR balancedTokenSeq RPAR;
+
+/* balancedToken NOT IMPLEMENTED */
+balancedTokenSeq ::= balancedToken
+    |   balancedTokenSeq balancedToken
+    ;
+
 
 /* ISSUE #2 - rule "alignment-expression" not defined in the grammar ref */
 alignmentSpec ::= ALIGNAS LPAR typeId dotsOpt RPAR;
