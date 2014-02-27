@@ -50,8 +50,8 @@ non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exce
 non terminal explicitInst, explicitSpecialization, attributeDecl, templateParamList, templateParam, simpleDecl;
 non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier, pmExpr, lambdaExpr;
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId, pseudoDestructorName;
-non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement;
-non terminal identifierOpt;
+non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement, declSpec;
+non terminal identifierOpt, declSpecSeq;
 
 /**
  * Precedences
@@ -137,12 +137,17 @@ identifierOpt ::= IDENTIFIER | ;
 /**
  * Function Definition
  */
-/* declSpecSeqOpt NOT IMPLEMENTED */
 functionDef ::= attributeSpecSeqOpt declSpecSeqOpt declarator functionBody
     |   attributeSpecSeqOpt declSpecSeqOpt declarator ASSIGNMENT DEFAULT SEMICOLON
     |   attributeSpecSeqOpt declSpecSeqOpt declarator ASSIGNMENT DELETE SEMICOLON
     ;
 
+declSpecSeqOpt ::= declSpecSeq | ;
+
+/** declSpec NOT IMPLEMENTED */
+declSpecSeq ::= declSpec attributeSpecSeqOpt
+    |   declSpec declSpecSeq
+    ;
 
 /* Original rule causing "Never reduced" Warning */
 /* ctorInitializer NOT IMPLEMENTED */
