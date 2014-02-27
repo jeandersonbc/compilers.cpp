@@ -82,6 +82,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     "default"               { return symbol(DEFAULT); }
     "virtual"               { return symbol(VIRTUAL); }
     "alignas"               { return symbol(ALIGNAS); }
+    "extern"                { return symbol(EXTERN); }
     "delete"                { return symbol(DELETE); }
     "inline"                { return symbol(INLINE); }
     "typeid"                { return symbol(TYPEID); }

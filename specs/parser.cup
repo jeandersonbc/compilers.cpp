@@ -9,7 +9,7 @@ package compiler.generated;
 /**
  * Terminals without associated type
  */
-terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK, ORASSIGN, GTE;
+terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK, ORASSIGN, GTE, EXTERN;
 terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN, LSHIFTASSIGN, LTE, DOT;
 terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN, LT, GT;
 terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
@@ -88,6 +88,18 @@ declaration ::= emptyDeclaration
     |   namespaceDefinition
     |   attributeDecl
     ;
+
+/**
+ * Explict Instantiation
+ */
+explicitInst ::= EXTERN TEMPLATE declaration
+    |   TEMPLATE declaration
+    ;
+
+/**
+ * Explict Specialization
+ */
+explicitSpecialization ::= TEMPLATE LT GT declaration;
 
 /**
  * Template declaration
