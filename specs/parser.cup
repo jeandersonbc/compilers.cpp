@@ -3,6 +3,7 @@
  *
  * Contributors:
  *      Jeanderson Barros Candido - http://jeandersonbc.github.io
+ *      Thiago Ferreira Patricio - http://github.com/tferreirap
  */
 package compiler.generated;
 
@@ -52,6 +53,9 @@ non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQu
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId, pseudoDestructorName;
 non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement, declSpec;
 non terminal identifierOpt, declSpecSeq;
+non terminal operatorFunctionId, conversionFunctionId, literalOperatorId, templateId, unqualifiedId2, enumKey;
+non terminal enumBaseOpt, nestedNameSpecOpt, namespaceName, originalNamespaceName, qualifiedNamespaceSpec, typenameOpt;
+non terminal identifierRule, sepptrOpt;
 
 /**
  * Precedences
@@ -182,10 +186,7 @@ ptrDeclarator ::= noPtrDeclarator
 /**
  * Block Declaration
  */
-/* namespaceAliasDef NOT IMPLEMENTED */
-/* usingDecl NOT IMPLEMENTED */
-/* usingDirective NOT IMPLEMENTED */
-/* opaqueEnumDecl NOT IMPLEMENTED */
+
 blockDeclaration ::= simpleDecl
     |   asmDef
     |   namespaceAliasDef
@@ -195,6 +196,23 @@ blockDeclaration ::= simpleDecl
     |   aliasDeclaration
     |   opaqueEnumDecl
     ;
+
+/* enumKey NOT IMPLEMENTED */
+/* enumBaseOpt NOT IMPLEMENTED */
+opaqueEnumDecl ::= enumKey attributeSpecSeqOpt identifierRule enumBaseOpt;
+
+usingDecl ::= USING typenameOpt sepptrOpt nestedNameSpec unqualifiedId
+    |   USING SEPPTR  unqualifiedId
+    ;
+
+typenameOpt ::= TYPENAME | ;
+
+/* namespaceName NOT IMPLEMENTED */
+usingDirective ::= attributeSpecSeqOpt USING NAMESPACE sepptrOpt nestedNameSpecOpt namespaceName;
+
+sepptrOpt ::= SEPPTR | ;
+
+nestedNameSpecOpt ::= nestedNameSpec | ;
 
 staticAssertDecl ::= STATIC_ASSERT LPAR constExpr COMMA stringLiteral RPAR SEMICOLON;
 
@@ -384,6 +402,7 @@ postfixExpr ::= primaryExpr
     |   TYPEID LPAR typeId RPAR
     ;
 
+
 /* unqualifiedId NOT IMPLEMENTED */
 /* qualifiedId NOT IMPLEMENTED */
 idExpr ::= unqualifiedId
@@ -560,6 +579,22 @@ templateArgList ::= templateArg DOTS
     |   templateArgList COMMA templateArg
     ;
 
+/* operatorFunctionId NOT IMPLEMENTED */
+/* conversionFunctionId NOT IMPLEMENTED */
+/* templateId NOT IMPLEMENTED */
+unqualifiedId ::= IDENTIFIER
+    |   operatorFunctionId
+    |   conversionFunctionId
+    |   literalOperatorId
+    |   BINNEG unqualifiedId2
+    |   templateId
+    ;
+
+/* NOT FULLY IMPLEMENTED due to shift/reduce */
+/* className missing */
+unqualifiedId2 ::= declTypeSpec
+    ;
+
 /*
    templateArg NOT IMPLEMENTED completely
    due to Shift/Reduce conflict
@@ -629,6 +664,9 @@ namespaceDefinition2 ::= unnamedNamespaceDef
 
 unnamedNamespaceDef ::= LBRK declarationSeqOpt RBRK;
 originalNamespaceDef ::= IDENTIFIER LBRK declarationSeqOpt RBRK;
+
+/* qualifiedNamespaceSpec NOT IMPLEMENTED */
+namespaceAliasDef ::= NAMESPACE identifierRule ASSIGNMENT qualifiedNamespaceSpec;
 
 inlineOpt ::= INLINE | ;
 dotsOpt ::= DOTS | ;

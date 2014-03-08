@@ -6,7 +6,7 @@ Date:
 
 Authors:
     Jeanderson Candido - http://jeandersonbc.github.io
-    Thiago Ferreira
+    Thiago Ferreira    - https://github.com/tferreirap
 
 -->
 <project name="CompilerProject" basedir="." default="jar">
@@ -59,8 +59,26 @@ Authors:
     <jar destfile="${jar.dist}" basedir="${bin}">
       <manifest>
         <attribute name="Main-Class" value="${main.class}"/>
+        <attribute name="Class-Path" value="${cup_runtime}" />
       </manifest>
     </jar>
+    
+    <copy todir="${dist}">
+       <fileset dir="${libs}" includes="**/**.jar"/>
+    </copy>  
   </target>
 
 </project>
+
+
+
+
+
+
+
+
+
+
+
+
+
