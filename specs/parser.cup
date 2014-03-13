@@ -5,7 +5,42 @@
  *      Jeanderson Barros Candido - http://jeandersonbc.github.io
  *      Thiago Ferreira Patricio - http://github.com/tferreirap
  */
+
 package compiler.generated;
+
+
+parser code {:
+    
+    public void report_error(String message, Object info) {
+   
+        StringBuffer m = new StringBuffer("Error");
+   
+        if (info instanceof java_cup.runtime.Symbol) {
+            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+            if (s.left >= 0) {
+                /* Add to the end of the StringBuffer error message
+                   the line number of the error in the input. */
+                m.append(" in line "+(s.left+1));   
+                /* Check if the column number in the input is greater
+                   or equal to zero. */
+                if (s.right >= 0)                    
+                    /* Add to the end of the StringBuffer error message
+                       the column number of the error in the input. */
+                    m.append(", column "+(s.right+1));
+            }
+        }
+   
+
+        m.append(" : "+message);
+        System.err.println(m);
+    }
+
+    public void report_fatal_error(String message, Object info) {
+        report_error(message, info);
+        System.exit(1);
+    }
+:};
+
 
 /**
  * Terminals without associated type
@@ -13,16 +48,20 @@ package compiler.generated;
 terminal SEMICOLON, NAMESPACE, INLINE, LBRK, RBRK, USING, ASSIGNMENT, LSQRBRK, RSQRBRK, ORASSIGN, GTE, EXTERN, ASM;
 terminal ARROW, CONST, VOLATILE, SINGLEAND, DOUBLEAND, NOEXCEPT, THROW, QUESTION, ANDASSIGN, LT, GT, STATIC_ASSERT;
 terminal MULTASSIGN, DIVASSIGN, MODASSIGN, PLUSASSIGN, MINUSASSIGN, RSHIFTASSIGN, LSHIFTASSIGN, LTE, DOT, TYPENAME;
-terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT;
-terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP, DOTSTAR, ARROWSTAR;
-terminal MINUSOP, PLUSOP, ALIGNOF, AUTOINCRM, AUTODECRM, SIZEOF, LOGNEGATION, BINNEG, TYPEID, TEMPLATE;
+terminal LPAR, RPAR, ALIGNAS, DOTS, CLASS, STRUCT, UNION, FINAL, EXPLICIT, COMMA, COLON, NEQOP, LSHIFT, CONSTEXPR;
+terminal XORASSIGN, STAR, SEPPTR, OROP, SOROP, XOROP, EQOP, RSHIFT, DIVOP, MODOP, DOTSTAR, ARROWSTAR, FRIEND;
+terminal MINUSOP, PLUSOP, ALIGNOF, AUTOINCRM, AUTODECRM, SIZEOF, LOGNEGATION, BINNEG, TYPEID, TEMPLATE, TYPEDEF;
 terminal DYNAMICCAST, STATICCAST, CONSTCAST, REINTERPRETCAST, THIS, NULLPTR, VIRTUAL, PRIVATE, PUBLIC;
-terminal PROTECTED, DECLTYPE, DEFAULT, DELETE, TRY, CATCH;
+terminal PROTECTED, DECLTYPE, DEFAULT, DELETE, TRY, CATCH, INTEGER;
+
+terminal AUTO, BREAK, CASE, CHAR, CONTINUE, DO, DOUBLE, ELSE, ENUM, FLOAT, FOR, GOTO, IF, INT, BOOL,
+LONG, REGISTER, RETURN, SHORT, SIGNED, STATIC, SWITCH, UNSIGNED, VOID, WHILE, OPERATOR, NEW ;
     
 /**
- * Terminals with types associated
+ * Terminals with types associated  terminal java.lang.String IDENTIFIER;
  */
-terminal java.lang.String IDENTIFIER;
+
+terminal IDENTIFIER;
 terminal java.lang.Boolean TRUE, FALSE;
 
 /**
@@ -33,6 +72,7 @@ non terminal namespaceAliasDef, usingDirective, staticAssertDecl, opaqueEnumDecl
 non terminal assignmentOperator, templateArgList, functionDef, functionBody, declSpecSeqOpt, declarator, exceptionDecl;
 non terminal inclusiveOrExpr, exclusiveOrExpr, andExpr, equalityExpr, relationalExpr, shiftExpr, enumList, templateArg;
 non terminal classVirtSpecSeqOpt, classVirtSpecSeq, baseClause, baseSpec2, refQualifierOpt, deleteExpr, ptrDeclarator;
+non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement, declSpec;
 non terminal trailingReturnType, trailingTypeSpecSeq, cvQualifierSeqOpt, cvQualifier, nestedNameSpec, pointerLiteral;
 non terminal namespaceDefinition, namespaceDefinition2, unnamedNamespaceDef, inlineOpt, additiveExpr, unqualifiedId;
 non terminal typeSpecSeq, abstractDeclaratorOpt, abstractDeclarator, typeSpec, constExpr, unaryExpr, booleanLiteral;
@@ -46,21 +86,28 @@ non terminal logicalOrExpr, expr, assignmentExpr, initializeCls, throwExpr, logi
 non terminal baseTypeSpec, classOrDeclType, className, declTypeSpec, simpleTemplateId, accessSpec, accessSpecOpt;
 non terminal attributeSpec, attributeList, alignmentSpec, dotsOpt, classHead, cvQualifierSeq, exprListOpt, token;
 non terminal trailingTypeSpec, classSpec, enumSpec, memberSpecificationOpt, exceptionSpecOpt, bracedInitListOpt;
-non terminal noPtrDeclarator, functionTryBlock, ctorInitializer, handlerSeq, handler, templateDecl, linkageSpec;
+non terminal noPtrDeclarator, functionTryBlock, handlerSeq, handler, templateDecl, linkageSpec, memInitializerId;
 non terminal noPtrAbstractDeclarator, ptrOperator, parametersAndQualifiers, exceptionSpec, noexceptExpr, asmDef;
 non terminal explicitInst, explicitSpecialization, attributeDecl, templateParamList, templateParam, simpleDecl;
 non terminal classVirtSpec, baseSpecList, baseSpec, ptrAbstractDeclarator, refQualifier, pmExpr, lambdaExpr;
+
 non terminal declarationSeqOpt, declarationSeq, declaration, emptyDeclaration, typeId, pseudoDestructorName;
-non terminal userDefinedLiteral, floatingLiteral, lambdaIntroducer, lambdaDeclaratorOpt, compoundStatement, declSpec;
-non terminal identifierOpt, declSpecSeq;
-non terminal operatorFunctionId, conversionFunctionId, literalOperatorId, templateId, unqualifiedId2, enumKey;
-non terminal enumBaseOpt, nestedNameSpecOpt, namespaceName, originalNamespaceName, qualifiedNamespaceSpec, typenameOpt;
-non terminal identifierRule, sepptrOpt;
+non terminal identifierOpt, declSpecSeq, memInitializerList, memInitializer, declaratorId, storageClassSpec;
+non terminal functionSpec, sepptrOpt, typeName, nestedNameSpecOpt, namespaceName, enumName, templateArgListOpt;
+non terminal typedefName, templateOpt, ctorInitializerOpt, paramDeclarationListOpt, paramDeclarationList, paramDeclaration;
+non terminal statementSeqOpt, statementSeq, statement, exprStatement, selectionStatement, iterationStatement;
+non terminal jumpStatement, tryBlock, labeledStatement, declStatement, exprOpt, overloadableOperator, operatorFunctionId;
+non terminal conversionFunctionId, conversionTypeId, conversionDeclaratorOpt, conversionDeclarator, condition, conditionOpt;
+non terminal initDeclaratorList, initDeclarator, initializerOpt, initializer, braceOrEqualInitializer, forInitStatement;
+non terminal forStatement, forRangeInitializer, forRangeDeclaration;
+
+non terminal decimal_Literal, integerSuffix;
+
 
 /**
  * Precedences
  */
-precedence nonassoc DOTS, LPAR;
+precedence nonassoc DOTS, LPAR, LSQRBRK;
 
 /**
  * The Grammar Specification
@@ -81,16 +128,19 @@ declarationSeq ::= declaration
 /**
  * Declaration Types
  */
-declaration ::= emptyDeclaration
-    |   blockDeclaration
+/* declaration ::= functionDef; */
+
+declaration ::= blockDeclaration
     |   functionDef
     |   templateDecl 
     |   explicitInst
     |   explicitSpecialization
     |   linkageSpec
     |   namespaceDefinition
+    |   emptyDeclaration
     |   attributeDecl
     ;
+
 
 /**
  * Attribute Declaration
@@ -141,27 +191,107 @@ identifierOpt ::= IDENTIFIER | ;
 /**
  * Function Definition
  */
-functionDef ::= attributeSpecSeqOpt declSpecSeqOpt declarator functionBody
-    |   attributeSpecSeqOpt declSpecSeqOpt declarator ASSIGNMENT DEFAULT SEMICOLON
-    |   attributeSpecSeqOpt declSpecSeqOpt declarator ASSIGNMENT DELETE SEMICOLON
-    ;
+
+ functionDef ::= declSpec declarator functionBody;
 
 declSpecSeqOpt ::= declSpecSeq | ;
 
-/** declSpec NOT IMPLEMENTED */
-declSpecSeq ::= declSpec attributeSpecSeqOpt
+declSpecSeq ::= declSpec
     |   declSpec declSpecSeq
     ;
 
+/** declSpec NOT FINISHED */
+declSpec ::= storageClassSpec
+    |   typeSpec
+    |   functionSpec
+    |   FRIEND
+    |   TYPEDEF
+    |   CONSTEXPR
+    ;
+
+storageClassSpec ::= AUTO
+    | REGISTER
+    | STATIC
+    | EXTERN
+    ;
+
+functionSpec ::= INLINE
+    |   VIRTUAL
+    |   EXPLICIT
+    ;
+
+typeSpec ::= trailingTypeSpec
+    |   classSpec
+    |   enumSpec
+    ;
+
+typeName ::= className
+    |   enumName
+    |   typedefName
+    |   simpleTemplateId
+    ;
+
+enumName ::= IDENTIFIER;
+
+typedefName ::= IDENTIFIER; 
+
+/* INCOMPLETE */
+/* typenameSpec ::= TYPENAME COLON COLON nestedNameSpec IDENTIFIER 
+    | TYPENAME nestedNameSpec IDENTIFIER; */
+
+trailingTypeSpec ::= simpleTypeSpec
+    |   elaboratedTypeSpec
+    |   typenameSpec
+    |   cvQualifier
+    ;
+
+sepptrOpt ::= SEPPTR | ;
+
+nestedNameSpecOpt ::= nestedNameSpec | ;
+
+nestedNameSpec ::= typeName COLON COLON
+    | namespaceName COLON COLON 
+    | declTypeSpec COLON COLON
+    | nestedNameSpec IDENTIFIER COLON COLON
+    | nestedNameSpec templateOpt simpleTemplateId COLON COLON
+    ;
+
+simpleTypeSpec ::= sepptrOpt nestedNameSpecOpt typeName
+    |   sepptrOpt nestedNameSpec TEMPLATE simpleTemplateId
+    |   CHAR
+    |   BOOL
+    |   SHORT
+    |   INT
+    |   LONG
+    |   SIGNED
+    |   UNSIGNED
+    |   FLOAT
+    |   DOUBLE
+    |   VOID
+    |   AUTO
+    |   declTypeSpec
+    ;
+
 /* Original rule causing "Never reduced" Warning */
-/* ctorInitializer NOT IMPLEMENTED */
-functionBody ::= ctorInitializer compoundStatement
+functionBody ::= COLON memInitializerList compoundStatement
     |   compoundStatement
     |   functionTryBlock
     ;
 
-functionTryBlock ::= TRY ctorInitializer compoundStatement handlerSeq
+functionTryBlock ::= TRY COLON memInitializerList compoundStatement handlerSeq
     |   TRY compoundStatement handlerSeq
+    ;
+
+memInitializerList ::= memInitializer dotsOpt
+    |   memInitializer COMMA memInitializerList dotsOpt
+    ;
+
+memInitializer ::= memInitializerId LPAR exprListOpt RPAR
+    |   memInitializerId bracedInitList
+    ;
+
+memInitializerId ::= classOrDeclType
+    | IDENTIFIER
     ;
 
 handlerSeq ::= handler
@@ -174,7 +304,7 @@ exceptionDecl ::= attributeSpecSeqOpt typeSpecSeq declarator
     |   attributeSpecSeqOpt typeSpecSeq abstractDeclaratorOpt
     ;
 
-/* noPtrDeclarator NOT IMPLEMENTED */
+
 declarator ::= ptrDeclarator
     |   noPtrDeclarator parametersAndQualifiers trailingReturnType
     ;
@@ -183,43 +313,58 @@ ptrDeclarator ::= noPtrDeclarator
     |   ptrOperator ptrDeclarator
     ;
 
+noPtrDeclarator ::= declaratorId 
+    |   noPtrDeclarator parametersAndQualifiers
+    |   noPtrDeclarator LSQRBRK constExpr RSQRBRK attributeSpecSeqOpt
+    |   noPtrDeclarator LSQRBRK RSQRBRK attributeSpecSeqOpt
+    |   LPAR ptrDeclarator RPAR
+    ;
+
+declaratorId ::= idExpr
+    |   DOTS idExpr
+    |   COLON COLON nestedNameSpecOpt className
+    |   COLON COLON className
+    |   nestedNameSpec className
+    |   className
+    ;
+
 /**
  * Block Declaration
  */
-
+/* namespaceAliasDef NOT IMPLEMENTED */
+/* usingDecl NOT IMPLEMENTED */
+/* usingDirective NOT IMPLEMENTED */
+/* opaqueEnumDecl NOT IMPLEMENTED */
 blockDeclaration ::= simpleDecl
     |   asmDef
-    |   namespaceAliasDef
-    |   usingDecl
-    |   usingDirective
     |   staticAssertDecl
     |   aliasDeclaration
-    |   opaqueEnumDecl
     ;
-
-/* enumKey NOT IMPLEMENTED */
-/* enumBaseOpt NOT IMPLEMENTED */
-opaqueEnumDecl ::= enumKey attributeSpecSeqOpt identifierRule enumBaseOpt;
-
-usingDecl ::= USING typenameOpt sepptrOpt nestedNameSpec unqualifiedId
-    |   USING SEPPTR  unqualifiedId
-    ;
-
-typenameOpt ::= TYPENAME | ;
-
-/* namespaceName NOT IMPLEMENTED */
-usingDirective ::= attributeSpecSeqOpt USING NAMESPACE sepptrOpt nestedNameSpecOpt namespaceName;
-
-sepptrOpt ::= SEPPTR | ;
-
-nestedNameSpecOpt ::= nestedNameSpec | ;
 
 staticAssertDecl ::= STATIC_ASSERT LPAR constExpr COMMA stringLiteral RPAR SEMICOLON;
 
 asmDef ::= ASM LPAR stringLiteral RPAR SEMICOLON;
 
-/** initDeclaratorListOpt NOT IMPLEMENTED */
-simpleDecl ::= attributeSpecSeqOpt declSpecSeqOpt initDeclaratorListOpt SEMICOLON;
+simpleDecl ::= declSpecSeqOpt initDeclaratorListOpt SEMICOLON;
+
+initDeclaratorListOpt ::= initDeclaratorList | ;
+
+initDeclaratorList ::= initDeclarator 
+    |   initDeclaratorList COMMA initDeclarator
+    ;   
+
+/* os dois dao erro */ 
+initDeclarator ::= IDENTIFIER initializerOpt;
+
+initializerOpt ::= initializer | ;
+
+initializer ::= braceOrEqualInitializer
+    |   LPAR exprListOpt RPAR
+    ;
+
+braceOrEqualInitializer ::= ASSIGNMENT initializeCls
+    |   bracedInitList
+    ;
 
 aliasDeclaration ::= USING IDENTIFIER ASSIGNMENT typeId SEMICOLON;
 
@@ -233,8 +378,22 @@ abstractDeclarator ::= ptrAbstractDeclarator
     |   DOTS
     ;
 
-parametersAndQualifiers ::=
-    LPAR paramDeclarationCls RPAR attributeSpecSeqOpt cvQualifierSeqOpt refQualifierOpt exceptionSpecOpt
+parametersAndQualifiers ::= LPAR paramDeclarationCls RPAR;
+
+paramDeclarationCls ::= paramDeclarationListOpt dotsOpt
+    | paramDeclarationList COMMA DOTS
+    ;
+
+paramDeclarationListOpt ::= paramDeclarationList | ;
+
+paramDeclarationList ::= paramDeclaration
+    | paramDeclarationList COMMA paramDeclaration
+    ;
+
+paramDeclaration ::= declSpecSeq declarator
+    |   declSpecSeq declarator ASSIGNMENT initializeCls
+    |   declSpecSeq abstractDeclaratorOpt
+    |   declSpecSeq abstractDeclaratorOpt ASSIGNMENT initializeCls
     ;
 
 cvQualifierSeqOpt ::= cvQualifierSeq | ;
@@ -402,12 +561,31 @@ postfixExpr ::= primaryExpr
     |   TYPEID LPAR typeId RPAR
     ;
 
-
-/* unqualifiedId NOT IMPLEMENTED */
 /* qualifiedId NOT IMPLEMENTED */
 idExpr ::= unqualifiedId
     |   qualifiedId
     ;
+
+unqualifiedId ::= IDENTIFIER
+    |   operatorFunctionId
+    |   conversionFunctionId
+    |   BINNEG className
+    ;
+
+operatorFunctionId ::= OPERATOR overloadableOperator
+    |   OPERATOR overloadableOperator LT templateArgListOpt GT
+    ;
+
+conversionFunctionId ::= OPERATOR conversionTypeId;
+
+conversionTypeId ::= typeSpecSeq conversionDeclaratorOpt;
+
+/* COMMENT FOR NOW */
+/*
+ * conversionDeclarator ::= ptrOperator conversionDeclaratorOpt;
+ * conversionDeclaratorOpt ::= conversionDeclarator | ;
+*/
+
 
 primaryExpr ::= literal
     |   THIS
@@ -418,8 +596,69 @@ primaryExpr ::= literal
 
 /* lambdaIntroducer NOT IMPLEMENTED */
 /* lambdaDeclaratorOpt NOT IMPLEMENTED */
-/* compoundStatement NOT IMPLEMENTED */
 lambdaExpr ::= lambdaIntroducer lambdaDeclaratorOpt compoundStatement;
+
+compoundStatement ::= LBRK statementSeqOpt RBRK;
+
+
+statementSeqOpt ::= statementSeq | ;
+
+statementSeq ::= statement
+    | statementSeq statement
+    ;
+
+statement ::= labeledStatement
+    |   exprStatement
+    |   compoundStatement
+    |   selectionStatement
+    |   iterationStatement
+    |   jumpStatement
+    |   blockDeclaration
+    |   tryBlock
+    ;
+
+// ---- 
+
+
+labeledStatement ::= IDENTIFIER COLON statement
+    |   CASE constExpr COLON statement
+    |   DEFAULT COLON statement
+    ;
+
+exprOpt ::= expr | ;
+
+selectionStatement ::= IF LPAR condition RPAR statement
+    |   IF LPAR condition RPAR statement ELSE statement
+    |   SWITCH LPAR condition RPAR statement
+    ;
+
+condition ::= expr
+    |   declSpecSeq declarator ASSIGNMENT initializeCls
+    |   declSpecSeq declarator bracedInitList
+    ;
+
+conditionOpt ::= condition | ;
+
+iterationStatement ::= WHILE LPAR condition RPAR statement
+    |   DO statement WHILE LPAR expr RPAR SEMICOLON 
+    |   FOR LPAR forInitStatement conditionOpt SEMICOLON exprOpt RPAR statement
+    |   FOR LPAR forRangeDeclaration COLON forRangeInitializer RPAR statement   
+    ;
+
+forRangeDeclaration ::= typeSpecSeq declarator;
+
+forRangeInitializer ::= expr bracedInitList;
+
+forInitStatement ::=  exprOpt 
+    | simpleDecl 
+    ;
+
+jumpStatement ::= BREAK SEMICOLON
+    |   CONTINUE SEMICOLON
+    |   RETURN exprOpt SEMICOLON
+    |   RETURN bracedInitListOpt SEMICOLON
+    |   GOTO IDENTIFIER SEMICOLON
+    ;
 
 /**
  * Literals
@@ -437,6 +676,11 @@ literal ::= integerLiteral
     |   pointerLiteral
     |   userDefinedLiteral
     ;
+
+/*
+ * --- ERRO DE TOO MUCH CODE *!* 
+ *integerLiteral ::= INTEGER
+ */ 
 
 booleanLiteral ::= TRUE | FALSE;
 
@@ -477,7 +721,6 @@ ptrAbstractDeclarator ::= noPtrAbstractDeclarator
 
 ptrAbstractDeclaratorOpt ::= ptrAbstractDeclarator | ;
 
-/** nestedNameSpec NOT IMPLEMENTED */
 ptrOperator ::= STAR attributeSpecSeqOpt cvQualifierSeqOpt
     |   SINGLEAND attributeSpecSeqOpt
     |   DOUBLEAND attributeSpecSeqOpt
@@ -486,8 +729,9 @@ ptrOperator ::= STAR attributeSpecSeqOpt cvQualifierSeqOpt
     ;
 
 typeSpecSeq ::= typeSpec typeSpecSeq2;
-typeSpecSeq2 ::= attributeSpecSeqOpt
-    |   typeSpecSeq
+
+typeSpecSeq2 ::= typeSpecSeq
+    |
     ;
 
 typeSpec ::= trailingTypeSpec
@@ -569,9 +813,11 @@ className ::= IDENTIFIER
     |   simpleTemplateId
     ;
 
-simpleTemplateId ::= IDENTIFIER LT templateArgList GT
+simpleTemplateId ::= IDENTIFIER LT templateArgListOpt GT
     |   IDENTIFIER LT GT
     ;
+
+templateArgListOpt ::= templateArgList | ;
 
 templateArgList ::= templateArg DOTS
     |   templateArg
@@ -579,27 +825,12 @@ templateArgList ::= templateArg DOTS
     |   templateArgList COMMA templateArg
     ;
 
-/* operatorFunctionId NOT IMPLEMENTED */
-/* conversionFunctionId NOT IMPLEMENTED */
-/* templateId NOT IMPLEMENTED */
-unqualifiedId ::= IDENTIFIER
-    |   operatorFunctionId
-    |   conversionFunctionId
-    |   literalOperatorId
-    |   BINNEG unqualifiedId2
-    |   templateId
-    ;
-
-/* NOT FULLY IMPLEMENTED due to shift/reduce */
-/* className missing */
-unqualifiedId2 ::= declTypeSpec
-    ;
-
 /*
    templateArg NOT IMPLEMENTED completely
    due to Shift/Reduce conflict
 */
-templateArg ::= typeId
+templateArg ::= constExpr
+    | typeId
     | idExpr
     ;
 
@@ -612,7 +843,7 @@ attributeSpecSeq ::= attributeSpec
     ;
 
 attributeSpec ::= LSQRBRK LSQRBRK attributeList RSQRBRK RSQRBRK
-    |   alignmentSpec
+    |   alignmentSpec 
     ;
 
 attributeList ::= attribute DOTS
@@ -665,8 +896,8 @@ namespaceDefinition2 ::= unnamedNamespaceDef
 unnamedNamespaceDef ::= LBRK declarationSeqOpt RBRK;
 originalNamespaceDef ::= IDENTIFIER LBRK declarationSeqOpt RBRK;
 
-/* qualifiedNamespaceSpec NOT IMPLEMENTED */
-namespaceAliasDef ::= NAMESPACE identifierRule ASSIGNMENT qualifiedNamespaceSpec;
-
 inlineOpt ::= INLINE | ;
+
 dotsOpt ::= DOTS | ;
+
+overloadableOperator ::= NEW;

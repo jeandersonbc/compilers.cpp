@@ -3,6 +3,7 @@
  *
  * Contributors:
  *      Jeanderson Barros Candido - http://jeandersonbc.github.io
+ *      Thiago Ferreira Patricio - http://github.com/tferreirap
  */
 package compiler.generated;
 
@@ -27,7 +28,7 @@ import java_cup.runtime.*;
    * @return A symbol of a specific type
    */
   public Symbol symbol(int type) {
-      return new Symbol(type, yyline+1, yycolumn+1);
+      return new Symbol(type, yyline, yycolumn);
   }
   
   /**
@@ -37,7 +38,7 @@ import java_cup.runtime.*;
    * @return A symbol of a specific type
    */
   public Symbol symbol(int type, Object value) {
-      return new Symbol(type, yyline+1, yycolumn+1, value);
+      return new Symbol(type, yyline, yycolumn, value);
   }
   
   /**
@@ -63,7 +64,26 @@ LineComment = "//" {InputCharacter}* {LineTerminator}?
 BlockComment = "/*" [^*] ~"*/" | "/*" "*"+ "/" 
 
 /* Identifier */
-Identifier = [:jletter:][:jletterdigit:]*
+/* Identifier = [:jletter:][:jletterdigit:]* */
+
+/*-*
+ * Aqui definiremos os padrões de definição:
+ */
+letter          = [A-Za-z]
+digit           = [0-9]
+alphanumeric    = {letter}|{digit}
+other_id_char   = [_]
+identifier      = {letter}({alphanumeric}|{other_id_char})*
+integer         = {digit}*
+real            = {integer}\.{integer}
+char            = '.'
+leftbrace       = \{
+rightbrace      = \}
+nonrightbrace   = [^}]
+comment_body    = {nonrightbrace}*
+comment1         = {leftbrace}{comment_body}{rightbrace}
+whitespace      = [ \t\f\r\b\n]+
+
 
 %%
 
@@ -95,6 +115,36 @@ Identifier = [:jletter:][:jletterdigit:]*
     "this"                  { return symbol(THIS); }
     "try"                   { return symbol(TRY); }
     "asm"                   { return symbol(ASM); }
+
+    "bool"                  { return symbol(sym.BOOL, new String(yytext())); }
+    "break"                 { return symbol(sym.BREAK, new String(yytext())); }
+    "auto"                  { return symbol(sym.AUTO, new String(yytext())); }
+    "break"                 { return symbol(sym.BREAK, new String(yytext())); }
+    "case"                  { return symbol(sym.CASE, new String(yytext())); }
+    "char"                  { return symbol(sym.CHAR, new String(yytext())); }
+    "continue"              { return symbol(sym.CONTINUE, new String(yytext())); }
+    "do"                    { return symbol(sym.DO, new String(yytext())); }
+    "double"                { return symbol(sym.DOUBLE, new String(yytext())); }
+    "else"                  { return symbol(sym.ELSE, new String(yytext())); }
+    "enum"                  { return symbol(sym.ENUM, new String(yytext())); }
+    "float"                 { return symbol(sym.FLOAT, new String(yytext())); }
+    "for"                   { return symbol(sym.FOR, new String(yytext())); }
+    "goto"                  { return symbol(sym.GOTO, new String(yytext())); }
+    "if"                    { return symbol(sym.IF, new String(yytext())); }
+    "int"                   { return symbol(sym.INT, new String(yytext())); }
+    "long"                  { return symbol(sym.LONG, new String(yytext())); }
+    "register"              { return symbol(sym.REGISTER, new String(yytext())); }
+    "return"                { return symbol(sym.RETURN, new String(yytext())); }
+    "short"                 { return symbol(sym.SHORT, new String(yytext())); }
+    "signed"                { return symbol(sym.SIGNED, new String(yytext())); }
+    "static"                { return symbol(sym.STATIC, new String(yytext())); }
+    "switch"                { return symbol(sym.SWITCH, new String(yytext())); }
+    "typedef"               { return symbol(sym.TYPEDEF, new String(yytext())); }
+    "unsigned"              { return symbol(sym.UNSIGNED, new String(yytext())); }
+    "void"                  { return symbol(sym.VOID, new String(yytext())); }
+    "while"                 { return symbol(sym.WHILE, new String(yytext())); }
+    "operator"              { return symbol(sym.OPERATOR, new String(yytext())); }
+    "new"                   { return symbol(sym.NEW, new String(yytext())); }
 
     /* Access modifiers */
     
@@ -199,7 +249,17 @@ Identifier = [:jletter:][:jletterdigit:]*
     /* Others */
 
     "..."                   { return symbol(DOTS); }
-    {Identifier}            { return symbol(IDENTIFIER); }
+
+    /* {Identifier}            { return symbol(IDENTIFIER); } */
+
+    {identifier}    { return symbol(sym.IDENTIFIER, new String(yytext())); }
+
+    /* {integer}       { return symbol(sym.INTEGER, new Integer(yytext())); }  */
+
+    [1-9][0-9]*[L]? { return symbol(sym.INTEGER); }
+    0x[0-9a-f]+ { return symbol(sym.INTEGER); }
+    0 { return symbol(sym.INTEGER); }
+    
     {BlankSpace}            { /* skip it */ }
     {Comments}              { /* skip it */ }
 
