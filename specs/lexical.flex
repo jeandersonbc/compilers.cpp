@@ -70,6 +70,7 @@ BlockComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
  * Aqui definiremos os padrões de definição:
  */
 letter          = [A-Za-z]
+L               = [a-zA-Z_]
 digit           = [0-9]
 alphanumeric    = {letter}|{digit}
 other_id_char   = [_]
@@ -96,7 +97,6 @@ whitespace      = [ \t\f\r\b\n]+
     "dynamic_cast"          { return symbol(DYNAMICCAST); }
     "static_cast"           { return symbol(STATICCAST); }
     "const_cast"            { return symbol(CONSTCAST); }
-    "namespace"             { return symbol(NAMESPACE); }
     "typename"              { return symbol(TYPENAME); }
     "template"              { return symbol(TEMPLATE); }
     "decltype"              { return symbol(DECLTYPE); }
@@ -106,7 +106,6 @@ whitespace      = [ \t\f\r\b\n]+
     "alignas"               { return symbol(ALIGNAS); }
     "extern"                { return symbol(EXTERN); }
     "delete"                { return symbol(DELETE); }
-    "inline"                { return symbol(INLINE); }
     "typeid"                { return symbol(TYPEID); }
     "sizeof"                { return symbol(SIZEOF); }
     "using"                 { return symbol(USING); }
@@ -115,7 +114,7 @@ whitespace      = [ \t\f\r\b\n]+
     "this"                  { return symbol(THIS); }
     "try"                   { return symbol(TRY); }
     "asm"                   { return symbol(ASM); }
-
+    
     "bool"                  { return symbol(sym.BOOL, new String(yytext())); }
     "break"                 { return symbol(sym.BREAK, new String(yytext())); }
     "auto"                  { return symbol(sym.AUTO, new String(yytext())); }
@@ -126,7 +125,6 @@ whitespace      = [ \t\f\r\b\n]+
     "do"                    { return symbol(sym.DO, new String(yytext())); }
     "double"                { return symbol(sym.DOUBLE, new String(yytext())); }
     "else"                  { return symbol(sym.ELSE, new String(yytext())); }
-    "enum"                  { return symbol(sym.ENUM, new String(yytext())); }
     "float"                 { return symbol(sym.FLOAT, new String(yytext())); }
     "for"                   { return symbol(sym.FOR, new String(yytext())); }
     "goto"                  { return symbol(sym.GOTO, new String(yytext())); }
@@ -245,23 +243,25 @@ whitespace      = [ \t\f\r\b\n]+
     "("                     { return symbol(LPAR); }
     ")"                     { return symbol(RPAR); }
     "."                     { return symbol(DOT); }
-
+-
     /* Others */
 
     "..."                   { return symbol(DOTS); }
 
-    /* {Identifier}            { return symbol(IDENTIFIER); } */
+     \"([^\\\"]|\\.)*\"     { return symbol(sym.STRING_LITERAL); }
 
-    {identifier}    { return symbol(sym.IDENTIFIER, new String(yytext())); }
+    {identifier}            { return symbol(sym.IDENTIFIER, new String(yytext())); }
 
-    /* {integer}       { return symbol(sym.INTEGER, new Integer(yytext())); }  */
+    /* {integer}            { return symbol(sym.INTEGER, new Integer(yytext())); }  */
 
-    [1-9][0-9]*[L]? { return symbol(sym.INTEGER); }
-    0x[0-9a-f]+ { return symbol(sym.INTEGER); }
-    0 { return symbol(sym.INTEGER); }
+    [1-9][0-9]*[L]?         { return symbol(sym.INTEGER); }
+    0x[0-9a-f]+             { return symbol(sym.INTEGER); }
+    0                       { return symbol(sym.INTEGER); }
     
     {BlankSpace}            { /* skip it */ }
     {Comments}              { /* skip it */ }
+
+
 
 }
 
