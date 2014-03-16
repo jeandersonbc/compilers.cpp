@@ -10,12 +10,18 @@
 // NamespaceDefinition
 
 double ndfs1( int p1, bool p2, char p3, float p4 )
-{	
+{
 	int a1;
 	int b2 = 10000001231;
+
+	a1 = 200;
+	b2 = "THIS IS STRING";
+	c1 = a1;
+
+	ndfs1();
 	
 	int c = -20;
-	int d = "2";	// THIS IS NOT AN INT
+	int d = 2;
 	
 	int e, f, g, h;
 

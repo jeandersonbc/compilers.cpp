@@ -75,15 +75,9 @@ digit           = [0-9]
 alphanumeric    = {letter}|{digit}
 other_id_char   = [_]
 identifier      = {letter}({alphanumeric}|{other_id_char})*
-integer         = {digit}*
-real            = {integer}\.{integer}
-char            = '.'
-leftbrace       = \{
-rightbrace      = \}
-nonrightbrace   = [^}]
-comment_body    = {nonrightbrace}*
-comment1         = {leftbrace}{comment_body}{rightbrace}
-whitespace      = [ \t\f\r\b\n]+
+/* integer         = {digit}* */
+
+
 
 
 %%
@@ -92,28 +86,17 @@ whitespace      = [ \t\f\r\b\n]+
 
     /* Keywords */
 
-    "reinterpret_cast"      { return symbol(REINTERPRETCAST); }
     "static_assert"         { return symbol(STATIC_ASSERT); }
-    "dynamic_cast"          { return symbol(DYNAMICCAST); }
-    "static_cast"           { return symbol(STATICCAST); }
-    "const_cast"            { return symbol(CONSTCAST); }
     "typename"              { return symbol(TYPENAME); }
-    "template"              { return symbol(TEMPLATE); }
     "decltype"              { return symbol(DECLTYPE); }
     "noexcept"              { return symbol(NOEXCEPT); }
     "default"               { return symbol(DEFAULT); }
-    "virtual"               { return symbol(VIRTUAL); }
     "alignas"               { return symbol(ALIGNAS); }
     "extern"                { return symbol(EXTERN); }
-    "delete"                { return symbol(DELETE); }
     "typeid"                { return symbol(TYPEID); }
     "sizeof"                { return symbol(SIZEOF); }
     "using"                 { return symbol(USING); }
-    "throw"                 { return symbol(THROW); }
-    "catch"                 { return symbol(CATCH); }
     "this"                  { return symbol(THIS); }
-    "try"                   { return symbol(TRY); }
-    "asm"                   { return symbol(ASM); }
     
     "bool"                  { return symbol(sym.BOOL, new String(yytext())); }
     "break"                 { return symbol(sym.BREAK, new String(yytext())); }
@@ -147,7 +130,6 @@ whitespace      = [ \t\f\r\b\n]+
     /* Access modifiers */
     
     "protected"             { return symbol(PROTECTED); }
-    "virtual"               { return symbol(VIRTUAL); }
     "public"                { return symbol(PUBLIC); }
 
     /* Literals */
