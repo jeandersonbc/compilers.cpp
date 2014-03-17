@@ -17,10 +17,11 @@ import java_cup.runtime.*;
 %line
 %column
 %cup
-%implements sym
 
 
 %{
+
+  public static String curLine;
 
   /**
    * Factory method for creating Symbols for a given type.
@@ -28,6 +29,7 @@ import java_cup.runtime.*;
    * @return A symbol of a specific type
    */
   public Symbol symbol(int type) {
+      curLine = "line :" + yyline;
       return new Symbol(type, yyline, yycolumn);
   }
   
@@ -38,6 +40,7 @@ import java_cup.runtime.*;
    * @return A symbol of a specific type
    */
   public Symbol symbol(int type, Object value) {
+      curLine = "line :" + yyline;
       return new Symbol(type, yyline, yycolumn, value);
   }
   
@@ -48,6 +51,12 @@ import java_cup.runtime.*;
    */
   private void reportError(int line, String msg) {
       throw new RuntimeException("Lexical error at line #" + line + ": " + msg);
+  }
+
+  public String current_lexeme(){
+      int l = yyline+1;
+      int c = yycolumn+1;
+      return "line: " + l + ", column: " + c + ", with : '"+yytext()+"')";
   }
 
 %}
@@ -63,28 +72,14 @@ Comments = {LineComment} | {BlockComment}
 LineComment = "//" {InputCharacter}* {LineTerminator}?
 BlockComment = "/*" [^*] ~"*/" | "/*" "*"+ "/" 
 
-/* Identifier */
-/* Identifier = [:jletter:][:jletterdigit:]* */
+/* Definitions */
 
-/*-*
- * Aqui definiremos os padrões de definição:
- */
 letter          = [A-Za-z]
 L               = [a-zA-Z_]
 digit           = [0-9]
 alphanumeric    = {letter}|{digit}
 other_id_char   = [_]
 identifier      = {letter}({alphanumeric}|{other_id_char})*
-integer         = {digit}*
-real            = {integer}\.{integer}
-char            = '.'
-leftbrace       = \{
-rightbrace      = \}
-nonrightbrace   = [^}]
-comment_body    = {nonrightbrace}*
-comment1         = {leftbrace}{comment_body}{rightbrace}
-whitespace      = [ \t\f\r\b\n]+
-
 
 %%
 
@@ -92,28 +87,17 @@ whitespace      = [ \t\f\r\b\n]+
 
     /* Keywords */
 
-    "reinterpret_cast"      { return symbol(REINTERPRETCAST); }
-    "static_assert"         { return symbol(STATIC_ASSERT); }
-    "dynamic_cast"          { return symbol(DYNAMICCAST); }
-    "static_cast"           { return symbol(STATICCAST); }
-    "const_cast"            { return symbol(CONSTCAST); }
-    "typename"              { return symbol(TYPENAME); }
-    "template"              { return symbol(TEMPLATE); }
-    "decltype"              { return symbol(DECLTYPE); }
-    "noexcept"              { return symbol(NOEXCEPT); }
-    "default"               { return symbol(DEFAULT); }
-    "virtual"               { return symbol(VIRTUAL); }
-    "alignas"               { return symbol(ALIGNAS); }
-    "extern"                { return symbol(EXTERN); }
-    "delete"                { return symbol(DELETE); }
-    "typeid"                { return symbol(TYPEID); }
-    "sizeof"                { return symbol(SIZEOF); }
-    "using"                 { return symbol(USING); }
-    "throw"                 { return symbol(THROW); }
-    "catch"                 { return symbol(CATCH); }
-    "this"                  { return symbol(THIS); }
-    "try"                   { return symbol(TRY); }
-    "asm"                   { return symbol(ASM); }
+    "static_assert"         { return symbol(sym.STATIC_ASSERT); }
+    "typename"              { return symbol(sym.TYPENAME); }
+    "decltype"              { return symbol(sym.DECLTYPE); }
+    "noexcept"              { return symbol(sym.NOEXCEPT); }
+    "default"               { return symbol(sym.DEFAULT); }
+    "alignas"               { return symbol(sym.ALIGNAS); }
+    "extern"                { return symbol(sym.EXTERN); }
+    "typeid"                { return symbol(sym.TYPEID); }
+    "sizeof"                { return symbol(sym.SIZEOF); }
+    "using"                 { return symbol(sym.USING); }
+    "this"                  { return symbol(sym.THIS); }
     
     "bool"                  { return symbol(sym.BOOL, new String(yytext())); }
     "break"                 { return symbol(sym.BREAK, new String(yytext())); }
@@ -146,113 +130,110 @@ whitespace      = [ \t\f\r\b\n]+
 
     /* Access modifiers */
     
-    "protected"             { return symbol(PROTECTED); }
-    "virtual"               { return symbol(VIRTUAL); }
-    "public"                { return symbol(PUBLIC); }
+    "protected"             { return symbol(sym.PROTECTED); }
+    "public"                { return symbol(sym.PUBLIC); }
 
     /* Literals */
 
-    "false"                 { return symbol(FALSE); }
-    "true"                  { return symbol(TRUE); }
-    "null"                  { return symbol(NULLPTR); }
+    "false"                 { return symbol(sym.FALSE); }
+    "true"                  { return symbol(sym.TRUE); }
+    "null"                  { return symbol(sym.NULLPTR); }
 
     /* Class Definition */
 
-    "struct"                { return symbol(STRUCT); }
-    "class"                 { return symbol(CLASS); }
-    "union"                 { return symbol(UNION); }
+    "struct"                { return symbol(sym.STRUCT); }
+    "class"                 { return symbol(sym.CLASS); }
+    "union"                 { return symbol(sym.UNION); }
 
     /* Virt Specifiers */
 
-    "explicit"              { return symbol(EXPLICIT); }
-    "final"                 { return symbol(FINAL); }
+    "explicit"              { return symbol(sym.EXPLICIT); }
+    "final"                 { return symbol(sym.FINAL); }
 
     /* Qualifiers */
 
-    "volatile"              { return symbol(VOLATILE); }
-    "const"                 { return symbol(CONST); }
+    "volatile"              { return symbol(sym.VOLATILE); }
+    "const"                 { return symbol(sym.CONST); }
 
     /* Unary Operators */
 
-    "!"                     { return symbol(LOGNEGATION); }
-    "++"                    { return symbol(AUTOINCRM); }
-    "--"                    { return symbol(AUTODECRM); }
-    "~"                     { return symbol(BINNEG); }
+    "!"                     { return symbol(sym.LOGNEGATION); }
+    "++"                    { return symbol(sym.AUTOINCRM); }
+    "--"                    { return symbol(sym.AUTODECRM); }
+    "~"                     { return symbol(sym.BINNEG); }
 
     /* Assignment */
 
-    ">>="                   { return symbol(RSHIFTASSIGN); }
-    "<<="                   { return symbol(LSHIFTASSIGN); }
-    "-="                    { return symbol(MINUSASSIGN); }
-    "="                     { return symbol(ASSIGNMENT); }
-    "+="                    { return symbol(PLUSASSIGN); }
-    "*="                    { return symbol(MULTASSIGN); }
-    "/="                    { return symbol(DIVASSIGN); }
-    "%="                    { return symbol(MODASSIGN); }
-    "&="                    { return symbol(ANDASSIGN); }
-    "^="                    { return symbol(XORASSIGN); }
-    "|="                    { return symbol(ORASSIGN); }
+    ">>="                   { return symbol(sym.RSHIFTASSIGN); }
+    "<<="                   { return symbol(sym.LSHIFTASSIGN); }
+    "-="                    { return symbol(sym.MINUSASSIGN); }
+    "="                     { return symbol(sym.ASSIGNMENT); }
+    "+="                    { return symbol(sym.PLUSASSIGN); }
+    "*="                    { return symbol(sym.MULTASSIGN); }
+    "/="                    { return symbol(sym.DIVASSIGN); }
+    "%="                    { return symbol(sym.MODASSIGN); }
+    "&="                    { return symbol(sym.ANDASSIGN); }
+    "^="                    { return symbol(sym.XORASSIGN); }
+    "|="                    { return symbol(sym.ORASSIGN); }
 
     /* PM Operators */
 
-    "->*"                   { return symbol(ARROWSTAR); }
-    ".*"                    { return symbol(DOTSTAR); }
+    "->*"                   { return symbol(sym.ARROWSTAR); }
+    ".*"                    { return symbol(sym.DOTSTAR); }
 
     /* Shift Operators */
 
-    "<<"                    { return symbol(LSHIFT); }
-    ">>"                    { return symbol(RSHIFT); }
+    "<<"                    { return symbol(sym.LSHIFT); }
+    ">>"                    { return symbol(sym.RSHIFT); }
 
     /* Relational and Logical Operators */
 
-    "^"                     { return symbol(XOROP); }
-    "||"                    { return symbol(OROP); }
-    "|"                     { return symbol(SOROP); }
-    "!="                    { return symbol(NEQOP); }
-    "=="                    { return symbol(EQOP); }
-    "<="                    { return symbol(LTE); }
-    ">="                    { return symbol(GTE); }
-    "<"                     { return symbol(LT); }
-    ">"                     { return symbol(GT); }
+    "^"                     { return symbol(sym.XOROP); }
+    "||"                    { return symbol(sym.OROP); }
+    "|"                     { return symbol(sym.SOROP); }
+    "!="                    { return symbol(sym.NEQOP); }
+    "=="                    { return symbol(sym.EQOP); }
+    "<="                    { return symbol(sym.LTE); }
+    ">="                    { return symbol(sym.GTE); }
+    "<"                     { return symbol(sym.LT); }
+    ">"                     { return symbol(sym.GT); }
 
     /* Arithmetic Operators */
 
-    "-"                     { return symbol(MINUSOP); }
-    "+"                     { return symbol(PLUSOP); }
-    "/"                     { return symbol(DIVOP); }
-    "%"                     { return symbol(MODOP); }
+    "-"                     { return symbol(sym.MINUSOP); }
+    "+"                     { return symbol(sym.PLUSOP); }
+    "/"                     { return symbol(sym.DIVOP); }
+    "%"                     { return symbol(sym.MODOP); }
 
     /* Overloaded Lexemes */
 
-    "&&"                    { return symbol(DOUBLEAND); }
-    "&"                     { return symbol(SINGLEAND); }
-    "*"                     { return symbol(STAR); }
+    "&&"                    { return symbol(sym.DOUBLEAND); }
+    "&"                     { return symbol(sym.SINGLEAND); }
+    "*"                     { return symbol(sym.STAR); }
 
     /* Separators */
 
-    ";"                     { return symbol(SEMICOLON); }
-    "?"                     { return symbol(QUESTION); }
-    "["                     { return symbol(LSQRBRK); }
-    "]"                     { return symbol(RSQRBRK); }
-    "::"                    { return symbol(SEPPTR); }
-    ","                     { return symbol(COMMA); }
-    "->"                    { return symbol(ARROW); }
-    ":"                     { return symbol(COLON); }
-    "}"                     { return symbol(RBRK); }
-    "{"                     { return symbol(LBRK); }
-    "("                     { return symbol(LPAR); }
-    ")"                     { return symbol(RPAR); }
-    "."                     { return symbol(DOT); }
+    ";"                     { return symbol(sym.SEMICOLON); }
+    "?"                     { return symbol(sym.QUESTION); }
+    "["                     { return symbol(sym.LSQRBRK); }
+    "]"                     { return symbol(sym.RSQRBRK); }
+    "::"                    { return symbol(sym.SEPPTR); }
+    ","                     { return symbol(sym.COMMA); }
+    "->"                    { return symbol(sym.ARROW); }
+    ":"                     { return symbol(sym.COLON); }
+    "}"                     { return symbol(sym.RBRK); }
+    "{"                     { return symbol(sym.LBRK); }
+    "("                     { return symbol(sym.LPAR); }
+    ")"                     { return symbol(sym.RPAR); }
+    "."                     { return symbol(sym.DOT); }
 -
     /* Others */
 
-    "..."                   { return symbol(DOTS); }
+    "..."                   { return symbol(sym.DOTS); }
 
      \"([^\\\"]|\\.)*\"     { return symbol(sym.STRING_LITERAL); }
 
     {identifier}            { return symbol(sym.IDENTIFIER, new String(yytext())); }
-
-    /* {integer}            { return symbol(sym.INTEGER, new Integer(yytext())); }  */
 
     [1-9][0-9]*[L]?         { return symbol(sym.INTEGER); }
     0x[0-9a-f]+             { return symbol(sym.INTEGER); }
@@ -260,8 +241,6 @@ whitespace      = [ \t\f\r\b\n]+
     
     {BlankSpace}            { /* skip it */ }
     {Comments}              { /* skip it */ }
-
-
 
 }
 
