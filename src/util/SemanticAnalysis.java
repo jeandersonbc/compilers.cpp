@@ -1,9 +1,6 @@
 package util;
 
-
 import java.util.ArrayList;
-
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,9 +16,11 @@ import core.Type;
 import core.Variable;
 import core.While;
 
+import compiler.generated.*;
+
 public class SemanticAnalysis {
 
-	public static parser Parser;
+	public static Parser parser;
 	
 	private static final Type[] BASIC_TYPES = new Type[] {
 		new Type("int"),

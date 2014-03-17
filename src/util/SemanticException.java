@@ -1,7 +1,6 @@
 package util;
 
-
-
+import compiler.generated.*;
 
 public class SemanticException extends IllegalArgumentException {
 	

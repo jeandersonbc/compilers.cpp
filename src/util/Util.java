@@ -7,6 +7,8 @@ import java.util.List;
 import core.Expression;
 import core.Type;
 
+import compiler.generated.*;
+
 public class Util {
 	
 	public static <T> ArrayList<T> newList(T... elements) {
