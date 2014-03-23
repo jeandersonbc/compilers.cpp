@@ -1,0 +1,7 @@
+// Tipo de retorno incompativel com o metodo (usando uma variavel)
+int main() 
+{
+	int a = "aaa";
+	
+	return 100;
+}

@@ -1,0 +1,20 @@
+// Comparacao com tipos diferentes ( int e string )
+int main(){
+
+	if ( 2 != "a")  {
+	}
+	
+	if ( 2 == "a")  {
+	}
+	
+	if ( 2 >= "a")  {
+	}
+
+   // Comparando com booleano
+   if( 2 == true )
+   {
+   }
+	
+return 0;
+
+}

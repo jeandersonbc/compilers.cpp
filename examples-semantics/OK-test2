@@ -1,0 +1,8 @@
+// Arithmethic expression and an IF statement
+void met() {
+	int expression = (10+ (2))  + ((2) * 10 ) / (2*3);
+	
+		if(true){
+		
+	}
+}

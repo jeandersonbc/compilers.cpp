@@ -1,0 +1,13 @@
+// Escopo do IF-ELSE 
+
+// Erro ao tentar usar no ELSE uma variavel definida apenas no IF
+void main() {
+	
+	if(true){
+		int y = 0;
+		
+	} else {
+		y = 0;
+		
+	}
+}

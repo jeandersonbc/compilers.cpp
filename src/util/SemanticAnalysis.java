@@ -9,12 +9,12 @@ import java.util.Stack;
 import core.Expression;
 import core.Function;
 import core.Identifier;
+import core.IfElse;
 import core.Operation;
 import core.Program;
 import core.ScopedEntity;
 import core.Type;
 import core.Variable;
-import core.While;
 
 import compiler.generated.*;
 
@@ -28,7 +28,9 @@ public class SemanticAnalysis {
 		new Type("double"),
 		new Type("long"),
 		new Type("char"),
-		new Type("void")
+		new Type("void"),
+		new Type("string"),
+		new Type("bool")
 		};
 
 	public static ArrayList<String> variaveis = new ArrayList<String>();
@@ -70,6 +72,7 @@ public class SemanticAnalysis {
 	}
 	
 	public void addFunctionAndNewScope(Function f) {
+		cProgram.checkOverload(f);
 		cProgram.addFunction(f);
 		createNewScope(f);
 		
@@ -77,41 +80,13 @@ public class SemanticAnalysis {
 		toAssembly((labels+=8)+": "+f.getName() + ":");
 	}
 	
-	
-	public void createWhile() {
-		createNewScope(new While());
+	public void createIf(Expression e) {
+		createNewScope(new IfElse(e));
 	}
 	
-	public void createWhile(Expression e) {
-		createNewScope(new While(e));
+	public void createElse() {
+		createNewScope(new IfElse());
 	}
-	
-	
-//	public void newFunctionScope(String name, Type returnType) {
-//		newFunctionScope(name, returnType, null);
-//	}
-	
-//	public void newFunctionScope(String name, Type returnType, ArrayList<Variable> parameters) {
-//		if (checkFunctionName(name)) {
-//			throw new SemanticException("Function name already defined");
-//		}
-//		if (!checkTypeExists(returnType)) {
-//			throw new SemanticException("Undefined Function Return Type");
-//		}
-//		
-//		Function f = new Function(name, returnType, parameters);
-//		cProgram.addFunction(f);
-//		createNewScope(f);
-//	}
-	
-//	public void addFunction(String name, Variable[] parameters, Type returnType) {
-//		if (checkFunctionName(name)) {
-//			throw new SemanticException("Function name already defined");
-//		}
-//		
-//		Function f = new Function(name, returnType, parameters);
-//		cProgram.addFunction(f);
-//	}
 	
 	public void addVariable(Variable v) {
 		if (checkVariableNameCurrentScope(v.getName()))

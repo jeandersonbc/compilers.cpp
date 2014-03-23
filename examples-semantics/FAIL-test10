@@ -1,0 +1,8 @@
+// Operacoes aritmeticas com tipos errado (int e char neste caso e usando variavel z)
+int metodo2() {
+	int x = (1 + 2) ;
+	string z = "a";
+	int w = (1 * x) ; // OK pois x eh int
+	int y = (1 * z) ; // Erro pois z eh char
+
+}

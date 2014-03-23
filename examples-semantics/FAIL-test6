@@ -1,0 +1,11 @@
+// usar variavel nao existente
+int main(){
+	
+    // Non Existing variable
+   if( 2 == 3 && variavelNExiste != 50 )
+   {
+   }
+   
+return 0;
+
+}

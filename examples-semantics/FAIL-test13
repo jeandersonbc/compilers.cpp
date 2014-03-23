@@ -1,0 +1,8 @@
+// Problema de sobrecarga
+
+void metodo(int x) {
+}
+
+int metodo(string a) {
+	return 0;
+}

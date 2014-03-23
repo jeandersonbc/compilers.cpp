@@ -10,7 +10,7 @@
 // NamespaceDefinition
 
 double ndfs1( int p1, bool p2, char p3, float p4 )
-{	
+{
 	int a1;
 	int b2 = 10000001231;
 	

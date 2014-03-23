@@ -1,0 +1,8 @@
+// Chamar metodo nao existente
+int main(){
+	
+	metod23();  
+
+return 0;
+
+}

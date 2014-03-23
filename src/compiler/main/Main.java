@@ -3,12 +3,17 @@ package compiler.main;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+import java_cup.runtime.Symbol;
+
 import compiler.generated.Lexer;
 import compiler.generated.Parser;
 
 /**
  * @author Jeanderson Candido - <a href="http://jeandersonbc.github.io"
  *         target="_blank">http://jeandersonbc.github.io</a>
+ *         
+ *         Thiago Ferreira Patricio - <a href="http://github.com/tferreirap"
+ *         target="_blank">http://github.com/tferreirap</a>
  * 
  */
 public class Main {
@@ -31,7 +36,7 @@ public class Main {
 
 	private static void displayHelpMessage() {
 		System.out
-				.println("Usage: java -jar compiler.jar file [file2 file3...]");
+				.println("Usage: java -jar dist/compiler.jar file [file2 file3...]");
 	}
 
 	private static void startCompilationFor(String filePath) {
@@ -41,8 +46,13 @@ public class Main {
 					filePath)));
 
 			Parser parser = new Parser(scanner);
-			parser.parse();
-
+			Symbol s = parser.parse();
+			
+			if (s.toString().equals("#0"))
+				System.out.println("> SUCCESSFULL COMPILATION: " + filePath);
+			else
+				System.out.println(s);
+			
 		} catch (Exception e) {
 			System.err.println("Failed to compile \"" + filePath + "\":");
 			System.err.println(e.getMessage());

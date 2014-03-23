@@ -1,0 +1,8 @@
+// Operacoes aritmeticas com tipos errado (int e string neste caso)
+int met()  {
+
+	int x = (1 - "a"); // erro de int e string
+	
+	return x;
+	
+}

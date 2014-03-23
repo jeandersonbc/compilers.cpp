@@ -1,0 +1,18 @@
+// This is a comment /* */ */
+
+/*  sdlasdladklaj  /
+ Aisuhdi // Asd
+ // Test *
+*/
+
+// Empty Stmt
+;
+
+void metodo() {
+	
+	bool n = true;
+	int x = 2;
+	string s = "this is a string";
+}
+
+

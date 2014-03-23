@@ -1,0 +1,10 @@
+// Chamar metodo com tipo de parametro errado
+
+// metodo com parametro int, chamada errada dele no main() passando 
+// uma string como parametro
+void metodo(int x) {
+}
+
+void main() {
+	metodo("aa");	
+}

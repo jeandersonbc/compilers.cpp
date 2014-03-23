@@ -1,0 +1,7 @@
+// Tipo de retorno incompativel com tipo de funcao (usando string)
+string main(){
+	int x = 2; 
+	
+return x;
+
+}

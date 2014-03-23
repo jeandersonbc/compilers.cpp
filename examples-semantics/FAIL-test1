@@ -1,0 +1,5 @@
+// Tipo de retorno incompativel com o metodo
+
+int metodo() {
+	return "aa";
+}

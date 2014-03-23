@@ -61,6 +61,17 @@ import java_cup.runtime.*;
 
 %}
 
+
+/* Macros */
+
+D = [0-9]
+L = [a-zA-Z_]
+H = [a-fA-F0-9]
+E = [Ee][+-]?{D}+
+FS = (f|F|l|L)
+IS = (u|U|l|L)*
+Comment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 
@@ -72,14 +83,22 @@ Comments = {LineComment} | {BlockComment}
 LineComment = "//" {InputCharacter}* {LineTerminator}?
 BlockComment = "/*" [^*] ~"*/" | "/*" "*"+ "/" 
 
-/* Definitions */
+/* Identifier */
+/* Identifier = [:jletter:][:jletterdigit:]* */
 
+/*-*
+ * Aqui definiremos os padr›es de defini‹o:
+ */
 letter          = [A-Za-z]
 L               = [a-zA-Z_]
 digit           = [0-9]
 alphanumeric    = {letter}|{digit}
 other_id_char   = [_]
 identifier      = {letter}({alphanumeric}|{other_id_char})*
+/* integer         = {digit}* */
+
+
+
 
 %%
 
@@ -126,7 +145,8 @@ identifier      = {letter}({alphanumeric}|{other_id_char})*
     "void"                  { return symbol(sym.VOID, new String(yytext())); }
     "while"                 { return symbol(sym.WHILE, new String(yytext())); }
     "operator"              { return symbol(sym.OPERATOR, new String(yytext())); }
-    "new"                   { return symbol(sym.NEW, new String(yytext())); }
+    "new"                   { return symbol(sym.NEW, new String(yytext()) ); }
+    "string"                { return symbol(sym.STRING, new String(yytext()) ); }
 
     /* Access modifiers */
     
@@ -135,8 +155,8 @@ identifier      = {letter}({alphanumeric}|{other_id_char})*
 
     /* Literals */
 
-    "false"                 { return symbol(sym.FALSE); }
-    "true"                  { return symbol(sym.TRUE); }
+    "false"                 { return symbol(sym.FALSE, new String(yytext())); }
+    "true"                  { return symbol(sym.TRUE, new String(yytext())); }
     "null"                  { return symbol(sym.NULLPTR); }
 
     /* Class Definition */
@@ -164,11 +184,11 @@ identifier      = {letter}({alphanumeric}|{other_id_char})*
 
     /* Assignment */
 
-    ">>="                   { return symbol(sym.RSHIFTASSIGN); }
-    "<<="                   { return symbol(sym.LSHIFTASSIGN); }
-    "-="                    { return symbol(sym.MINUSASSIGN); }
-    "="                     { return symbol(sym.ASSIGNMENT); }
-    "+="                    { return symbol(sym.PLUSASSIGN); }
+    ">>="                   { return symbol(sym.RSHIFTASSIGN, new String(yytext())); }
+    "<<="                   { return symbol(sym.LSHIFTASSIGN, new String(yytext())); }
+    "-="                    { return symbol(sym.MINUSASSIGN, new String(yytext())); }
+    "="                     { return symbol(sym.ASSIGNMENT, new String(yytext())); }
+    "+="                    { return symbol(sym.PLUSASSIGN, new String(yytext())); }
     "*="                    { return symbol(sym.MULTASSIGN); }
     "/="                    { return symbol(sym.DIVASSIGN); }
     "%="                    { return symbol(sym.MODASSIGN); }
@@ -188,15 +208,15 @@ identifier      = {letter}({alphanumeric}|{other_id_char})*
 
     /* Relational and Logical Operators */
 
-    "^"                     { return symbol(sym.XOROP); }
-    "||"                    { return symbol(sym.OROP); }
-    "|"                     { return symbol(sym.SOROP); }
-    "!="                    { return symbol(sym.NEQOP); }
-    "=="                    { return symbol(sym.EQOP); }
-    "<="                    { return symbol(sym.LTE); }
-    ">="                    { return symbol(sym.GTE); }
-    "<"                     { return symbol(sym.LT); }
-    ">"                     { return symbol(sym.GT); }
+    "^"                     { return symbol(sym.XOROP, new String(yytext())); }
+    "||"                    { return symbol(sym.OROP, new String(yytext())); }
+    "|"                     { return symbol(sym.SOROP, new String(yytext())); }
+    "!="                    { return symbol(sym.NEQOP, new String(yytext())); }
+    "=="                    { return symbol(sym.EQOP, new String(yytext())); }
+    "<="                    { return symbol(sym.LTE, new String(yytext())); }
+    ">="                    { return symbol(sym.GTE, new String(yytext())); }
+    "<"                     { return symbol(sym.LT, new String(yytext())); }
+    ">"                     { return symbol(sym.GT, new String(yytext())); }
 
     /* Arithmetic Operators */
 
@@ -213,7 +233,7 @@ identifier      = {letter}({alphanumeric}|{other_id_char})*
 
     /* Separators */
 
-    ";"                     { return symbol(sym.SEMICOLON); }
+    ";"                     { return symbol(sym.SEMICOLON, new String(yytext())); }
     "?"                     { return symbol(sym.QUESTION); }
     "["                     { return symbol(sym.LSQRBRK); }
     "]"                     { return symbol(sym.RSQRBRK); }
@@ -221,26 +241,26 @@ identifier      = {letter}({alphanumeric}|{other_id_char})*
     ","                     { return symbol(sym.COMMA); }
     "->"                    { return symbol(sym.ARROW); }
     ":"                     { return symbol(sym.COLON); }
-    "}"                     { return symbol(sym.RBRK); }
-    "{"                     { return symbol(sym.LBRK); }
-    "("                     { return symbol(sym.LPAR); }
-    ")"                     { return symbol(sym.RPAR); }
-    "."                     { return symbol(sym.DOT); }
+    "}"                     { return symbol(sym.RBRK, new String(yytext())); }
+    "{"                     { return symbol(sym.LBRK, new String(yytext())); }
+    "("                     { return symbol(sym.LPAR, new String(yytext())); }
+    ")"                     { return symbol(sym.RPAR, new String(yytext())); }
+    "."                     { return symbol(sym.DOT, new String(yytext())); }
 -
     /* Others */
 
     "..."                   { return symbol(sym.DOTS); }
 
-     \"([^\\\"]|\\.)*\"     { return symbol(sym.STRING_LITERAL); }
+     \"([^\\\"]|\\.)*\"     { return symbol(sym.STRING_LITERAL, new String(yytext())); }
 
     {identifier}            { return symbol(sym.IDENTIFIER, new String(yytext())); }
 
-    [1-9][0-9]*[L]?         { return symbol(sym.INTEGER); }
-    0x[0-9a-f]+             { return symbol(sym.INTEGER); }
-    0                       { return symbol(sym.INTEGER); }
-    
+    {D}+{IS}?       { return symbol(sym.INTEGER, new String(yytext())); }
+
     {BlankSpace}            { /* skip it */ }
     {Comments}              { /* skip it */ }
+
+
 
 }
 

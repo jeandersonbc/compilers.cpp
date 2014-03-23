@@ -1,0 +1,27 @@
+// Uso de IF-ELSE aninhados com declaracoes de variaveis
+void nestedIfElse() {
+	
+	
+	if(true){
+		int y = 0;
+		
+		if (true) {
+			y = 2;
+		}
+		
+	} else {
+	
+		int y = 0;
+		int z = 1;
+		if ( y == 1) {
+			
+		} else  {
+			z = 2;
+			if (true)  {
+				y = 0;
+			}
+			
+		}
+		
+	}
+}
