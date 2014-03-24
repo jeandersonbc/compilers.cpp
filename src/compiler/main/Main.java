@@ -36,7 +36,7 @@ public class Main {
 
 	private static void displayHelpMessage() {
 		System.out
-				.println("Usage: java -jar dist/compiler.jar file [file2 file3...]");
+				.println("Usage: java -jar compiler.jar file [file2 file3...]");
 	}
 
 	private static void startCompilationFor(String filePath) {
