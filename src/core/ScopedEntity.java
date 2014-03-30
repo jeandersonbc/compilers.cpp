@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *	Entity that has a scope.. All variables here holds only to the scope of this entity...
+ *  Class that represents a scope in a program ( if statement scope, method scope...)
  */
 public class ScopedEntity extends NamedEntity {
 

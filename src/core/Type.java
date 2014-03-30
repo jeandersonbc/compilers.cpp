@@ -1,10 +1,5 @@
 package core;
 
-/**
- * C Type<br>
- * These types could be primitives (char, int, float, ...) and user-defined
- * using structs, unions, etc
- */
 public class Type extends NamedEntity implements Parameter {
 
 	public Type(String name) {

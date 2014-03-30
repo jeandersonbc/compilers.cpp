@@ -161,10 +161,6 @@ identifierOpt ::= IDENTIFIER | ;
 
  functionDef ::= declSpec:d declarator:de {: Logger.print("pre-159 declSpec: " + d + " declarator: " + de); ((Function) de).setReturnType((Type) d); SemanticAnalysis.getInstance().addFunctionAndNewScope((Function) de); :}  functionBody:fb {: Logger.print("159 " + d + " " + fb);  SemanticAnalysis.getInstance().exitCurrentScope(); :};
 
-
- 
-
-
 declSpecSeqOpt ::= declSpecSeq | ;
 
 declSpecSeq ::= declSpec
@@ -275,19 +271,13 @@ declaratorId ::= idExpr:idE                     {: Logger.print("259 idExpr " + 
 /**
  * Block Declaration
  */
-// PAROU AQUI
 blockDeclaration ::= simpleDecl:s               {: Logger.print("276 simpleDecl " + s ); RESULT = s; :}
     |   aliasDeclaration
     ;
 
-/** TO DELETE
-* simpleDecl ::= declSpecSeqOpt initDeclaratorListOpt SEMICOLON;
-*/
-
 simpleDecl ::= declSpec:d SEMICOLON                  {: Logger.print("*!* 284 " + d); :} 
     |  declSpec:d initDeclaratorList:i SEMICOLON    {: Logger.print("*!* 285 " + d + " " + i); ((Variable) i).setType((Type) d); SemanticAnalysis.getInstance().addVariable((Variable) i); RESULT = i; :} 
     ;
-
 
 initDeclaratorListOpt ::= initDeclaratorList | ;
 
@@ -502,13 +492,6 @@ conversionFunctionId ::= OPERATOR conversionTypeId;
 
 conversionTypeId ::= typeSpecSeq conversionDeclaratorOpt;
 
-/* COMMENT FOR NOW */
-/*
- * conversionDeclarator ::= ptrOperator conversionDeclaratorOpt;
- * conversionDeclaratorOpt ::= conversionDeclarator | ;
-*/
-
-
 primaryExpr ::= literal:l           {: RESULT = l;  Logger.print("499 literal" + l); :} 
     |   THIS
     |   LPAR expr:e RPAR            {: RESULT = e;  Logger.print("501 expression" + e); :} 
@@ -543,29 +526,53 @@ labeledStatement ::= IDENTIFIER COLON statement
     |   DEFAULT COLON statement
     ;
 
-/*
-*exprOpt ::= expr | ;
-*/
 
 exprOpt ::= SEMICOLON
     | expr SEMICOLON
     ;
 
-/*
-selectionStatement ::= IF LPAR condition:c RPAR {: Logger.print("551 if condition "); SemanticAnalysis.getInstance().createIf((Expression) c); :}  statement:s {: SemanticAnalysis.getInstance().exitCurrentScope(); :} 
-    |   IF LPAR condition:c RPAR statement:s ELSE statement
-    |   SWITCH LPAR condition RPAR statement
+
+// IF-ELSE Statement
+
+selectionStatement ::= IF LPAR {:   
+                                    SemanticAnalysis.labelAux = SemanticAnalysis.labels= SemanticAnalysis.labels+8; 
+                                    SemanticAnalysis.toAssembly(SemanticAnalysis.labels+8+": START_IF_" + SemanticAnalysis.labelAux + ":");
+                                    SemanticAnalysis.labels= SemanticAnalysis.labels+8; 
+                                :} 
+
+    condition:c RPAR                    {: 
+                                            SemanticAnalysis.toAssembly(SemanticAnalysis.labels+8+": BEQZ R1 END_IF_" + SemanticAnalysis.labelAux);
+                                            SemanticAnalysis.labels= SemanticAnalysis.labels+8; 
+                                            SemanticAnalysis.getInstance().createIf((Expression) c); 
+                                        :}  
+
+
+    statement:s {:  SemanticAnalysis.getInstance().exitCurrentScope();
+                    SemanticAnalysis.labels= SemanticAnalysis.labels+8;
+                    SemanticAnalysis.toAssembly(SemanticAnalysis.labels+8+": END_IF_" + SemanticAnalysis.labelAux + ":");
+                    SemanticAnalysis.labels= SemanticAnalysis.labels+8;
+                :} 
+
+    ruleAux
+
     ;
-*/
 
-/*
-selectionStatement ::= IF LPAR condition:c RPAR {: Logger.print("551 if condition "); SemanticAnalysis.getInstance().createIf((Expression) c); :}  statement:s {: SemanticAnalysis.getInstance().exitCurrentScope(); :}
-    ;
-*/
 
-selectionStatement ::= IF LPAR condition:c RPAR {: Logger.print("551 if condition "); SemanticAnalysis.getInstance().createIf((Expression) c); :}  statement:s {: SemanticAnalysis.getInstance().exitCurrentScope(); :}  ruleAux;
+ruleAux ::=  ELSE {:
+                SemanticAnalysis.toAssembly(SemanticAnalysis.labels+8+": START_ELSE_" + SemanticAnalysis.labelAux + ":");
+                SemanticAnalysis.labels= SemanticAnalysis.labels+8; 
+                SemanticAnalysis.getInstance().createElse(); 
+         :}
 
-ruleAux ::=  {: Logger.print("568 else condition "); SemanticAnalysis.getInstance().createElse(); :} ELSE statement:s {: SemanticAnalysis.getInstance().exitCurrentScope(); :} | ;
+    statement:s {:
+                    SemanticAnalysis.getInstance().exitCurrentScope();
+                    SemanticAnalysis.labels= SemanticAnalysis.labels+8;
+                    SemanticAnalysis.toAssembly(SemanticAnalysis.labels+8+": END_ELSE_" + SemanticAnalysis.labelAux + ":");
+                    SemanticAnalysis.labels= SemanticAnalysis.labels+8;
+
+                :}
+
+    | ;
 
 condition ::= expr:e            {: Logger.print("condition->expression " + e); RESULT = e; :}
     |   declSpecSeq declarator ASSIGNMENT initializeCls
@@ -598,7 +605,6 @@ jumpStatement ::= BREAK SEMICOLON               {: Logger.print("566 BREAK ;"); 
 /**
  * Literals
  */
-
 literal ::= integerLiteral:i    {: Logger.print("575 " + i); RESULT = i; :} 
     |   characterLiteral:c      {: Logger.print("576 " + c); RESULT = c; :} 
     |   floatingLiteral
@@ -644,7 +650,6 @@ trailingTypeSpecSeq ::= trailingTypeSpec attributeSpecSeqOpt
     |   trailingTypeSpec trailingTypeSpecSeq
     ;
 
-/* noPtrAbstractDeclarator NOT IMPLEMENTED */
 ptrAbstractDeclarator ::= noPtrAbstractDeclarator
     |   ptrOperator ptrAbstractDeclaratorOpt
     ;
@@ -721,7 +726,6 @@ classOrDeclType ::= COLON COLON nestedNameSpec className
 
 className ::= IDENTIFIER;
 
-
 declTypeSpec ::= DECLTYPE LPAR expr RPAR;
 
 attributeSpecSeqOpt ::= attributeSpecSeq | ;
@@ -758,14 +762,12 @@ balancedTokenSeq ::= balancedToken
     |   balancedTokenSeq balancedToken
     ;
 
-/* token NOT IMPLEMENTED */
 balancedToken ::= LPAR balancedTokenSeq RPAR
     |   LSQRBRK balancedTokenSeq RSQRBRK
     |   LBRK balancedTokenSeq RBRK
     |   token
     ;
 
-/* ISSUE #2 - rule "alignment-expression" not defined in the grammar ref */
 alignmentSpec ::= ALIGNAS LPAR typeId dotsOpt RPAR;
 
 /**

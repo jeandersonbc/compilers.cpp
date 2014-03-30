@@ -2,15 +2,12 @@ package core;
 
 import util.SemanticException;
 
-
-
-
-public class Expression extends NamedEntity { // Not Really a named entity, but...
+public class Expression extends NamedEntity {
 	
 	private Type type;
 	private String value;
 	
-	public Expression(String name) { // For Variables..
+	public Expression(String name) {
 		super(name);
 		type = new Type("UNKNOWN");
 	}
@@ -51,7 +48,6 @@ public class Expression extends NamedEntity { // Not Really a named entity, but.
 	}
 	
 	public String toString() {
-//		return "{ Expression: " + getType() + " " + getValue() + "  }";
 		return getValue();
 	}
 }

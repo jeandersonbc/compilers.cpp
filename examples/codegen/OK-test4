@@ -1,0 +1,15 @@
+// IF-ELSE statements test for ASSEMBLY CODE GENERATION
+
+int ifElseMethod() {
+	
+	if(3 == 3){
+		int x = 0;	
+		
+	} else {
+		int z = 10;
+	}
+	
+	bool y = true;
+	
+	return 12;
+}

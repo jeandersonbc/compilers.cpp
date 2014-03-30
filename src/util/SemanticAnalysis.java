@@ -45,13 +45,13 @@ public class SemanticAnalysis {
 	
 	// Object Attributes
 	
-	private Program cProgram; // ...
+	private Program cppProgram; // ...
 	
 	private Stack<ScopedEntity> scopeStack;
 
 	private SemanticAnalysis(){
 		scopeStack = new Stack<ScopedEntity>();
-		cProgram = new Program();
+		cppProgram = new Program();
 	}
 	
 	// Operations ...
@@ -72,8 +72,8 @@ public class SemanticAnalysis {
 	}
 	
 	public void addFunctionAndNewScope(Function f) {
-		cProgram.checkOverload(f);
-		cProgram.addFunction(f);
+		cppProgram.checkOverload(f);
+		cppProgram.addFunction(f);
 		createNewScope(f);
 		
 		// Add to assembly
@@ -95,7 +95,7 @@ public class SemanticAnalysis {
 		if (scopeStack.peek() != null) {
 			scopeStack.peek().addVariable(v);
 		} else {
-			cProgram.addVariable(v);
+			cppProgram.addVariable(v);
 		}
 	}
 	
@@ -103,14 +103,14 @@ public class SemanticAnalysis {
 		if (!checkVariableNameAllScopes(name) && !checkFunctionName(name))
 			throw new SemanticException("Identifier name doesn't exists: " + name);
 		
-		if (cProgram.getFunctions().get(name) != null)
-			return cProgram.getFunctions().get(name);
+		if (cppProgram.getFunctions().get(name) != null)
+			return cppProgram.getFunctions().get(name);
 		
 		for (int i = scopeStack.size() - 1 ; i >= 0 ; i--)
 			if (scopeStack.get(i).getVariable().get(name) != null)
 				return scopeStack.get(i).getVariable().get(name);
 		
-		return cProgram.getVariable().get(name);
+		return cppProgram.getVariable().get(name);
 	}
 	
 	// Check Operations
@@ -124,7 +124,7 @@ public class SemanticAnalysis {
 		
 		Set<String> variablesName;
 		if (scopeStack.isEmpty())
-			variablesName = cProgram.getVariable().keySet();
+			variablesName = cppProgram.getVariable().keySet();
 		else
 			variablesName = scopeStack.peek().getVariable().keySet();
 		
@@ -134,7 +134,7 @@ public class SemanticAnalysis {
 	public boolean checkVariableNameAllScopes(String name) {
 		HashSet<String> variablesName = new HashSet<String>();
 		if (scopeStack.isEmpty())
-			variablesName.addAll(cProgram.getVariable().keySet());
+			variablesName.addAll(cppProgram.getVariable().keySet());
 		else {
 			variablesName.addAll(scopeStack.peek().getVariable().keySet());
 			
@@ -166,7 +166,8 @@ public class SemanticAnalysis {
 		}
 		
 		toAssembly(labels+": ADD SP, SP, #size");
-		toAssembly(labels+8+": ST *ST, #" + labels+32);
+		int tempLabel = labels+32;
+		toAssembly(labels+8+": ST *ST, #" + tempLabel);
 		toAssembly(labels+16+": BR " + functionName);
 		toAssembly(labels+32 + ":");
 		toAssembly(labels+40+": SUB SP, SP, #size");
@@ -179,7 +180,8 @@ public class SemanticAnalysis {
 		}
 		
 		toAssembly(labels+": ADD SP, SP, #size");
-		toAssembly(labels+8+": ST *ST, #" + labels+32);
+		int tempLabel = labels+32;
+		toAssembly(labels+8+": ST *ST, #" + tempLabel);
 		toAssembly(labels+16+": BR " + functionName);
 		toAssembly(labels +32+ ":");
 		toAssembly(labels+40+": SUB SP, SP, #size");
@@ -187,17 +189,17 @@ public class SemanticAnalysis {
 	}
 	
 	public boolean checkFunctionName(String functionName) {
-		Function f = cProgram.getFunctions().get(functionName);
+		Function f = cppProgram.getFunctions().get(functionName);
 		return f != null;
 	}
 	
 	public boolean checkFunctionCall(String functionName) {
-		Function f = cProgram.getFunctions().get(functionName);
+		Function f = cppProgram.getFunctions().get(functionName);
 		return f != null && f.getParameterTypes().length == 0;
 	}
 	
 	public boolean checkFunctionCall(String functionName, Type[] types) {
-		Function f = cProgram.getFunctions().get(functionName);
+		Function f = cppProgram.getFunctions().get(functionName);
 		if (f != null && f.getParameterTypes().length == types.length) {
 			for (int i = 0 ; i < types.length ; i++) {
 				if (!(types[i].getName().equals(f.getParameterTypes()[i].getName())))
@@ -275,7 +277,7 @@ public class SemanticAnalysis {
 	
 	public static int labels = 100;
 	public static int labelAux;
-	public static String assemblyCode = "100: LD SP, 1000\n";
+	public static String assemblyCode = "100: LD SP, #1000\n";
 
 	public static void AssemblyGenerator(Operation op, Expression e1, Expression e2) {
 		if (op.equals(Operation.PLUS)) {// +
@@ -386,10 +388,6 @@ public class SemanticAnalysis {
 			toAssembly(labels+64+":");		  //else
 			labels = labels + 64;
 		}
-		
-		
-//		labels += 100; 
-//		toAssembly("...");
 	}
 	
 	public static void toAssembly(String assemblyString) {

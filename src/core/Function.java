@@ -10,25 +10,12 @@ import util.SemanticException;
  *	C Function
  */
 public class Function extends ScopedEntity implements Identifier {
-	
-	private Type returnType = new Type("void"); // Default Return Type
-	private ArrayList<Parameter> functionParameter;
-	private Type returnedType = new Type("void"); // Default Return Type
 
-//	public Function(String name, Type returnType, ArrayList<Variable> parameters) {
-//		super(name);
-//		this.returnType = returnType;
-//		
-//		if (parameters != null)
-//			functionParameter = parameters;
-//		else
-//			parameters = new ArrayList<Variable>();
-//
-//		for (Variable parameter : parameters) {
-//			addVariable(parameter);
-//		}
-//	}
-	
+	// void is the default return type
+	private Type returnType = new Type("void"); 
+	private ArrayList<Parameter> functionParameter;
+	private Type returnedType = new Type("void");
+
 	public Function(String name, ArrayList<Parameter> parameters) {
 		super(name);
 		if (parameters != null)
@@ -42,7 +29,6 @@ public class Function extends ScopedEntity implements Identifier {
 		}
 	}
 	
-
 	public Function(String name) {
 		this(name, null);
 	}
@@ -71,12 +57,11 @@ public class Function extends ScopedEntity implements Identifier {
 		return "{ Function: " + getName() + " " + getReturnType() + " " + functionParameter + " }";
 	}
 
-
-	public void validateReturnedType() { // Checks if the function returned what it was supposed to..
+	// Check if the returned type is equal to the type of the function
+	public void validateReturnedType() { 
 		if (!returnedType.equals(returnType))
 			throw new SemanticException("Function " + getName() + " was supposed to return " + returnType);
 	}
-
 
 	public void setReturnedType(Type type) {
 		this.returnedType = type;

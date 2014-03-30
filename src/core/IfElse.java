@@ -10,7 +10,6 @@ public class IfElse extends ScopedEntity{
 		super("if");
 		
 	}
-
 	public IfElse(Expression expression) {
 		super("if");
 		checkExpression(expression);

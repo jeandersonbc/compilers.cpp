@@ -1,6 +1,12 @@
 // Uso de IF-ELSE aninhados com declaracoes de variaveis
 void nestedIfElse() {
 	
+	// testando escopo do if-else
+	if ( 2 < 1) {
+		bool var = false;
+	} else  {
+		bool var = true;
+	}
 	
 	if(true){
 		int y = 0;

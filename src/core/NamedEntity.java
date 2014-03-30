@@ -1,8 +1,5 @@
 package core;
 
-/**
- *	Entity that has a name
- */
 public class NamedEntity {
 	
 	private String name;

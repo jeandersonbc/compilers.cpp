@@ -3,6 +3,8 @@ package compiler.main;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+import util.SemanticAnalysis;
+
 import java_cup.runtime.Symbol;
 
 import compiler.generated.Lexer;
@@ -24,6 +26,7 @@ public class Main {
 	private static final int MIN_INPUT_FILES = 1;
 
 	public static void main(String[] args) {
+		
 		if (args.length < MIN_INPUT_FILES) {
 			displayHelpMessage();
 
@@ -32,6 +35,10 @@ public class Main {
 				startCompilationFor(filePath);
 			}
 		}
+
+		System.out.println("\n----- ASSEMBLY CODE: -----");
+		System.out.println(SemanticAnalysis.assemblyCode);
+		
 	}
 
 	private static void displayHelpMessage() {

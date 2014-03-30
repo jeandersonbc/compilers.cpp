@@ -1,0 +1,12 @@
+// Arithmethic expressions test for ASSEMBLY CODE GENERATION
+
+int met() {
+	
+	int addExp = 2 + ( 3 + 10 );
+	int subExp = (2 - 3) - 10;
+	int multExp = (2 * 3) * 10;
+	int divExp = ( 10 / 2 ) / 1;
+	
+	return addExp;
+	
+}

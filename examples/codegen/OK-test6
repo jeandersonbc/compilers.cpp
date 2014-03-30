@@ -1,0 +1,14 @@
+// Methods declaration
+
+void metodo() {
+	int y = 1;
+}
+
+int main() {
+	
+	int x = 0;
+	
+	metodo();
+	
+	return 0;
+}
